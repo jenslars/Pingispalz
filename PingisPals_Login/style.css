@@ -38,6 +38,7 @@ footer {
     border-radius: 15px;
     font-size: 20px;
     font-family: 'Lexend', sans-serif;
+    box-shadow: 0 0 5px #666;
 }
 
 #login:hover {
@@ -54,12 +55,14 @@ footer {
     width: 100%;
     height: 30px;
     font-family: 'Lexend', sans-serif;
+    border: 1px solid black;
 }
 
 #password {
     width: 100%;
     height: 30px;
     font-family: 'Lexend', sans-serif;
+    border: 1px solid black;
 }
 
 .forget > a:hover {
