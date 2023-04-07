@@ -1,3 +1,11 @@
 #racket{
+    width: 380px; 
+    height: 300px; 
+    object-fit: none;
+    object-position: 30% 10px;
+}
+#overlay{
+    border: 50px ;
+    z-index: 1;
     
 }
