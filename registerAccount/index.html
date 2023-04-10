@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registration</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div class="grid-container">
+        <div class="item item-1">
+            <a href="#" class="return-btn"><img src="returnArrow.png"></a>
+            <img src="pingispalsLogo.png" class="logo">
+        </div>
+        <div class="item item-2">
+            <h1>Create account</h1>
+        </div>
+        <div class="item item-3">
+            <form id="register-form">
+            <div class="input-container">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+        </div>
+        <div class="item item-4">
+            <button type="button" class="submit-btn" onclick="register()">Sign up<img src="right-arrow.png"></button>
+            <p id="error-message" style="color: red;"></p> <!-- Add error message element -->
+        </div>
+        </form>
+        <footer>
+            <p>Already a member? <a href="" class="loginfooter">Log in</a> </p>
+        </footer>
+
+        <script>
+            const { Pool, Client } = require('pg'); // Import the PostgreSQL library
+
+            const pool = new Pool({ // Create a new connection pool
+            user: 'an7066',
+            host: 'pgserver.mau.se',
+            database: 'pingispals',
+            password: 'csodbjar',
+            port: "5432",
+});
+            function register() {
+                var email = document.getElementById("email").value;
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                var confirmPassword = document.getElementById("confirm-password").value;
+
+                // Check that passwords match
+                if (password !== confirmPassword) {
+                    document.getElementById("error-message").innerHTML = "Passwords do not match";
+                    return;
+                }
+
+                // Send registration data to server
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/register", true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            document.getElementById("error-message").innerHTML = "Registration successful";
+                        } else {
+                            document.getElementById("error-message").innerHTML = "Registration failed";
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify({
+                    email: email,
+                    username: username,
+                    password: password
+                }));
+            }
+        </script>
+  </body>
+</html>

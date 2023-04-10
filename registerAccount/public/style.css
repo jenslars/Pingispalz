@@ -1,0 +1,154 @@
+/* Mobile styles */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+@media screen and (max-width: 600px) {
+* {
+  box-sizing: border-box;
+}
+
+html{
+  font-family: 'Lexend';
+  font-style: normal;
+}
+
+h1 {
+  margin-right: 20%;
+}
+
+div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+label {
+  font-size: 10px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #A9A9A9;
+}
+
+input {
+  padding: 5px;
+  outline: none;
+  border: 0;
+  border-bottom: 1px solid #cecece;
+  height: 40px;
+  width: 100%;
+  background-image: url(mail.png);
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
+
+input:focus {
+  box-shadow: 2px 2px 5px 2px #66CCCC;
+  border-radius: 2px;
+  height: 50px;
+  transition: all 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  background-color: #66CCCC;
+}
+
+#error-message {
+  margin-top: 10px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: 1fr;
+    height: 500px;
+}
+
+.item {
+font-size: 30px;
+text-align: center;
+}
+
+.item-1 {
+grid-row: 1;
+display: flex;
+flex-direction: row;
+}
+
+.item-1 img{
+  width: 60%;
+  height: 60%;
+  margin: 80px 20px 10px 20px;
+}
+
+.item-1 a img{
+  width: 40%;
+  height: 40%;
+}
+
+.item-2 {
+grid-row: 2;
+font-family: 'Lexend';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+text-align: center;
+color: #2E3031;
+}
+
+.item-3 {
+grid-row: 3;
+}
+
+form {
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 80%;
+  }
+
+input {
+    font-size: 14px;
+  }
+
+.submit-btn {
+  background-color: #FF3366;
+  mix-blend-mode: normal;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  color: white;
+  padding: 7px 15px 7px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  vertical-align: middle;
+  margin: 20px 0 0 40% 
+}
+.submit-btn img {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  margin-left: 15px;
+}
+
+footer{
+  margin: auto;
+}
+
+footer a{
+  color: #66CCCC;
+}
+
+}
