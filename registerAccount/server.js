@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const fs = require('fs');
-const { Pool } = require('pg'); // Import the pg package
+const { Pool } = require('pg');
 const pool = new Pool({
     user: 'an7066',
     host: 'pgserver.mau.se',
@@ -34,7 +34,6 @@ http.createServer(app).listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
-// Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
 // Handle POST requests to /register
@@ -43,10 +42,10 @@ app.post('/register', async (req, res) => {
 
   try {
     await pool.query('SELECT insert_user($1, $2, $3)', [email, username, password]); // Call the insert_user function with the client
-    res.sendStatus(200); // Return a success response to the client
+    res.sendStatus(200); 
   } catch (err) {
-    console.error(err); // Log any errors
-    res.sendStatus(500); // Return an error response to the client
+    console.error(err);
+    res.sendStatus(500); 
   }
 });
 

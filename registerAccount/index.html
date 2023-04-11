@@ -17,19 +17,19 @@
         </div>
         <div class="item item-3">
             <form id="register-form">
-            <div class="input-container">
+            <div class="email">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            <div>
+            <div class="username">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
             </div>
-            <div>
+            <div class="password"> 
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <div>
+            <div class="confirm-password">
                 <label for="confirm-password">Confirm Password:</label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
             </div>
@@ -44,9 +44,9 @@
         </footer>
 
         <script>
-            const { Pool, Client } = require('pg'); // Import the PostgreSQL library
+            const { Pool, Client } = require('pg');
 
-            const pool = new Pool({ // Create a new connection pool
+            const pool = new Pool({ // Connection to PG server
             user: 'an7066',
             host: 'pgserver.mau.se',
             database: 'pingispals',
@@ -59,13 +59,13 @@
                 var password = document.getElementById("password").value;
                 var confirmPassword = document.getElementById("confirm-password").value;
 
-                // Check that passwords match
+                // Checks that passwords match
                 if (password !== confirmPassword) {
                     document.getElementById("error-message").innerHTML = "Passwords do not match";
                     return;
                 }
 
-                // Send registration data to server
+                // Sends form to server
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "/register", true);
                 xhr.setRequestHeader('Content-Type', 'application/json');

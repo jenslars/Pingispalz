@@ -43,7 +43,31 @@ input {
   border-bottom: 1px solid #cecece;
   height: 40px;
   width: 100%;
-  background-image: url(mail.png);
+}
+
+.email input {
+  background-image: url(mailcolor.png);
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
+
+.username input {
+  background-image: url(user.png);
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
+
+.password input {
+  background-image: url(key.png);
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
+
+.confirm-password input {
+  background-image: url(key.png);
   background-position: 10px 10px;
   background-repeat: no-repeat;
   padding-left: 40px;
@@ -52,7 +76,6 @@ input {
 input:focus {
   box-shadow: 2px 2px 5px 2px #66CCCC;
   border-radius: 2px;
-  height: 50px;
   transition: all 0.3s ease-in-out;
 }
 
