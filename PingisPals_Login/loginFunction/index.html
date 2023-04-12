@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div class="grid-container">
+        <div class="sidebar">
+            <img src="pingpongtableaside.png">
+        </div>
+        <div class="item-1">
+            <a href="#" class="return-btn"><img src="returnArrow.png"></a>
+            <img src="pingispalsLogo.png" class="logo">
+        </div>
+        <div class="item-2">
+            <h1>Login</h1>
+        </div>
+        <div class="item-3">
+        <form id="login-form">
+            <div class="email">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="password"> 
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            </div>
+            <div class="item-4">
+                <button type="button" class="submit-btn" onclick="login()">Login<img src="right-arrow.png"></button>
+                <p id="error-message" style="color: red;"></p> <!-- Add error message element -->
+            </div>
+        </form>
+        <div class="item-5">
+            <p>Already a member? <a href="" class="loginfooter">Log in</a> </p>
+        </div>
+    </div>
+        <script>
+           function login() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            // Sends form to server
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/login", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    document.getElementById("error-message").innerHTML = "Login successful";
+                } else {
+                    document.getElementById("error-message").innerHTML = "Login failed";
+                }
+                }
+            };
+  xhr.send(JSON.stringify({
+    email: email,
+    password: password
+  }));
+}
+        </script>
+  </body>
+</html>
