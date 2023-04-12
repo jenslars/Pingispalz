@@ -2,3 +2,40 @@ body {
     font-family: 'Lexend', sans-serif;
     background-color: beige;
 }
+.header { 
+    grid-area: header
+}
+.top3 { 
+    grid-area: top;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+}
+.sidebar { 
+    grid-area: menu; 
+}
+.ladder { 
+    grid-area: main; 
+}
+.player { 
+    grid-area: footer; 
+}
+
+.grid {
+  display: grid;
+  grid-template-areas:
+    'menu header header header header header '
+    'menu top top top top top'
+    'menu main main main main main'
+    'menu footer footer footer footer footer';
+  gap: 10px;
+  padding: 10px;
+}
+
+.grid > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
