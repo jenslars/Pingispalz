@@ -1,11 +1,10 @@
 body {
     font-family: 'Lexend', sans-serif;
     background-color: beige;
+    margin: 0px;
 }
 .header { 
     grid-area: header;
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#87e0fd+0,53cbf1+34,05abe0+65 */
-    background: #87e0fd; /* Old browsers */
     background: -moz-linear-gradient(top,  #87e0fd 0%, #53cbf1 34%, #05abe0 65%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  #87e0fd 0%,#53cbf1 34%,#05abe0 65%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom,  #87e0fd 0%,#53cbf1 34%,#05abe0 65%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -13,18 +12,29 @@ body {
 
 }
 
-.ranking { 
+#ranking { 
     grid-area: top;
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 50px;
+    background-color: #C0C686
 }
 
 .sidebar { 
     grid-area: menu;
-    background-color:lightblue;
+    background: #87e0fd; /* Old browsers */
+    background: -moz-linear-gradient(top,  #87e0fd 0%, #53cbf1 34%, #05abe0 65%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #87e0fd 0%,#53cbf1 34%,#05abe0 65%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #87e0fd 0%,#53cbf1 34%,#05abe0 65%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=0 ); /* IE6-9 */
 }
+
+.sidebar > h3 {
+    color: #fff;
+    padding-left: 30px;
+}
+
 #ladder { 
     grid-area: ladder; 
 }
@@ -41,8 +51,6 @@ body {
     'menu top top top top top'
     'menu ladder ladder ladder ladder ladder'
     'menu footer footer footer footer footer';
-  gap: 10px;
-  padding: 10px;
 }
 
 .grid > div {
@@ -50,19 +58,28 @@ body {
   padding: 20px 0;
   font-size: 30px;
 }
+
 li{
     list-style: none;
     margin: 25px;
 } 
 
+li:hover {
+    color: #fff;
+    text-decoration: underline;
+    transition: 0.2s all ease;  
+    cursor: pointer;
+}
+
 .header > h2 {
-    color:rgb(181, 5, 5);
+    color: #fff;
 }
 
 .header > p {
     display: flex;
     justify-content: center;
     display: inline;
+    padding: 100px;
 }
 
 input {
@@ -74,8 +91,18 @@ input {
     font-family: 'Lexend', sans-serif;
     font-size: 15px;
     box-shadow: 0 0 5px #666;
+    transition: all 0.5s;
+    width:150px
+}
+
+input:focus {
+    width: 200px;
 }
 
 img {
     width: 25px;
+}
+
+ul {
+    padding: 0px;
 }
