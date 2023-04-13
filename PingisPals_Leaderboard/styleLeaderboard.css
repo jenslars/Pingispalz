@@ -16,7 +16,7 @@ body {
     grid-area: menu; 
 }
 .ladder { 
-    grid-area: main; 
+    grid-area: ladder; 
 }
 .player { 
     grid-area: footer;
@@ -28,7 +28,7 @@ body {
   grid-template-areas:
     'menu header header header header header '
     'menu top top top top top'
-    'menu main main main main main'
+    'menu ladder ladder ladder ladder ladder'
     'menu footer footer footer footer footer';
   gap: 10px;
   padding: 10px;
