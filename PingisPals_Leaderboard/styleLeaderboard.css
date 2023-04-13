@@ -19,7 +19,8 @@ body {
     grid-area: main; 
 }
 .player { 
-    grid-area: footer; 
+    grid-area: footer;
+    
 }
 
 .grid {
@@ -39,3 +40,6 @@ body {
   padding: 20px 0;
   font-size: 30px;
 }
+li{
+    list-style: none;
+} 
