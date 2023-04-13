@@ -15,7 +15,7 @@ body {
 .sidebar { 
     grid-area: menu; 
 }
-.ladder { 
+#ladder { 
     grid-area: ladder; 
 }
 .player { 
