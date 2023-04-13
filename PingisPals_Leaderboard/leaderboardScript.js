@@ -29,13 +29,18 @@ let players = [{
     winRatio: "3.0",
     elo: "1200",
     status: true
-}]
+}];
     
-
+var table = "<tbody>"
 for (let i = 0; i < players.length ; i++) {
-    const paragraph = document.createElement("h3");
-    const node = document.createTextNode(players.username[i]);
-    paragraph.appendChild(node);
-    const element = document.getElementById("ladder");
-    element.appendChild(paragraph);
+    
+    table += "<tr>";
+    table += "<td>" + players[i].placement + "<td>";
+    table += "<td>" + players[i].username + "<td>";
+    table += "<td>" + players[i].wins + "<td>";
+    table += "<td>" + players[i].winRatio + "<td>";
+    table += "<td>" + players[i].elo + "<td>";
+    table += "<td>" + players[i].status + "<td>";
 }
+table += "</tbody>";
+document.getElementById("ladder").innerHTML = table;
