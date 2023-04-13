@@ -39,14 +39,50 @@
             <p> Status </p>
         </div>
         <div id="ladder"> 
-            <p> Player 1 </p>
-            <p> Player 2 </p>
-            <p> Player 3 </p>
-            <p> Player 4 </p>
-            <p> Player 5 </p>
-
-            <!-- Add JavaScript to name the OTHER players -->
         </div>
+        <script>
+        let players = [{
+            placement: "1",
+            username: "player 1",
+            wins: "50",
+            winRatio: "3.0",
+            elo: "1200",
+            status: true
+        },
+        {
+            placement: "2",
+            username: "player 2",
+            wins: "50",
+            winRatio: "3.0",
+            elo: "1200",
+            status: true
+        },
+        {
+            placement: "3",
+            username: "player 3",
+            wins: "50",
+            winRatio: "3.0",
+            elo: "1200",
+            status: true
+        },
+        {
+            placement: "4",
+            username: "player 4",
+            wins: "50",
+            winRatio: "3.0",
+            elo: "1200",
+            status: true
+        }]
+            
+        for (let i = 0; i < players.length ; i++) {
+            const paragraph = document.createElement("h3");
+            const node = document.createTextNode(players[i].username);
+            paragraph.appendChild(node);
+            const element = document.getElementById("ladder");
+            element.appendChild(paragraph);
+        }
+        </script>
+            <script src="leaderboardScript.js"> </script>
         <div class="footer">
             <p> Player 54 </p>
             <!-- Add JavaScript to name THE player -->
@@ -54,3 +90,4 @@
     </div>
 </body>
 </html>
+        
