@@ -18,7 +18,7 @@ body {
     flex-direction: row;
     justify-content: center;
     gap: 50px;
-    background-color: #C0C686
+    background-color: white;
 }
 
 .sidebar { 
@@ -105,4 +105,11 @@ img {
 
 ul {
     padding: 0px;
+}
+td {
+    padding: 1% 75px;
+    gap: 10px;
+}
+tr:nth-child(even) {
+    background-color: #eeeeee;
 }

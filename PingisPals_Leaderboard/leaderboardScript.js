@@ -33,14 +33,15 @@ let players = [{
     
 var table = "<tbody>"
 for (let i = 0; i < players.length ; i++) {
-    
-    table += "<tr>";
-    table += "<td>" + players[i].placement + "<td>";
-    table += "<td>" + players[i].username + "<td>";
-    table += "<td>" + players[i].wins + "<td>";
-    table += "<td>" + players[i].winRatio + "<td>";
-    table += "<td>" + players[i].elo + "<td>";
-    table += "<td>" + players[i].status + "<td>";
+
+        table += "<tr>";
+        table += "<td>" + players[i].placement + "</td>";
+        table += "<td>" + players[i].username + "</td>";
+        table += "<td>" + players[i].wins + "</td>";
+        table += "<td>" + players[i].winRatio + "</td>";
+        table += "<td>" + players[i].elo + "</td>";
+        table += "<td>" + players[i].status + "</td>";
+        table += "</tr>"
 }
 table += "</tbody>";
 document.getElementById("ladder").innerHTML = table;
