@@ -3,7 +3,7 @@ placement: "1",
 username: "Lucas",
 wins: 50,
 winRatio: "3.0",
-elo: 1500,
+elo: 1400,
 status: true
 },
 {
@@ -43,7 +43,7 @@ placement: "6",
 username: "Hamza",
 wins: 27,
 winRatio: "4.0",
-elo: 1200,
+elo: 1500,
 status: true
 },
 {
@@ -97,7 +97,7 @@ status: true
 ];
 
 function ladder(players) {
-var table = "<tbody>"
+var table = "<tbody>";
 for (let i = 0; i < players.length ; i++) {
 
         table += "<tr>";
@@ -107,11 +107,12 @@ for (let i = 0; i < players.length ; i++) {
         table += "<td>" + players[i].winRatio + "</td>";
         table += "<td>" + players[i].elo + "</td>";
         if (players[i].status === true) {
-            table += "<td>" + '<span id="readyDot">' + "</td>";
+            table += "<td>" + '<span id="readyDot" title="Available">' + "</td>";
         }
         else {
-            table += "<td>" + '<span id="notReadyDot">' + "</td>";
+            table += "<td>" + '<span id="notReadyDot" title="Away">' + "</td>";
         }
+        table += "<td>" + '<span id="playIcon">' + "Play" + "</span>" + "</td>";
         table += "</tr>"
 }
 table += "</tbody>";
@@ -162,6 +163,17 @@ updateLeaderboard(players);
 }
 eloHeader.addEventListener("click", function() {
 sortPlayerByElo(players);
+})
+
+const placementHeader = document.getElementById("placement");
+
+// sorts players in the leaderboard by elo
+function sortPlayerByplacement(players) {
+players.sort((a, b) => a.placement - b.placement);
+updateLeaderboard(players);
+}
+placementHeader.addEventListener("click", function() {
+sortPlayerByplacement(players);
 })
 
 function topPlayers(players) {
