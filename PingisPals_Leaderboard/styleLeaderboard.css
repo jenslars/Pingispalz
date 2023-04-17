@@ -66,6 +66,10 @@ li:hover {
 .header > h2 {
     color: #fff;
 }
+
+.header > h2, .header > h3 {
+    margin: 10px;
+}
 .header > p {
     display: flex;
     justify-content: center;
@@ -93,6 +97,19 @@ img {
     width: 25px;
 }
 
+/*Leaderboard styling */
+.crown {
+    display: block;
+    margin: auto;
+    width: 10%;
+}
+
+.playerProfilePhoto {
+    display: block;
+    margin: auto;
+    width: 25%;
+    border-radius: 10px;
+}
 ul {
     padding: 0px;
 }
@@ -115,6 +132,7 @@ tr:nth-child(even) {
 }
 
 #top1 {
+    padding-top: 15px;
     width: 20%;
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fefcea+0,f1da36+100;Gold+3D */
     background: #fefcea; /* Old browsers */
@@ -122,10 +140,13 @@ tr:nth-child(even) {
     background: -webkit-linear-gradient(top,  #fefcea 0%,#f1da36 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom,  #fefcea 0%,#f1da36 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 ); /* IE6-9 */
-
+    overflow: hidden;
     
 }
+
 #top2 {
+    height: 70%;
+    padding-top: 53px;
     width: 15%;
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ebf1f6+0,abd3ee+50,89c3eb+51,d5ebfb+100;Blue+Gloss+%234 */
     background: #ebf1f6; /* Old browsers */
@@ -136,6 +157,8 @@ tr:nth-child(even) {
 
 }
 #top3 {
+    height: 70%;
+    padding-top: 53px;
     width: 15%;
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f0b7a1+0,8c3310+50,752201+51,bf6e4e+100;Brown+Gloss */
     background: #f0b7a1; /* Old browsers */

@@ -35,7 +35,7 @@ placement: "5",
 username: "Felix",
 wins: 40,
 winRatio: "3.0",
-elo: 1000,
+elo: 1200,
 status: false
 },
 {
@@ -142,8 +142,6 @@ for (let i = 0; i < players.length; i++) {
 }
 }
 
-
-
 const winsHeader = document.getElementById("wins");
 
 // sorts players in the leaderboard by wins
@@ -169,15 +167,15 @@ sortPlayerByElo(players);
 function topPlayers(players) {
 for (let i = 0; i < players.length; i++) {
     if (players[i].placement === "1") {
-        const div1 = "<p>" + players[i].username + "</p>";
+        const div1 = "<img class=crown src=images/Crown.png>" + "<img class=playerProfilePhoto src=images/King_in_da_north.jpg>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
         document.getElementById("top1").innerHTML = div1;
     }
     if (players[i].placement === "2") {
-        const div2 = "<p>" + players[i].username + "</p>";
+        const div2 = "<img class=playerProfilePhoto src=images/King_in_da_north.jpg>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
         document.getElementById("top2").innerHTML = div2;
     }
     if (players[i].placement === "3") {
-        const div3 = "<p>" + players[i].username + "</p>";
+        const div3 = "<img class=playerProfilePhoto src=images/King_in_da_north.jpg>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
         document.getElementById("top3").innerHTML = div3;
     }
 }
