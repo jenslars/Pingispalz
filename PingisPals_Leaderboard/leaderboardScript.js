@@ -3,7 +3,7 @@ placement: "1",
 username: "Lucas",
 wins: 50,
 winRatio: "3.0",
-elo: 1400,
+elo: 1500,
 status: true
 },
 {
@@ -43,7 +43,7 @@ placement: "6",
 username: "Hamza",
 wins: 27,
 winRatio: "4.0",
-elo: 1500,
+elo: 1200,
 status: true
 },
 {
@@ -134,6 +134,8 @@ for (let i = 0; i < players.length; i++) {
     tableBody.appendChild(row);
 }
 }
+
+
 
 const winsHeader = document.getElementById("wins");
 
