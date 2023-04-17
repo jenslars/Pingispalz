@@ -20,7 +20,7 @@ username: "Oliver",
 wins: 100,
 winRatio: "3.0",
 elo: 1300,
-status: true
+status: false
 },
 {
 placement: "4",
@@ -36,7 +36,7 @@ username: "Felix",
 wins: 40,
 winRatio: "3.0",
 elo: 1000,
-status: true
+status: false
 },
 {
 placement: "6",
@@ -52,7 +52,7 @@ username: "Hampus",
 wins: 60,
 winRatio: "3.0",
 elo: 1200,
-status: true
+status: false
 },
 {
 placement: "8",
@@ -60,7 +60,7 @@ username: "David",
 wins: 60,
 winRatio: "3.0",
 elo: 1200,
-status: true
+status: false
 },
 {
 placement: "9",
@@ -106,12 +106,19 @@ for (let i = 0; i < players.length ; i++) {
         table += "<td>" + players[i].wins + "</td>";
         table += "<td>" + players[i].winRatio + "</td>";
         table += "<td>" + players[i].elo + "</td>";
-        table += "<td>" + players[i].status + "</td>";
+        if (players[i].status === true) {
+            table += "<td>" + '<span id="readyDot">' + "</td>";
+        }
+        else {
+            table += "<td>" + '<span id="notReadyDot">' + "</td>";
+        }
         table += "</tr>"
 }
 table += "</tbody>";
 document.getElementById("ladder").innerHTML = table;
-// } ladder();
+} 
+
+ladder(players);
 
 //Takes in sorted players and displays the new ranking order
 function updateLeaderboard(players) {
@@ -156,9 +163,6 @@ updateLeaderboard(players);
 eloHeader.addEventListener("click", function() {
 sortPlayerByElo(players);
 })
-} 
-
-ladder(players);
 
 function topPlayers(players) {
 for (let i = 0; i < players.length; i++) {
@@ -177,4 +181,14 @@ for (let i = 0; i < players.length; i++) {
 }
 }
 topPlayers(players);
+
+var myData = Handsontable.helper.createSpreadsheetData(100, 50),
+container = document.getElementById('example'), hot;
+
+hot = new Handsontable(container, {
+  data: myData,
+  rowHeaders: true,
+  colHeaders: true,
+  fixedRowsBottom: 2
+});
 
