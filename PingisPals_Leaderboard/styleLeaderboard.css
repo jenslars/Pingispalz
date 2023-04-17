@@ -133,3 +133,17 @@ tr:nth-child(even) {
 #top3 {
     background-color: brown;
 }
+
+#elo:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+    transition: 0.2s all ease;  
+    cursor: pointer;
+}
+
+#wins:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+    transition: 0.2s all ease;  
+    cursor: pointer;
+}
