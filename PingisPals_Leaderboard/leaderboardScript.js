@@ -1,33 +1,41 @@
 let players = [{
-    placement: "1",
-    username: "Lucas",
-    wins: "50",
-    winRatio: "3.0",
-    elo: "1200",
-    status: true
-},
-{
     placement: "2",
-    username: "Oliver",
-    wins: "50",
+    username: "Lucas",
+    wins: 50,
     winRatio: "3.0",
-    elo: "1200",
+    elo: 1400,
     status: true
 },
 {
     placement: "3",
-    username: "Henningsson",
-    wins: "50",
+    username: "Oliver",
+    wins: 100,
     winRatio: "3.0",
-    elo: "1200",
+    elo: 1300,
     status: true
 },
 {
     placement: "4",
-    username: "Felix",
-    wins: "50",
+    username: "Henningsson",
+    wins: 60,
     winRatio: "3.0",
-    elo: "1200",
+    elo: 1200,
+    status: true
+},
+{
+    placement: "5",
+    username: "Felix",
+    wins: 40,
+    winRatio: "3.0",
+    elo: 1000,
+    status: true
+},
+{
+    placement: "1",
+    username: "Hamza",
+    wins: 27,
+    winRatio: "4.0",
+    elo: 1500,
     status: true
 }];
 
@@ -48,12 +56,49 @@ let players = [{
     document.getElementById("ladder").innerHTML = table;
     // } ladder();
 
+//Takes in sorted players and displays the new ranking order
+function updateLeaderboard(players) {
+    let tableBody = document.getElementById("ladder");
+    tableBody.innerHTML = "";
 
+    for (let i = 0; i < players.length; i++) {
+        let player = players[i];
 
+        let row = document.createElement("tr");
+        row.innerHTML = `
+        <td>${player.placement}</td>
+        <td>${player.username}</td>
+        <td>${player.wins}</td>
+        <td>${player.winRatio}</td>
+        <td>${player.elo}</td>
+        <td>${player.status}</td>
+`;
 
+      tableBody.appendChild(row);
+    }
+}
 
+const winsHeader = document.getElementById("wins");
 
+// sorts players in the leaderboard by wins
+function sortPlayersByWins(players) {
+    players.sort((a, b) => b.wins - a.wins);
+    updateLeaderboard(players);
+}
+winsHeader.addEventListener("click", function() {
+    sortPlayersByWins(players);
+})
 
+const eloHeader = document.getElementById("elo");
+
+// sorts players in the leaderboard by elo
+function sortPlayerByElo(players) {
+    players.sort((a, b) => b.elo - a.elo);
+    updateLeaderboard(players);
+}
+eloHeader.addEventListener("click", function() {
+    sortPlayerByElo(players);
+})
 
 
 
