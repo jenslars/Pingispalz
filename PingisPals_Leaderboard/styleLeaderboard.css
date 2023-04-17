@@ -121,7 +121,6 @@ tr:nth-child(even) {
     gap: 3%;
 }
 #top1, #top2, #top3 {
-    background-color: none;
     border-radius: 20px;
 }
 #top1 {
