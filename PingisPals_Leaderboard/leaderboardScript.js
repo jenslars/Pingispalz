@@ -31,7 +31,7 @@ let players = [{
     status: true
 }];
 
-//function ladder(players) {
+function ladder(players) {
     var table = "<tbody>"
     for (let i = 0; i < players.length ; i++) {
 
@@ -46,47 +46,26 @@ let players = [{
     }
     table += "</tbody>";
     document.getElementById("ladder").innerHTML = table;
-    // } ladder();
-
-
-
-
-
-
-
-
-
-
+    } 
+    
+ladder(players);
 
 
 function topPlayers(players) {
-    let top3 = 3;
-    for (let i = 0; i < top3; i++)
-        if (players.placement == "1") {
-        let div = '<div id="top1">';
-        div;
-        div += "<h1>" + players.username + "</h1>";
-        div += "</div>";
-        document.getElementsById("topPlayers").innerHTML = div;
-    }
-        if (players.placement == "2")
-    {
-        let div = '<div id="top2">';
-        div;
-        div += "<h2>" + players.username + "</h2>";
-        div += "</div>";
-        document.getElementsById("topPlayers").innerHTML = div;
-    }
-        if (players.placement == "3")
-    {
-        let div = '<div id="top3">';
-        div;
-        div += "<h2>" + players.username + "</h2>";
-        div += "</div>";
-        document.getElementsById("topPlayers").innerHTML = div;
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].placement === "1") {
+            const div1 = "<p>" + players[i].username + "</p>";
+            document.getElementById("top1").innerHTML = div1;
+        }
+        if (players[i].placement === "2") {
+            const div2 = "<p>" + players[i].username + "</p>";
+            document.getElementById("top2").innerHTML = div2;
+        }
+        if (players[i].placement === "3") {
+            const div3 = "<p>" + players[i].username + "</p>";
+            document.getElementById("top3").innerHTML = div3;
+        }
     }
 }
-
-
-//topPlayers(players);
+topPlayers(players);
 
