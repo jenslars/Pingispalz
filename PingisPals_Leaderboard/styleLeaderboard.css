@@ -106,7 +106,7 @@ img {
 .playerProfilePhoto {
     display: block;
     margin: auto;
-    width: 25%;
+    width: 30%;
     border-radius: 10px;
 }
 ul {
@@ -172,19 +172,19 @@ tr:nth-child(even) {
 
 }
 #elo:hover {
-    color: aqua;
+    color: #fff;
     text-decoration: underline;
     transition: 0.2s all ease;  
     cursor: pointer;
 }
 #wins:hover {
-    color: aqua;
+    color: #fff;
     text-decoration: underline;
     transition: 0.2s all ease;  
     cursor: pointer;
 }
 #placement:hover {
-    color: aqua;
+    color: #fff;
     text-decoration: underline;
     transition: 0.2s all ease;  
     cursor: pointer;

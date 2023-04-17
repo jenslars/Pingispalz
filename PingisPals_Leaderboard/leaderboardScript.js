@@ -179,15 +179,15 @@ sortPlayerByplacement(players);
 function topPlayers(players) {
 for (let i = 0; i < players.length; i++) {
     if (players[i].placement === "1") {
-        const div1 = "<img class=crown src=images/Crown.png>" + "<img class=playerProfilePhoto src=images/King_in_da_north.jpg>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
+        const div1 = "<img class=crown src=images/Crown.png>" + "<img class=playerProfilePhoto src=images/mightyloaf.png>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
         document.getElementById("top1").innerHTML = div1;
     }
     if (players[i].placement === "2") {
-        const div2 = "<img class=playerProfilePhoto src=images/King_in_da_north.jpg>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
+        const div2 = "<img class=playerProfilePhoto src=images/akwardcat.jpg>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
         document.getElementById("top2").innerHTML = div2;
     }
     if (players[i].placement === "3") {
-        const div3 = "<img class=playerProfilePhoto src=images/King_in_da_north.jpg>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
+        const div3 = "<img class=playerProfilePhoto src=images/akwardcat.jpg>" + "<p>" + players[i].username + "</p>" + "<p>" + "#" + players[i].placement + "</p>";
         document.getElementById("top3").innerHTML = div3;
     }
 }
