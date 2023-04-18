@@ -15,6 +15,7 @@ body {
     gap: 50px;
     background-color: white;
     padding-top: 0px;
+    
 }
 .sidebar { 
     width: 15%;
@@ -22,10 +23,14 @@ body {
     grid-area: menu;
     background-color: #66CCCC;
     position: fixed;
+    word-wrap: break-word;
+    
 }
 .sidebar  li {
     padding: 5px;
     display: block;
+    
+
 }
 
 .sidebar > h3 {
@@ -50,7 +55,7 @@ body {
 .grid > div {
   text-align: center;
   padding: 20px 0;
-  font-size: 30px;
+  font-size:1.5vw
 }
 li{
     list-style: none;
@@ -85,11 +90,11 @@ input {
     font-size: 15px;
     box-shadow: 0 0 5px #666;
     transition: all 0.5s;
-    width:150px
+    width: 6vw;
 }
 
 input:focus {
-    width: 200px;
+    width: 8vw;
 }
 
 img {
@@ -115,6 +120,9 @@ ul {
 td {
     padding: 1% 75px;
     gap: 10px;
+}
+tr{
+    width: 100%;
 }
 tr:nth-child(even) {
     background-color: #eeeeee;
@@ -190,22 +198,25 @@ tr:nth-child(even) {
     cursor: pointer;
 }
 #readyDot {
-    height: 15px;
-    width: 15px;
+    height: 1vw;
+    width: 1vw;
     background-color: lightgreen;
     border-radius: 50%;
     display: inline-block;
   }
 #notReadyDot {
-    height: 15px;
-    width: 15px;
+    height: 1vw;
+    width: 1vw;
     background-color: red;
     border-radius: 50%;
     display: inline-block;
 }
+span{
+    width: 1.5vw;
+}
 #playIcon{
-    height: 40px;
-    width: 70px;
+    height: 2vw;
+    width: 4vw;
     background-color: rgb(248, 61, 61);
     border-radius: 5px;
     display: inline-block;
@@ -227,3 +238,23 @@ thead {
     width: 100%;
     background-color: #66CCCC;
 }
+
+
+/* From a website */
+table {
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+  }
+  table th, table td {
+    width: 40%;
+    padding: .625em;
+    text-align: center;
+  }
+  table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
