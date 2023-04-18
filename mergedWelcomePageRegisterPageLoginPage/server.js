@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const fs = require('fs');
-const { Pool } = require('pg'); // Import the pg package
+const { Pool } = require('pg');
 const pool = new Pool({
     user: 'an7066',
     host: 'pgserver.mau.se',
@@ -50,7 +50,11 @@ app.post('/register', async (req, res) => {
     res.sendStatus(200); 
   } catch (err) {
     console.error(err);
-    res.sendStatus(500); 
+    if (err.code === 'P0001') {
+      res.status(400).send({ message: 'Account with this email already exists' });
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
