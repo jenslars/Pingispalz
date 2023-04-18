@@ -73,13 +73,6 @@ div {
   align-items: center;
 }
 
-label {
-  font-size: 10px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #A9A9A9;
-}
-
 form {
   border: none;
   width: 30%;
@@ -94,6 +87,7 @@ input {
   width: 100%;
   font-family: 'Lexend';
   color: #A9A9A9;
+  margin-bottom: 10px;
 }
 
 .email input {
@@ -131,6 +125,7 @@ input:focus {
   font-family: 'Lexend';
   font-weight: bold;
   color: #2E3031;
+  border: none;
 }
 
 .submit-btn:hover {
