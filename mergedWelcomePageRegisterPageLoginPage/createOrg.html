@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="public/org.css" type="text/css">
+    <title>create an org</title>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <aside>
+                <!-- pingis logo -->
+                <nav>
+                    <input class="searchBar" type="text" placeholder="Search...">
+                    <ul>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="friends.html">Friends</a></li>
+                        <li><a href="games.html">Games</a></li>
+                        <li><a href="tournament.html">Tournament</a></li>
+                        <li><a href="clubs.html">Clubs</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <h1 id="itemCenter">Create New Organization</h1>
+            <section>
+                <form class="orgSubmit" action="#" method="GET">
+                    <label for="name"> Organization name:
+                        <input id="name" type="text" placeholder="org name" required>
+                    </label><br>
+                    <input id="open" type="radio" value="open" name="openOrInvite" required>
+                    <label for="open">Open to public</label><br>
+                    <input id="closed" type="radio" value="closed" name="openOrInvite" required>
+                    <label for="closed">Invite only</label><br>
+                    <input value="Create org"type="submit">
+                </form>
+            </section>
+        </div>
+    </main>
+    <script src="createOrgFunction.js"></script>
+</body>
+</html>
