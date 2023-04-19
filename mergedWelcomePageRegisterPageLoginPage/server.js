@@ -30,6 +30,19 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/createorg', (req, res) => {
+  fs.readFile('createOrg.html', function(error, data) {
+      if (error) {
+          res.writeHead(404);
+          res.write('Error: File Not Found');
+      } else {
+          res.writeHead(200, {'Content-Type': 'text/html'});
+          res.write(data);
+      }
+      res.end();
+  });
+});
+
 http.createServer(app).listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
