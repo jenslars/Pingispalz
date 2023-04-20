@@ -3,6 +3,9 @@ html{
     font-style: normal;
     background-color: #66cccc;
 }
+#description, #recentgames, #achievements {
+    display: none;
+  }
 
 /* Mobile css */
 @media screen and (max-width: 600px) {
@@ -10,6 +13,14 @@ html{
       box-sizing: border-box;
     }
 
+    html{
+        background: linear-gradient(180deg, #66CCCC 16.15%, rgba(102, 204, 204, 0) 54.17%);
+    }
+
+    body{
+        overflow: hidden;
+        margin: 0px;
+    }
     .grid-container {
         display: grid;
         grid-template-rows: 10% 90%;
@@ -53,6 +64,7 @@ html{
         background-repeat: no-repeat;
         float: right;
         vertical-align: middle;
+        margin-right: 10px;
     }
 
     div {
@@ -79,17 +91,75 @@ html{
         font-size: 20px;
         width: 80%;
         margin: auto;
+        position: relative;
     }
 
     .profile-nav {
-        font-size: 12px;
         background-color: #fff;
         border-top: 1px solid #E9E9E9;
-        margin-bottom: 3px;
+        margin-bottom: 6px;
     }
     
     .profile-nav a{
-        padding: 0px 10px 5px 5px; 
-        font-size: 14px;
+        font-size: 13px;
+        color: #A9A9A9;
+        text-decoration: none;
     }
+
+    .profile-nav a.active{
+        color: #2E3031;
+        font-weight: bold;
+        cursor: default;
+    }
+
+    #about{
+        background-color: #fff;
+        padding-bottom: 400px;
+        margin-top: 5px;
+    }
+    #recentgames{
+        background-color: #fff;
+        padding-bottom: 400px;
+        margin-top: 5px;
+    }
+    #achievements{
+        background-color: #fff;
+        padding-bottom: 400px;
+        margin-top: 5px;
+    }
+    
+    #content {
+        padding-top: 100px;
+        background-color: #fff;
+        margin-top: -100px;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        width: 100%;
+    }
+
+    .slide-up {
+        animation: slide-up 1s ease forwards;
+      }
+      
+    .slide-down {
+        animation: slide-down 1s ease forwards;
+      }
+      
+      @keyframes slide-up {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes slide-down {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(100%);
+        }
+      }
 }

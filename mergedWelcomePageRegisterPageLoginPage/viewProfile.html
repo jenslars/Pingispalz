@@ -20,13 +20,13 @@
                 <img id="profile-image" src="stevendoe.png">
                 <p>Steven doe</p>
                 <nav class="profile-nav">
-                    <a>Description</a>
-                    <a>Recent games</a>
-                    <a>Achievements</a>
+                    <a href="#" data-target="about">About</a>
+                    <a href="#" data-target="recentgames">Recent games</a>
+                    <a href="#" data-target="achievements">Achievements</a>
                 </nav>
             </div>
             <div id="content">
-                <section id="description">
+                <section id="about">
                     <p>Lorem ipsum</p>
                 </section>
                 <section id="recentgames">
@@ -36,6 +36,63 @@
                     <p>Lorem ipsum</p>
                 </section>
             </div>
+            <script>
+                var aboutLink = document.querySelector('nav.profile-nav a:nth-of-type(1)');
+                var recentGamesLink = document.querySelector('nav.profile-nav a:nth-of-type(2)');
+                var achievementsLink = document.querySelector('nav.profile-nav a:nth-of-type(3)');
+                var aboutSection = document.getElementById('about');
+                var recentGamesSection = document.getElementById('recentgames');
+                var achievementsSection = document.getElementById('achievements');
+
+                aboutSection.style.display = 'block';
+                aboutLink.classList.add('active');
+
+                aboutLink.addEventListener('click', function() {
+                toggleSection(aboutSection);
+                aboutLink.classList.add('active');
+                recentGamesLink.classList.remove('active');
+                achievementsLink.classList.remove('active');
+                });
+
+                recentGamesLink.addEventListener('click', function() {
+                toggleSection(recentGamesSection);
+                aboutLink.classList.remove('active');
+                recentGamesLink.classList.add('active');
+                achievementsLink.classList.remove('active');
+                });
+
+                achievementsLink.addEventListener('click', function() {
+                toggleSection(achievementsSection);
+                aboutLink.classList.remove('active');
+                recentGamesLink.classList.remove('active');
+                achievementsLink.classList.add('active');
+                });
+
+                function toggleSection(section) {
+                var allSections = [aboutSection, recentGamesSection, achievementsSection];
+                var otherSections = allSections.filter(function(sec) {
+                    return sec !== section;
+                });
+
+                if (section.style.display === 'none') {
+                    section.style.display = 'block';
+                    section.style.animation = 'slide-up 1s forwards';
+                    otherSections.forEach(function(sec) {
+                    if (sec.style.display !== 'none') {
+                        sec.style.animation = 'slide-down 1s forwards';
+                        setTimeout(function() {
+                        sec.style.display = 'none';
+                        }, 500);
+                    }
+                    });
+                } else {
+                    section.style.animation = 'slide-down 1s forwards';
+                    setTimeout(function() {
+                    section.style.display = 'none';
+                    }, 500);
+                }
+                }
+            </script>
         </main>
     </div>
   </body>
