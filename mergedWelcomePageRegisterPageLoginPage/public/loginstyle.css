@@ -57,10 +57,6 @@ body{
   grid-area: item-4;
 }
 
-.item-5 {
-  grid-area: item-5;
-}
-
 html{
   font-family: 'Lexend';
   font-style: normal;
@@ -169,10 +165,6 @@ button[type="submit"]:hover {
 
 h1 {
   margin-right: 20%;
-}
-
-.item-5 a{
-  color: #66CCCC;
 }
 
 .submit-btn:hover {
@@ -320,9 +312,6 @@ grid-row: 3;
 .item-4 {
   grid-row: 4;
 }
-.item-5{
-  grid-row: 5;
-}
 
 form {
     border: none;
@@ -358,15 +347,6 @@ input {
   height: 30px;
   vertical-align: middle;
   margin-left: 15px;
-}
-
-
-.item-5{
-  margin: auto;
-}
-
-.item-5 a{
-  color: #66CCCC;
 }
 
 }
