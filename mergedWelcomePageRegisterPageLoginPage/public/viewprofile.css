@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: 15% 85%;
     grid-template-rows: 1fr;
+    height: 100vh;
   }
 
 .sidenav {
@@ -10,7 +11,11 @@ grid-column: 1;
 display: flex;
 flex-direction: column;
 }
-  
+
+header{
+    margin-bottom: 50px;
+}
+
 #content {
 grid-column: 2;
 background-color: #fff;
@@ -20,6 +25,7 @@ html{
     font-family: 'Lexend';
     font-style: normal;
     background-color: #66cccc;
+    overflow: hidden;
 }
 
 body{
@@ -150,20 +156,108 @@ body{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-#description, #recentgames, #achievements {
+.returnarrowwhite{
     display: none;
+}
+
+.returnarrowblack{
+    width: 5%;
+    height: auto;
+    margin-top: 40px;
+    margin-left: 20%;
+}
+
+.challengebutton {
+    color: #FF3366;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 20px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 50px 10px 15px;
+    background-image: url(ping-pong.png);
+    background-size: 20% ;
+    background-position: 120px 6px;
+    background-repeat: no-repeat;
+    float: right;
+    margin-right: 20%;
+    margin-top: 50px;
+}
+
+.challengebutton:hover {
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
+}
+
+#profile-card{
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid #A9A9A9;
+    width: 80%;
+    margin: auto;
+}
+
+.slide-up {
+    animation: slide-up 1s ease forwards;
+  }
+  
+.slide-down {
+    animation: slide-down 1s ease forwards;
+  }
+  
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slide-down {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
   }
 
+  #about{
+    background-color: #fff;
+    padding-bottom: 400px;
+    margin-top: 5px;
+}
+#recentgames{
+    background-color: #fff;
+    padding-bottom: 400px;
+    margin-top: 5px;
+}
+#achievements{
+    background-color: #fff;
+    padding-bottom: 400px;
+    margin-top: 5px;
+}
 /* Mobile css */
 @media screen and (max-width: 600px) {
     * {
       box-sizing: border-box;
     }
 
+    .returnarrowwhite{
+        display: unset;
+    }
+
+    .returnarrowblack{
+        display: none;
+    }
+
     html{
         background: linear-gradient(180deg, #66CCCC 16.15%, rgba(102, 204, 204, 0) 54.17%);
     }
-
+    
     body{
         overflow: hidden;
         margin: 0px;
@@ -219,6 +313,7 @@ body{
         float: right;
         vertical-align: middle;
         margin-right: 10px;
+        margin-top: auto;
     }
 
     div {
