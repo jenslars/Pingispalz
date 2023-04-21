@@ -1,8 +1,155 @@
+/* Desktop css*/
+.grid-container {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    grid-template-rows: 1fr;
+  }
+
+.sidenav {
+grid-column: 1;
+display: flex;
+flex-direction: column;
+}
+  
+#content {
+grid-column: 2;
+background-color: #fff;
+}
+
 html{
     font-family: 'Lexend';
     font-style: normal;
     background-color: #66cccc;
 }
+
+body{
+    margin: 0;
+}
+
+#logo{        
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+    margin-left: 10%;
+    font-size: 35px;
+}
+
+.redDot {
+    color: #FF3366;
+  }
+
+.sidenav a{
+    margin-bottom: 40px;
+    color: #fff;
+    font-size: 22px;
+    margin-left: 5px;
+}
+
+#search{
+    background-image: url(search.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#search.active{
+    background-image: url(searchred.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#home.active{
+    background-image: url(homered.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#home{
+    background-image: url(navbarhome.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#leaderboards{
+    background-image: url(podium.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#leaderboards.active{
+    background-image: url(podiumred.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#challenges{
+    background-image: url(pingpong2.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#challenges.active{
+    background-image: url(pingpongred.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#profile{
+    background-image: url(profile.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#profile.active{
+    background-image: url(profilered.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
 #description, #recentgames, #achievements {
     display: none;
   }
@@ -24,9 +171,10 @@ html{
     .grid-container {
         display: grid;
         grid-template-rows: 10% 90%;
+        grid-template-columns: 1fr;
         height: 100vh;
       }
-
+        
     .sidenav{
         display: none;
     }
@@ -35,15 +183,21 @@ html{
         height: 50px;
         width: 50px;
     }
+    
     header{
         grid-row: 1;
         vertical-align: middle;
         margin-top: 40px;
     }
+
     .profile-card {
         grid-row: 2;
     }
 
+    #content{
+        grid-column: unset;
+        background-color: unset;
+    }
     .returnarrowwhite {
         margin-left: 20px;
         vertical-align: middle;
@@ -101,15 +255,26 @@ html{
     }
     
     .profile-nav a{
-        font-size: 13px;
+        font-size: 14px;
         color: #A9A9A9;
         text-decoration: none;
+    }
+
+    #aboutborder{
+        border-right: 1px solid #E9E9E9;
+        padding-right: 5px;
+    }
+
+    #recentgamesborder{
+        border-right: 1px solid #E9E9E9;
+        padding-right: 5px;
     }
 
     .profile-nav a.active{
         color: #2E3031;
         font-weight: bold;
         cursor: default;
+        transition: 0.3s;
     }
 
     #about{
@@ -128,8 +293,9 @@ html{
         margin-top: 5px;
     }
     
-    #content {
+    #sectionlinks {
         padding-top: 100px;
+        padding-bottom: 500px;
         background-color: #fff;
         margin-top: -100px;
         border-top-left-radius: 15px;
