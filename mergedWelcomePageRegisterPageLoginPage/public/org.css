@@ -44,7 +44,7 @@ body {
     margin-right: 5px;
 }
 
-.orgSubmit input[type="submit"]{
+.orgSubmit button[type="button"]{
     margin-top: 45px;
     font-weight: bold;
     color: #000000;
@@ -55,21 +55,11 @@ body {
     transition: ease-in-out 0.3s;
 }
 
-.orgSubmit input[type="submit"]:hover{
+.orgSubmit button[type="button"]:hover{
     background-color: #66CCCC; 
     cursor: pointer;  
     transition: ease-in-out 0.3s;
 }
-    
-
-/* .orgSubmit input[type="radio"]:after {
-    background-color: #FFFFFF ;
-    outline-color: #fff;
-}
-
-.orgSubmit input[type="radio"]:after :checked{
-    accent-color: #66cccc;
-} */
 
 .searchBar {
     border-radius: 10px;

@@ -88,6 +88,40 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/createOrg', async (req, res) => {
+  const { tableName, isPublic } = req.body;
+
+  var isOpen;
+  if (isPublic == "open"){
+      isOpen = true;
+  } else if (isPublic == "closed"){
+      isOpen = false;
+  }
+  
+  const newLeaderboard = `CREATE TABLE ${tableName} (
+      user_id INTEGER PRIMARY KEY, 
+      elo SMALLINT DEFAULT 1000,
+      wins SMALLINT,
+      losses SMALLINT,
+      is_public BOOLEAN NOT NULL,
+      username varchar(40) REFERENCES users(username),
+      FOREIGN KEY (user_id) REFERENCES users(user_id)
+      )`;
+  const newUser = `INSERT INTO ${tableName} (user_id, is_public, username) 
+      SELECT 1, ${isOpen}, users.username
+      FROM users
+      WHERE users.user_id = 1`;
+
+  try {
+    const result = await pool.query(newLeaderboard);
+    await pool.query(newUser);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
 app.get('/:page', (req, res) => {
   const page = req.params.page;
   fs.readFile(`${page}.html`, function(error, data) {
