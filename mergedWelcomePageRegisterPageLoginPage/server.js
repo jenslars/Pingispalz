@@ -104,11 +104,12 @@ app.post('/createOrg', async (req, res) => {
       wins SMALLINT,
       losses SMALLINT,
       is_public BOOLEAN NOT NULL,
+      is_admin BOOLEAN NOT NULL DEFAULT false,
       username varchar(40) REFERENCES users(username),
       FOREIGN KEY (user_id) REFERENCES users(user_id)
       )`;
-  const newUser = `INSERT INTO ${tableName} (user_id, is_public, username) 
-      SELECT 1, ${isOpen}, users.username
+  const newUser = `INSERT INTO ${tableName} (user_id, is_public, is_admin, username) 
+      SELECT 1, ${isOpen}, true, users.username
       FROM users
       WHERE users.user_id = 1`;
 
