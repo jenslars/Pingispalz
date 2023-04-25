@@ -11,6 +11,8 @@ const pool = new Pool({
     port: "5432",
 });
 
+global.user_id = 1;
+
 const hostname = '127.0.0.1';
 const port = 3000;
 
@@ -89,32 +91,33 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/createOrg', async (req, res) => {
-  const { tableName, isPublic } = req.body;
+  const { tableName, tableDescription } = req.body;
 
-  var isOpen;
-  if (isPublic == "open"){
-      isOpen = true;
-  } else if (isPublic == "closed"){
-      isOpen = false;
-  }
   
-  const newLeaderboard = `CREATE TABLE ${tableName} (
-      user_id INTEGER PRIMARY KEY, 
-      elo SMALLINT DEFAULT 1000,
-      wins SMALLINT,
-      losses SMALLINT,
-      is_public BOOLEAN NOT NULL,
-      is_admin BOOLEAN NOT NULL DEFAULT false,
-      username varchar(40) REFERENCES users(username),
-      FOREIGN KEY (user_id) REFERENCES users(user_id)
-      )`;
+  const newLeaderboard = await pool.query('SELECT insert_leaderboard($, $2, $3 )',[tableName, tableDescription, user_id])
+  
+  //`INSERT INTO leaderboards (leaderboard_name, leaderboard_description, owner) 
+   // VALUES( '${tableName}', '${tableDescription}', ${user_id})`;
+    
+    //user_id ska ändras till global variable
+  const newOrg = `CREATE TABLE ${tableName} (
+    server_id INTEGER,
+    user_id INTEGER, 
+    elo SMALLINT DEFAULT 1000,
+    wins SMALLINT,
+    losses SMALLINT,
+    is_admin BOOLEAN NOT NULL DEFAULT false,
+    username varchar(40) REFERENCES users(username),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    )`;
   const newUser = `INSERT INTO ${tableName} (user_id, is_public, is_admin, username) 
-      SELECT 1, ${isOpen}, true, users.username
-      FROM users
-      WHERE users.user_id = 1`;
+    SELECT 1, true, true, users.username
+    FROM users
+    WHERE users.user_id = 1`;
 
   try {
-    const result = await pool.query(newLeaderboard);
+    await pool.query(newLeaderboard);
+    const result = await pool.query(newOrg);
     await pool.query(newUser);
     res.sendStatus(200);
   } catch (err) {

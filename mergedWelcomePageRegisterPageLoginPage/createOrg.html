@@ -32,10 +32,13 @@
                     <label for="name"> Organization name:
                         <input id="name" type="text" placeholder="org name" required>
                     </label><br>
+                    <label for="description"> Organization Description:
+                        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                    </label><br><!--
                     <input id="open" type="radio" value="open" name="openOrInvite" required>
                     <label for="open">Open to public</label><br>
                     <input id="closed" type="radio" value="closed" name="openOrInvite" required>
-                    <label for="closed">Invite only</label><br>
+                    <label for="closed">Invite only</label><br>-->
                     <button type="button" onclick="getValues()">Create org</button>
                     <p id="error-message"></p>
                 </form>
