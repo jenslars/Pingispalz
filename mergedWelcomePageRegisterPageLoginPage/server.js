@@ -11,8 +11,6 @@ const pool = new Pool({
     port: "5432",
 });
 
-global.user_id = 1;
-
 const hostname = '127.0.0.1';
 const port = 3000;
 
@@ -91,40 +89,48 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/createOrg', async (req, res) => {
+  //Function to insert data into table leaderboards and create new table for said leaderboard
   const { tableName, tableDescription } = req.body;
+  const user_id = 1;
 
-  
-  const newLeaderboard = await pool.query('SELECT insert_leaderboard($, $2, $3 )',[tableName, tableDescription, user_id])
-  
-  //`INSERT INTO leaderboards (leaderboard_name, leaderboard_description, owner) 
-   // VALUES( '${tableName}', '${tableDescription}', ${user_id})`;
-    
-    //user_id ska ändras till global variable
-  const newOrg = `CREATE TABLE ${tableName} (
-    server_id INTEGER,
-    user_id INTEGER, 
-    elo SMALLINT DEFAULT 1000,
-    wins SMALLINT,
-    losses SMALLINT,
-    is_admin BOOLEAN NOT NULL DEFAULT false,
-    username varchar(40) REFERENCES users(username),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-    )`;
-  const newUser = `INSERT INTO ${tableName} (user_id, is_public, is_admin, username) 
-    SELECT 1, true, true, users.username
-    FROM users
-    WHERE users.user_id = 1`;
-
+  const client = await pool.connect();
   try {
-    await pool.query(newLeaderboard);
-    const result = await pool.query(newOrg);
-    await pool.query(newUser);
-    res.sendStatus(200);
-  } catch (err) {
-    console.error(err);
-    res.sendStatus(500);
+    await client.query('BEGIN');
+    
+    const leaderboardInsertResult = await client.query(`
+      INSERT INTO leaderboards (leaderboard_name, leaderboard_description, owner)
+      VALUES ($1, $2, $3)
+      RETURNING id
+    `, [tableName, tableDescription, user_id]);
+
+    const leaderboardId = leaderboardInsertResult.rows[0].id;
+
+    await client.query(`
+      CREATE TABLE ${tableName} (
+        server_id INTEGER REFERENCES leaderboards(id),
+        player_id INTEGER REFERENCES users(user_id),
+        elo INTEGER,
+        wins INTEGER,
+        losses INTEGER,
+        is_admin BOOLEAN
+      )
+    `);
+    await client.query(`
+      INSERT INTO ${tableName} (server_id, player_id, elo, wins, losses, is_admin)
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `, [leaderboardId, user_id, 0, 0, 0, true]);
+
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
+  } finally {
+    client.release();
   }
+
+
 });
+
 
 app.get('/:page', (req, res) => {
   const page = req.params.page;
