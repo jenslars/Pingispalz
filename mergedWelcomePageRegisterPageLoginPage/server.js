@@ -54,8 +54,8 @@ app.listen(3000, () => {
 
 app.use(express.json());
 
-// Handle POST requests to /register
 app.post('/register', async (req, res) => {
+  //function to register account
   const { email, username, password } = req.body;
 
   try {
@@ -72,6 +72,7 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+  //Function to validate users login input
   const { email, password } = req.body;
   
   try {
