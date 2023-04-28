@@ -59,12 +59,12 @@ body{
     padding: 10px 5px 10px 50px;
     width: 30%;
     text-decoration: none;
+    border-radius: 15px;
 }
 
 #search.active{
     background-image: url(searchred.png);
     color: #FF3366;
-    border-radius: 15px;
     background-color: #fff;
     transition: 1s;
     background-size: 17% ;
@@ -75,7 +75,6 @@ body{
 #home.active{
     background-image: url(homered.png);
     color: #FF3366;
-    border-radius: 15px;
     background-color: #fff;
     transition: 1s;
     background-size: 17% ;
@@ -91,6 +90,7 @@ body{
     padding: 10px 5px 10px 50px;
     width: 30%;
     text-decoration: none;
+    border-radius: 15px;
 }
 
 #leaderboards{
@@ -101,12 +101,12 @@ body{
     padding: 10px 5px 10px 50px;
     width: 30%;
     text-decoration: none;
+    border-radius: 15px;
 }
 
 #leaderboards.active{
     background-image: url(podiumred.png);
     color: #FF3366;
-    border-radius: 15px;
     background-color: #fff;
     transition: 1s;
     background-size: 17% ;
@@ -122,12 +122,12 @@ body{
     padding: 10px 5px 10px 50px;
     width: 30%;
     text-decoration: none;
+    border-radius: 15px;
 }
 
 #challenges.active{
     background-image: url(pingpongred.png);
     color: #FF3366;
-    border-radius: 15px;
     background-color: #fff;
     transition: 1s;
     background-size: 17% ;
@@ -143,6 +143,17 @@ body{
     padding: 10px 5px 10px 50px;
     width: 30%;
     text-decoration: none;
+    border-radius: 15px;
+}
+
+#profile.active{
+    background-image: url(profilered.png);
+    color: #FF3366;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* Mobile css */
