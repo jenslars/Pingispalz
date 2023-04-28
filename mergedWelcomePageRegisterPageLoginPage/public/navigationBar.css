@@ -1,0 +1,153 @@
+/* Desktop css*/
+.grid-container {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    grid-template-rows: 1fr;
+    height: 100vh;
+  }
+
+.sidenav {
+grid-column: 1;
+display: flex;
+flex-direction: column;
+}
+
+header{
+    margin-bottom: 50px;
+}
+
+#content {
+grid-column: 2;
+background-color: #fff;
+}
+
+html{
+    font-family: 'Lexend';
+    font-style: normal;
+    background-color: #66cccc;
+    overflow: hidden;
+}
+
+body{
+    margin: 0;
+}
+
+#logo{        
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+    margin-left: 10%;
+    font-size: 35px;
+}
+
+.redDot {
+    color: #FF3366;
+  }
+
+.sidenav a{
+    margin-bottom: 40px;
+    color: #fff;
+    font-size: 22px;
+    margin-left: 5px;
+}
+
+#search{
+    background-image: url(search.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#search.active{
+    background-image: url(searchred.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#home.active{
+    background-image: url(homered.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#home{
+    background-image: url(navbarhome.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#leaderboards{
+    background-image: url(podium.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#leaderboards.active{
+    background-image: url(podiumred.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#challenges{
+    background-image: url(pingpong2.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+#challenges.active{
+    background-image: url(pingpongred.png);
+    color: #FF3366;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 17% ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#profile{
+    background-image: url(profile.png);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25% ;
+    padding: 10px 5px 10px 50px;
+    width: 30%;
+    text-decoration: none;
+}
+
+/* Mobile css */
+@media screen and (max-width: 600px) {
+    * {
+      box-sizing: border-box;
+    }
+}
