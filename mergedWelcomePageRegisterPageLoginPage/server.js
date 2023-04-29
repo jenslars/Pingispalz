@@ -89,4 +89,25 @@ app.get('/:page', (req, res) => {
   });
 });
 
+app.get('/:page', (req, res) => {
+  const page = req.params.page;
+  fs.readFile('Leaderboard.html', function(error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write('Error: File Not Found');
+    }
+    else {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
+    }
+     res.end();
+  });
+})
 
+app.post('/Leaderboard', async (req, res) => {
+  const page = req.params.page;
+
+  try {
+    const result = await pool.query('SELECT * FROM mautest ORDER BY elo DESC')
+  }
+})
