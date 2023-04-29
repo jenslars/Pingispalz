@@ -136,7 +136,9 @@ for (let i = 0; i < players.length; i++) {
     <td>${player.wins}</td>
     <td>${player.winRatio}</td>
     <td>${player.elo}</td>
-    <td>${player.status}</td>
+    <td>${player.status ? '<span id="readyDot" title="Available"></span>' : '<span id="notReadyDot" title="Away"></span>'}</td>
+    <td><span id="playIcon">Play</span></td>
+    
 `;
 
     tableBody.appendChild(row);
