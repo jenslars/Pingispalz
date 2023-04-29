@@ -10,15 +10,79 @@
 grid-column: 1;
 display: flex;
 flex-direction: column;
+position: sticky;
 }
 
-header{
-    margin-bottom: 50px;
+#searchfield{
+    grid-column: 1;
+    position: absolute;
+    visibility: hidden;
+    margin-left: 15%;
+    width: 0%;
+    background-color: #fff;
+}
+
+#searchfield input{
+    width: 0%; 
+    margin-top: 20%;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid #cecece;
+    font-family: 'Lexend';
+    background-image: url(searchgrey.png);
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    background-size: 10% ;
+    padding: 10px 0px 10px 50px;
+    margin-left: 5%;
+    font-size: 20px;
+}
+
+#searchfield.active{
+    height: 100vh;
+    position: absolute;
+    visibility: visible;
+    width: 17%;
+    transition: 1s;
+    border-right: 1px solid #ebebeb;
+}
+
+#leaderboardoptions{
+    grid-column: 1;
+    position: absolute;
+
+    margin-left: 15%;
+    width: 0%;
+    background-color: #fff;
+}
+
+#leaderboardoptions.active{
+    height: 100vh;
+    position: absolute;
+    visibility: visible;
+    width: 17%;
+    transition: 1s;
+    border-right: 1px solid #ebebeb;
+}
+
+#addwhite{
+    visibility: hidden;
+}
+
+#searchfield.active input{
+    width: 70%;
+    transition: 0.7s;
+    
 }
 
 #content {
 grid-column: 2;
 background-color: #fff;
+}
+
+#content.active {
+    grid-column: 3;
+    background-color: #fff;
 }
 
 html{
@@ -154,6 +218,10 @@ body{
     background-size: 17% ;
     width: 60%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+h2{
+    text-align: center;
 }
 
 /* Mobile css */

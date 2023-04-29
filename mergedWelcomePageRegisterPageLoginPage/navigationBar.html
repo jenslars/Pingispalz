@@ -18,8 +18,20 @@
             <a id="challenges" href="#">Challenges</a>
             <a id="profile" href="#">Profile</a>
         </nav>
+        <nav id="searchfield">
+            <form>
+                <input type="text" placeholder="Search">
+            </form>
+        </nav>
+        <nav id="leaderboardoptions">
+            <button type="button" class="add">
+                <img src="addblue" id="addblue">
+                <img src="addwhite" id="addwhite">
+            </button>
+        </nav>
         <div id="content">
-            
+            <h1>Test</h1>
+            <h2>test</h2>
         </div>
             <script>
                 /* desktop navbar function */
@@ -28,6 +40,8 @@
                 var leaderboardsLink = document.getElementById('leaderboards');
                 var challengesLink = document.getElementById('challenges');
                 var profileLink = document.getElementById('profile');
+                var searchfieldLink = document.getElementById('searchfield');
+                var leaderboardoptionsLink = document.getElementById('leaderboardoptions');
 
                 homeLink.addEventListener('click', function() {
                 homeLink.classList.add('active');
@@ -39,6 +53,8 @@
 
                 searchLink.addEventListener('click', function() {
                 searchLink.classList.add('active');
+                searchfieldLink.classList.add('active');
+                
                 homeLink.classList.remove('active');
                 leaderboardsLink.classList.remove('active');
                 challengesLink.classList.remove('active');
@@ -47,6 +63,8 @@
 
                 leaderboardsLink.addEventListener('click', function() {
                 leaderboardsLink.classList.add('active');
+                leaderboardoptionsLink.classList.add('active');
+
                 homeLink.classList.remove('active');
                 searchLink.classList.remove('active');
                 challengesLink.classList.remove('active');
@@ -68,62 +86,6 @@
                 leaderboardsLink.classList.remove('active');
                 challengesLink.classList.remove('active');
                 });
-
-                var aboutLink = document.querySelector('nav.profile-nav a:nth-of-type(1)');
-                var recentGamesLink = document.querySelector('nav.profile-nav a:nth-of-type(2)');
-                var achievementsLink = document.querySelector('nav.profile-nav a:nth-of-type(3)');
-                var aboutSection = document.getElementById('about');
-                var recentGamesSection = document.getElementById('recentgames');
-                var achievementsSection = document.getElementById('achievements');
-
-                aboutSection.style.display = 'block';
-                aboutLink.classList.add('active');
-
-                aboutLink.addEventListener('click', function() {
-                toggleSection(aboutSection);
-                aboutLink.classList.add('active');
-                recentGamesLink.classList.remove('active');
-                achievementsLink.classList.remove('active');
-                });
-
-                recentGamesLink.addEventListener('click', function() {
-                toggleSection(recentGamesSection);
-                aboutLink.classList.remove('active');
-                recentGamesLink.classList.add('active');
-                achievementsLink.classList.remove('active');
-                });
-
-                achievementsLink.addEventListener('click', function() {
-                toggleSection(achievementsSection);
-                aboutLink.classList.remove('active');
-                recentGamesLink.classList.remove('active');
-                achievementsLink.classList.add('active');
-                });
-
-                function toggleSection(section) {
-                var allSections = [aboutSection, recentGamesSection, achievementsSection];
-                var otherSections = allSections.filter(function(sec) {
-                    return sec !== section;
-                });
-
-                if (section.style.display === 'none') {
-                    section.style.display = 'block';
-                    section.style.animation = 'slide-up 1s forwards';
-                    otherSections.forEach(function(sec) {
-                    if (sec.style.display !== 'none') {
-                        sec.style.animation = 'slide-down 1s forwards';
-                        setTimeout(function() {
-                        sec.style.display = 'none';
-                        }, 500);
-                    }
-                    });
-                } else {
-                    section.style.animation = 'slide-down 1s forwards';
-                    setTimeout(function() {
-                    section.style.display = 'none';
-                    }, 500);
-                }
-                }
             </script>
         </main>
     </div>
