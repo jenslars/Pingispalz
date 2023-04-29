@@ -24,10 +24,8 @@
             </form>
         </nav>
         <nav id="leaderboardoptions">
-            <button type="button" class="add">
-                <img src="addblue" id="addblue">
-                <img src="addwhite" id="addwhite">
-            </button>
+            <button type="button" class="addserver"></button>
+            <button type="button" class="findserver"></button>
         </nav>
         <div id="content">
             <h1>Test</h1>
@@ -45,8 +43,11 @@
 
                 homeLink.addEventListener('click', function() {
                 homeLink.classList.add('active');
+
                 searchLink.classList.remove('active');
+                searchfieldLink.classList.remove('active');
                 leaderboardsLink.classList.remove('active');
+                leaderboardoptionsLink.classList.remove('active');
                 challengesLink.classList.remove('active');
                 profileLink.classList.remove('active');
                 });
@@ -57,6 +58,7 @@
                 
                 homeLink.classList.remove('active');
                 leaderboardsLink.classList.remove('active');
+                leaderboardoptionsLink.classList.remove('active');
                 challengesLink.classList.remove('active');
                 profileLink.classList.remove('active');
                 });
@@ -67,15 +69,19 @@
 
                 homeLink.classList.remove('active');
                 searchLink.classList.remove('active');
+                searchfieldLink.classList.remove('active');
                 challengesLink.classList.remove('active');
                 profileLink.classList.remove('active');
                 });
 
                 challengesLink.addEventListener('click', function() {
                 challengesLink.classList.add('active');
+                
                 homeLink.classList.remove('active');
                 searchLink.classList.remove('active');
+                searchfieldLink.classList.remove('active');
                 leaderboardsLink.classList.remove('active');
+                leaderboardoptionsLink.classList.remove('active');
                 profileLink.classList.remove('active');
                 });
 
@@ -83,7 +89,9 @@
                 profileLink.classList.add('active');
                 homeLink.classList.remove('active');
                 searchLink.classList.remove('active');
+                searchfieldLink.classList.remove('active');
                 leaderboardsLink.classList.remove('active');
+                leaderboardoptionsLink.classList.remove('active');
                 challengesLink.classList.remove('active');
                 });
             </script>

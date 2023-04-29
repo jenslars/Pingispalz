@@ -50,7 +50,7 @@ position: sticky;
 #leaderboardoptions{
     grid-column: 1;
     position: absolute;
-
+    visibility: hidden;
     margin-left: 15%;
     width: 0%;
     background-color: #fff;
@@ -60,13 +60,52 @@ position: sticky;
     height: 100vh;
     position: absolute;
     visibility: visible;
-    width: 17%;
+    width: 6%;
     transition: 1s;
     border-right: 1px solid #ebebeb;
 }
 
-#addwhite{
-    visibility: hidden;
+
+.addserver{
+    height: 50px;
+    width: 50px;
+    background-image: url(addblue.png);
+    background-color: white;
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 9px 9px;
+    border-radius: 100px;
+    border: 1px solid #ebebeb;
+    margin-left: 20%;
+    margin-top: 40%;
+}
+
+.addserver:hover {
+    background-color: #66cccc;
+    background-image: url(addwhite.png);
+    transition: 0.4s;
+    border-radius: 14px;
+}
+
+.findserver {
+    height: 50px;
+    width: 50px;
+    background-image: url(compassblue.png);
+    background-color: white;
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 9px 9px;
+    border-radius: 100px;
+    border: 1px solid #ebebeb;
+    margin-left: 20%;
+    margin-top: 10%;
+}
+
+.findserver:hover {
+    background-color: #66cccc;
+    background-image: url(compasswhite.png);
+    transition: 0.4s;
+    border-radius: 14px;
 }
 
 #searchfield.active input{
@@ -74,6 +113,8 @@ position: sticky;
     transition: 0.7s;
     
 }
+
+
 
 #content {
 grid-column: 2;
