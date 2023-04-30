@@ -76,6 +76,7 @@
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
                             document.getElementById("error-message").innerHTML = "Registration successful";
+                            window.location.href = "/home.html";
                         } else if (xhr.status === 400) {
                             document.getElementById("error-message").innerHTML = "Email already in use";
                         } else {

@@ -66,7 +66,7 @@ app.post('/register', async (req, res) => {
   try {
     await pool.query('SELECT insert_user($1, $2, $3)', [email, username, password])
     loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
-    res.sendFile(__dirname + '/views/home.html'); // <-- Change added here
+    res.sendFile(__dirname + '/views/home.html');
   } catch (err) {
     console.error(err);
     if (err.code === 'P0001') {
@@ -86,7 +86,7 @@ app.post('/login', async (req, res) => {
     loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
     const isValidLogin = result.rows[0].login;
     if (isValidLogin) {
-      res.sendFile(__dirname + '/views/home.html'); // <-- Change added here
+      res.sendFile(__dirname + '/views/home.html');
     } else {
       res.sendStatus(401);
     }
