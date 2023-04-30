@@ -17,6 +17,8 @@ const port = 3000;
 app.use(express.static('images'));
 app.use(express.static('public'));
 
+let loggedInUserId;
+
 app.get('/', (req, res) => {
   fs.readFile('index.html', function(error, data) {
     if (error) {
@@ -60,6 +62,7 @@ app.post('/register', async (req, res) => {
 
   try {
     await pool.query('SELECT insert_user($1, $2, $3)', [email, username, password])
+    loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
     res.sendStatus(200); 
   } catch (err) {
     console.error(err);
@@ -77,6 +80,7 @@ app.post('/login', async (req, res) => {
   
   try {
     const result = await pool.query('SELECT login($1, $2)', [email, password]);
+    loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
     const isValidLogin = result.rows[0].login;
     if (isValidLogin) {
       res.sendStatus(200);
@@ -92,7 +96,6 @@ app.post('/login', async (req, res) => {
 app.post('/createOrg', async (req, res) => {
   //Function to insert data into table leaderboards and create new table for said leaderboard
   const { tableName, tableDescription } = req.body;
-  const user_id = 1;
 
   const client = await pool.connect();
   try {
@@ -119,7 +122,7 @@ app.post('/createOrg', async (req, res) => {
     await client.query(`
       INSERT INTO ${tableName} (server_id, player_id, elo, wins, losses, is_admin)
       VALUES ($1, $2, $3, $4, $5, $6)
-    `, [leaderboardId, user_id, 0, 0, 0, true]);
+    `, [leaderboardId, loggedInUserId, 0, 0, 0, true]);
 
     await client.query('COMMIT');
   } catch (e) {
