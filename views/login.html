@@ -49,6 +49,7 @@
                 if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     document.getElementById("error-message").innerHTML = "Login successful";
+                    window.location.href = "views/home.html";
                 } else {
                     document.getElementById("error-message").innerHTML = "Login failed";
                 }

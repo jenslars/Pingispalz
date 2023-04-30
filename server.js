@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const http = require('http');
 const fs = require('fs');
 const { Pool } = require('pg');
@@ -14,14 +15,15 @@ const pool = new Pool({
 const hostname = '127.0.0.1';
 const port = 3000;
 
-app.use(express.static('images'));
-app.use(express.static('public'));
-
-//Declaring the user logged in globally 
+//Declares logged in user
 let loggedInUserId;
 
+app.use(express.static('images'));
+app.use(express.static('public'));
+app.use(express.static('views'));
+
 app.get('/', (req, res) => {
-  fs.readFile('index.html', function(error, data) {
+  fs.readFile('views/index.html', function(error, data) {
     if (error) {
       res.writeHead(404);
       res.write('Error: File Not Found');
@@ -34,7 +36,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/createorg', (req, res) => {
-  fs.readFile('createOrg.html', function(error, data) {
+  fs.readFile('views/createOrg.html', function(error, data) {
       if (error) {
           res.writeHead(404);
           res.write('Error: File Not Found');
@@ -64,8 +66,7 @@ app.post('/register', async (req, res) => {
   try {
     await pool.query('SELECT insert_user($1, $2, $3)', [email, username, password])
     loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
-    res.sendStatus(200);
-    res.redirect('/home.html');
+    res.sendFile(__dirname + '/views/home.html'); // <-- Change added here
   } catch (err) {
     console.error(err);
     if (err.code === 'P0001') {
@@ -85,7 +86,7 @@ app.post('/login', async (req, res) => {
     loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
     const isValidLogin = result.rows[0].login;
     if (isValidLogin) {
-      res.redirect('/home.html');
+      res.sendFile(__dirname + '/views/home.html'); // <-- Change added here
     } else {
       res.sendStatus(401);
     }
@@ -139,7 +140,8 @@ app.post('/createOrg', async (req, res) => {
 
 app.get('/:page', (req, res) => {
   const page = req.params.page;
-  fs.readFile(`${page}.html`, function(error, data) {
+  const filePath = path.join(__dirname, 'views', `${page}.html`);
+  fs.readFile(filePath, function(error, data) {
     if (error) {
       res.writeHead(404);
       res.write('Error: File Not Found');
@@ -150,4 +152,5 @@ app.get('/:page', (req, res) => {
     res.end();
   });
 });
+
 
