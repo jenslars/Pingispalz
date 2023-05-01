@@ -91,7 +91,7 @@ app.get('/:page', (req, res) => {
   });
 });
 
-app.get('/lead', (req, res) => {
+app.get('/leaderboard', (req, res) => {
   const page = req.params.page;
   fs.readFile('Leaderboard.html', function(error, data) {
     if (error) {
@@ -108,9 +108,8 @@ app.get('/lead', (req, res) => {
 
 app.get('/leaderboard/score', async (req, res) => {
   const page = req.params.page;
-  console.log('insideleaderboard')
    try {
-     const result = await pool.query('SELECT username, elo, wins, losses FROM mautest JOIN users ON player_id = user_id')
+     const result = await pool.query('SELECT username, elo, wins, losses FROM mautest JOIN users ON player_id = user_id ORDER BY elo DESC')
      res.status(200).send(result.rows);
    }
    catch {
@@ -121,7 +120,6 @@ app.get('/leaderboard/score', async (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  
   db.query('SELECT * FROM leaderboard', (error, results) => {
     if (error) {
       console.log(error);

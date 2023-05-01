@@ -96,28 +96,72 @@ status: true
 },
 ];
 
-function ladder(players) {
-var table = "<tbody>";
-for (let i = 0; i < players.length ; i++) {
+fetch('/leaderboard/score')
+  .then(response => response.json())
+  .then(players => {
+    const ladder = document.getElementById('ladder');
+    ladder.innerHTML = '';
 
-        table += "<tr>";
-        table += "<td>" + players[i].placement + "</td>";
-        table += "<td>" + players[i].username + "</td>";
-        table += "<td>" + players[i].wins + "</td>";
-        table += "<td>" + players[i].winRatio + "</td>";
-        table += "<td>" + players[i].elo + "</td>";
-        if (players[i].status === true) {
-            table += "<td>" + '<span id="readyDot" title="Available">' + "</td>";
-        }
-        else {
-            table += "<td>" + '<span id="notReadyDot" title="Away">' + "</td>";
-        }
-        table += "<td>" + '<span id="playIcon">' + "Play" + "</span>" + "</td>";
-        table += "</tr>"
-}
-table += "</tbody>";
-document.getElementById("ladder").innerHTML = table;
-} 
+    players.forEach(player => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${player.placement}</td>
+        <td>${player.username}</td>
+        <td>${player.wins}</td>
+        <td>${player.winRatio}</td>
+        <td>${player.elo}</td>
+        <td><button>Play</button></td>
+      `;
+      ladder.appendChild(row);
+    });
+  });
+
+
+function ladder(players) {
+    var table = "<tbody>";
+    for (let i = 0; i < players.length ; i++) {
+    
+            table += "<tr>";
+            table += "<td>" + players[i].placement + "</td>";
+            table += "<td>" + players[i].username + "</td>";
+            table += "<td>" + players[i].wins + "</td>";
+            table += "<td>" + players[i].winRatio + "</td>";
+            table += "<td>" + players[i].elo + "</td>";
+            if (players[i].status === true) {
+                table += "<td>" + '<span id="readyDot" title="Available">' + "</td>";
+            }
+            else {
+                table += "<td>" + '<span id="notReadyDot" title="Away">' + "</td>";
+            }
+            table += "<td>" + '<span id="playIcon">' + "Play" + "</span>" + "</td>";
+            table += "</tr>"
+    }
+    table += "</tbody>";
+    document.getElementById("ladder").innerHTML = table;
+    } 
+
+// function ladder(players) {
+// var table = "<tbody>";
+// for (let i = 0; i < players.length ; i++) {
+
+//         table += "<tr>";
+//         table += "<td>" + players[i].placement + "</td>";
+//         table += "<td>" + players[i].username + "</td>";
+//         table += "<td>" + players[i].wins + "</td>";
+//         table += "<td>" + players[i].winRatio + "</td>";
+//         table += "<td>" + players[i].elo + "</td>";
+//         if (players[i].status === true) {
+//             table += "<td>" + '<span id="readyDot" title="Available">' + "</td>";
+//         }
+//         else {
+//             table += "<td>" + '<span id="notReadyDot" title="Away">' + "</td>";
+//         }
+//         table += "<td>" + '<span id="playIcon">' + "Play" + "</span>" + "</td>";
+//         table += "</tr>"
+// }
+// table += "</tbody>";
+// document.getElementById("ladder").innerHTML = table;
+// } 
 
 ladder(players);
 
