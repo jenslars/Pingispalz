@@ -6,6 +6,75 @@
     height: 100vh;
   }
 
+#leaderboardpopup{
+    visibility: hidden;
+    position: absolute;
+    background-color: #fff;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 50px 25px 50px 25px;
+    transition: 1s;
+    border-radius: 10px;
+}
+
+#popupheader{
+    display: flex;
+    flex-direction: row;
+}
+
+#popupheader h1{
+    margin-left: 28%;
+}
+
+#leaderboardpopup p{
+    color: #a5a5a5;
+    text-align: center;
+    width: 70%;
+    margin: auto;
+}
+
+#popupfooter{
+    margin-top: 50px;
+}
+
+#createorg{
+    font-family: 'Lexend';
+    font-style: normal;
+    color: #fff;
+    background-color: #66cccc;
+    font-size: 20px;
+    display: block;
+    text-align: center;
+    border: none;
+    margin: auto;
+    padding:5px;
+    border-radius: 10px;
+}
+
+#exitpopup {
+    background-image: url(returnarrowblack.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 9px 9px;
+    border: none;
+    padding: 20px;
+    background-color: #fff;
+}
+
+#leaderboardpopup.active{
+    visibility: visible;
+    position: absolute;
+    background-color: #fff;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 50px 25px 50px 25px;
+    transition: 1s;
+}
+
 .sidenav {
 grid-column: 1;
 display: flex;
@@ -66,7 +135,7 @@ position: sticky;
 }
 
 
-.addserver{
+#addserver{
     height: 50px;
     width: 50px;
     background-image: url(addblue.png);
@@ -80,14 +149,14 @@ position: sticky;
     margin-top: 40%;
 }
 
-.addserver:hover {
+#addserver:hover {
     background-color: #66cccc;
     background-image: url(addwhite.png);
     transition: 0.4s;
     border-radius: 14px;
 }
 
-.findserver {
+#findserver {
     height: 50px;
     width: 50px;
     background-image: url(compassblue.png);
@@ -101,7 +170,7 @@ position: sticky;
     margin-top: 10%;
 }
 
-.findserver:hover {
+#findserver:hover {
     background-color: #66cccc;
     background-image: url(compasswhite.png);
     transition: 0.4s;
@@ -113,8 +182,6 @@ position: sticky;
     transition: 0.7s;
     
 }
-
-
 
 #content {
 grid-column: 2;
@@ -147,7 +214,7 @@ body{
 
 .redDot {
     color: #FF3366;
-  }
+}
 
 .sidenav a{
     margin-bottom: 40px;

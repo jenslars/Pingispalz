@@ -7,12 +7,23 @@
     <link href="navigationBar.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div class="grid-container">
+    <div id="leaderboardpopup">
+        <header id="popupheader">
+        <button id="exitpopup" onclick="exitpopup()"></button>
+        <h1>Add a Club</h1>
+        </header>
+        <p>Join a club by pressing the button next to the server you would like to join.</p>
+        <footer id="popupfooter">
+        <p>Want to create you own club?</p>
+        <button id="createorg">Create your own Club</button>
+        </footer>
+    </div>
+    <div class="grid-container" id="blur">
         <nav class="sidenav">
             <div id="logo">
                 <p>Pingispals<p class="redDot">.</p></p>
             </div>
-            <a id="home" href="#">Home</a>
+            <a id="home" href="#" class="active">Home</a>
             <a id="search" href="#">Search</a>
             <a id="leaderboards" href="#">Clubs</a>
             <a id="challenges" href="#">Challenges</a>
@@ -24,78 +35,93 @@
             </form>
         </nav>
         <nav id="leaderboardoptions">
-            <button type="button" class="addserver"></button>
-            <button type="button" class="findserver"></button>
+            <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
+            <button type="button" id="findserver"></button>
         </nav>
         <div id="content">
             <h1>Test</h1>
             <h2>test</h2>
         </div>
-            <script>
-                /* desktop navbar function */
-                var homeLink = document.getElementById('home');
-                var searchLink = document.getElementById('search');
-                var leaderboardsLink = document.getElementById('leaderboards');
-                var challengesLink = document.getElementById('challenges');
-                var profileLink = document.getElementById('profile');
-                var searchfieldLink = document.getElementById('searchfield');
-                var leaderboardoptionsLink = document.getElementById('leaderboardoptions');
-
-                homeLink.addEventListener('click', function() {
-                homeLink.classList.add('active');
-
-                searchLink.classList.remove('active');
-                searchfieldLink.classList.remove('active');
-                leaderboardsLink.classList.remove('active');
-                leaderboardoptionsLink.classList.remove('active');
-                challengesLink.classList.remove('active');
-                profileLink.classList.remove('active');
-                });
-
-                searchLink.addEventListener('click', function() {
-                searchLink.classList.add('active');
-                searchfieldLink.classList.add('active');
-                
-                homeLink.classList.remove('active');
-                leaderboardsLink.classList.remove('active');
-                leaderboardoptionsLink.classList.remove('active');
-                challengesLink.classList.remove('active');
-                profileLink.classList.remove('active');
-                });
-
-                leaderboardsLink.addEventListener('click', function() {
-                leaderboardsLink.classList.add('active');
-                leaderboardoptionsLink.classList.add('active');
-
-                homeLink.classList.remove('active');
-                searchLink.classList.remove('active');
-                searchfieldLink.classList.remove('active');
-                challengesLink.classList.remove('active');
-                profileLink.classList.remove('active');
-                });
-
-                challengesLink.addEventListener('click', function() {
-                challengesLink.classList.add('active');
-                
-                homeLink.classList.remove('active');
-                searchLink.classList.remove('active');
-                searchfieldLink.classList.remove('active');
-                leaderboardsLink.classList.remove('active');
-                leaderboardoptionsLink.classList.remove('active');
-                profileLink.classList.remove('active');
-                });
-
-                profileLink.addEventListener('click', function() {
-                profileLink.classList.add('active');
-                homeLink.classList.remove('active');
-                searchLink.classList.remove('active');
-                searchfieldLink.classList.remove('active');
-                leaderboardsLink.classList.remove('active');
-                leaderboardoptionsLink.classList.remove('active');
-                challengesLink.classList.remove('active');
-                });
-            </script>
-        </main>
     </div>
+    <script>
+        /*Popup for adding leaderboards*/
+        function leaderboardpopup() {
+        var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+        var gridcontainerLink = document.getElementById('blur');
+        leaderboardpopupDiv.classList.add('active');
+        gridcontainerLink.classList.add('active');
+        }
+
+        function exitpopup() {
+        var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+        var gridcontainerLink = document.getElementById('blur');
+        leaderboardpopupDiv.classList.remove('active');
+        gridcontainerLink.classList.remove('active');   
+        }
+
+
+        /* desktop navbar function */
+        var homeLink = document.getElementById('home');
+        var searchLink = document.getElementById('search');
+        var leaderboardsLink = document.getElementById('leaderboards');
+        var challengesLink = document.getElementById('challenges');
+        var profileLink = document.getElementById('profile');
+        var searchfieldLink = document.getElementById('searchfield');
+        var leaderboardoptionsLink = document.getElementById('leaderboardoptions');
+
+        homeLink.addEventListener('click', function() {
+        homeLink.classList.add('active');
+
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        searchLink.addEventListener('click', function() {
+        searchLink.classList.add('active');
+        searchfieldLink.classList.add('active');
+        
+        homeLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        leaderboardsLink.addEventListener('click', function() {
+        leaderboardsLink.classList.add('active');
+        leaderboardoptionsLink.classList.add('active');
+
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        challengesLink.addEventListener('click', function() {
+        challengesLink.classList.add('active');
+        
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        profileLink.addEventListener('click', function() {
+        profileLink.classList.add('active');
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        });
+    </script>
   </body>
 </html>
