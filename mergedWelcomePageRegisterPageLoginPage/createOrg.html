@@ -28,27 +28,49 @@
             </aside>
             <h1 id="itemCenter">Create New Organization</h1>
             <section>
-                <form class="orgSubmit">
-                    <label for="name"> Organization name:
-                        <input id="name" type="text" placeholder="org name" required>
+                <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
+                    <label for="tableName"> Organization name:
+                        <input id="tableName" name="tableName" type="text" placeholder="org name" required>
                     </label><br>
-                    <label for="description"> Organization Description:
-                        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                    <label for="tableDescription"> Organization Description:
+                        <textarea name="tableDescription" id="tableDescription" cols="30" rows="10"></textarea>
                     </label><br>
-                    <label for="orgPic"> Image for organization:
-                        <input type="file" name="orgPic" id="orgPic">
+                    <label for="image"> Image for organization:
+                        <input type="file" name="image" id="image" required>
                     </label>
-                    <!--
-                    <input id="open" type="radio" value="open" name="openOrInvite" required>
-                    <label for="open">Open to public</label><br>
-                    <input id="closed" type="radio" value="closed" name="openOrInvite" required>
-                    <label for="closed">Invite only</label><br>-->
-                    <button type="button" onclick="getValues()">Create org</button>
+                    <button type="submit">Create org</button>
                     <p id="error-message"></p>
-                </form>
+                </form>                
             </section>
         </div>
     </main>
-    <script src="createOrgFunction.js"></script>
+    <script>
+        function createOrg() {
+            var tableName = document.getElementById("tableName").value;
+            var tableDescription = document.getElementById("tableDescription").value;
+            //const isPublic = document.querySelector('input[name="openOrInvite"]:checked').value;
+            tableName = tableName.replace(/\s+/g, '_');
+            console.log("We are in the createOrg function script")
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/createOrg", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        document.getElementById("error-message").innerHTML = "Organization created successfully";
+                    } else {
+                        document.getElementById("error-message").innerHTML = "Looks like you missed something, try again.";
+                    }
+                } else {
+                    document.getElementById("error-message").innerHTML = "Something went wrong while creating the organization";
+                }
+            };
+            xhr.send(JSON.stringify({
+                tableName: tableName,
+                tableDescription: tableDescription,
+                // isPublic: isPublic
+            }));
+        }
+    </script>
 </body>
 </html>

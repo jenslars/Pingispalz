@@ -22,7 +22,6 @@ function getValues() {
     xhr.send(JSON.stringify({
         tableName: tableName,
         tableDescription: tableDescription,
-        
        // isPublic: isPublic
     }));
 }

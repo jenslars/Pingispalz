@@ -4,7 +4,6 @@ const path = require('path');
 const http = require('http');
 const fs = require('fs');
 const { Pool } = require('pg');
-const fileUpload = require('express-fileupload');
 const pool = new Pool({
     user: 'an7066',
     host: 'pgserver.mau.se',
@@ -16,14 +15,15 @@ const pool = new Pool({
 const hostname = '127.0.0.1';
 const port = 3000;
 
-app.use(fileUpload());
-app.use(express.static('images'));
-app.use(express.static('public'));
-
+//Declares logged in user
 let loggedInUserId;
 
+app.use(express.static('images'));
+app.use(express.static('public'));
+app.use(express.static('views'));
+
 app.get('/', (req, res) => {
-  fs.readFile('index.html', function(error, data) {
+  fs.readFile('views/index.html', function(error, data) {
     if (error) {
       res.writeHead(404);
       res.write('Error: File Not Found');
@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/createorg', (req, res) => {
-  fs.readFile('createOrg.html', function(error, data) {
+  fs.readFile('views/createOrg.html', function(error, data) {
       if (error) {
           res.writeHead(404);
           res.write('Error: File Not Found');
@@ -66,7 +66,7 @@ app.post('/register', async (req, res) => {
   try {
     await pool.query('SELECT insert_user($1, $2, $3)', [email, username, password])
     loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
-    res.sendStatus(200); 
+    res.sendFile(__dirname + '/views/home.html');
   } catch (err) {
     console.error(err);
     if (err.code === 'P0001') {
@@ -86,7 +86,7 @@ app.post('/login', async (req, res) => {
     loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
     const isValidLogin = result.rows[0].login;
     if (isValidLogin) {
-      res.sendStatus(200);
+      res.sendFile(__dirname + '/views/home.html');
     } else {
       res.sendStatus(401);
     }
@@ -97,26 +97,18 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/createOrg', async (req, res) => {
+  //Function to insert data into table leaderboards and create new table for said leaderboard
   const { tableName, tableDescription } = req.body;
-  const user_id = 1; // change this to your actual user ID
 
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-
-    const imageFile = req.files.image;
-
-    const timestamp = new Date().getTime();
-    const filename = `${timestamp}_${imageFile.name}`;
-
-    const savePath = path.join(__dirname, 'organisation_images', filename);
-    await imageFile.mv(savePath);
-
+    
     const leaderboardInsertResult = await client.query(`
-      INSERT INTO leaderboards (leaderboard_name, leaderboard_description, owner, leaderboard_image)
-      VALUES ($1, $2, $3, $4)
+      INSERT INTO leaderboards (leaderboard_name, leaderboard_description, owner)
+      VALUES ($1, $2, $3)
       RETURNING id
-    `, [tableName, tableDescription, user_id, filename]);
+    `, [tableName, tableDescription, user_id]);
 
     const leaderboardId = leaderboardInsertResult.rows[0].id;
 
@@ -130,11 +122,10 @@ app.post('/createOrg', async (req, res) => {
         is_admin BOOLEAN
       )
     `);
-
     await client.query(`
       INSERT INTO ${tableName} (server_id, player_id, elo, wins, losses, is_admin)
       VALUES ($1, $2, $3, $4, $5, $6)
-    `, [leaderboardId, user_id, 0, 0, 0, true]);
+    `, [leaderboardId, loggedInUserId, 0, 0, 0, true]);
 
     await client.query('COMMIT');
   } catch (e) {
@@ -143,12 +134,14 @@ app.post('/createOrg', async (req, res) => {
   } finally {
     client.release();
   }
-});
 
+
+});
 
 app.get('/:page', (req, res) => {
   const page = req.params.page;
-  fs.readFile(`${page}.html`, function(error, data) {
+  const filePath = path.join(__dirname, 'views', `${page}.html`);
+  fs.readFile(filePath, function(error, data) {
     if (error) {
       res.writeHead(404);
       res.write('Error: File Not Found');
@@ -159,5 +152,4 @@ app.get('/:page', (req, res) => {
     res.end();
   });
 });
-
 
