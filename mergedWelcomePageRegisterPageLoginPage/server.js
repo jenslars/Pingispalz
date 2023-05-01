@@ -77,6 +77,8 @@ app.post('/login', async (req, res) => {
 
 app.get('/:page', (req, res) => {
   const page = req.params.page;
+  console.log('Hello world')
+  console.log('insidepage')
   fs.readFile(`${page}.html`, function(error, data) {
     if (error) {
       res.writeHead(404);
@@ -89,7 +91,7 @@ app.get('/:page', (req, res) => {
   });
 });
 
-app.get('/:page', (req, res) => {
+app.get('/lead', (req, res) => {
   const page = req.params.page;
   fs.readFile('Leaderboard.html', function(error, data) {
     if (error) {
@@ -104,10 +106,33 @@ app.get('/:page', (req, res) => {
   });
 })
 
-app.post('/Leaderboard', async (req, res) => {
+app.get('/leaderboard/score', async (req, res) => {
   const page = req.params.page;
-
-  try {
-    const result = await pool.query('SELECT * FROM mautest ORDER BY elo DESC')
-  }
+  console.log('insideleaderboard')
+   try {
+     const result = await pool.query('SELECT username, elo, wins, losses FROM mautest JOIN users ON player_id = user_id')
+     res.status(200).send(result.rows);
+   }
+   catch {
+    res.writeHead(500);
+    res.write('Error: Internal server error');
+   }
+   res.end();
 })
+
+app.get('/', (req, res) => {
+  
+  db.query('SELECT * FROM leaderboard', (error, results) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send('Internal Server Error');
+    } else {
+      let table = "<table><thead><tr><th>Server ID</th><th>Player ID</th><th>Elo</th><th>Wins</th></tr></thead><tbody>";
+      results.forEach(result => {
+        table += `<tr><td>${result.server_id}</td><td>${result.player_id}</td><td>${result.elo}</td><td>${result.wins}</td></tr>`;
+      });
+      table += "</tbody></table>";
+      res.status(200).send(table);
+    }
+  });
+});
