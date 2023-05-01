@@ -1,0 +1,169 @@
+#wrapper  {
+    max-width: 100%;
+    margin: auto;
+    box-shadow: 0 0 10px #333;
+    border: 3px solid black;
+    grid-template-rows: auto auto auto auto;
+    display: grid;
+    
+    grid-template-areas: 
+        "header" 
+        "main"
+        "footer"; 
+}
+
+header {
+    grid-area: header;
+    
+}
+
+h1 {
+    margin: auto;
+    background-color: #66cccc;
+    color: whitesmoke;
+    grid-area: header;
+    text-align: left;
+    border-bottom: 2px solid #333;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+main{
+    grid-area: main;
+    margin: auto;
+}
+
+footer{
+    grid-area: footer;
+    min-height: 20vh;
+}
+
+
+.play {
+    align-items: center;
+    appearance: none;
+    background-color: #3EB2FD;
+    background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+    background-size: calc(100% + 20px) calc(100% + 20px);
+    border-radius: 100px;
+    border-width: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: CircularStd,sans-serif;
+    font-size: 1rem;
+    height: auto;
+    justify-content: center;
+    line-height: 1.5;
+    padding: 6px 20px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .2s,background-position .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+    
+  }
+  
+  .play:active,
+  .play:focus {
+    outline: none;
+  }
+  
+  .play:hover {
+    background-position: -20px -20px;
+  }
+  
+  .play:focus:not(:active) {
+    box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 .125em;
+  }
+
+.popup {
+    background: black;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+}
+
+.popup-content {
+    height: 500px;
+    width: 400px;
+    background-color: #66cccc;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    text-align: center;
+    
+}
+
+img {
+    height: 80px;
+    width: 80px;
+    
+}
+
+.user {
+    height: 100px;
+    width: 100px;
+    margin-right: 30px;
+    margin-left: 30px;
+    mix-blend-mode: color-burn;
+}
+
+.userAligned {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 70px;
+    gap: 25px;
+
+}
+
+.close {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.sendChallenge {
+    color: #FFFFFF;
+    background-color: rgb(255, 0, 0);
+    padding: 10px;
+    border-radius: 20px;
+    width: 300px;
+    height: 60px;
+    font-size: x-large;
+    cursor: pointer;
+    margin-top: 70px;
+    margin-bottom: 20px;
+    
+}
+
+.sendChallenge:hover {
+    background-color: rgb(153, 0, 0);
+}
+
+.sendChallenge:active {
+    transform: scale(0.95);
+}
+
+.userNames {
+    display: flex;
+    justify-content: center;
+    
+}
