@@ -6,6 +6,11 @@
     height: 100vh;
   }
 
+#blur.active > *:not(#leaderboardpopup) {
+filter: blur(2px);
+transition: 1s;
+}
+
 #leaderboardpopup{
     visibility: hidden;
     position: absolute;
