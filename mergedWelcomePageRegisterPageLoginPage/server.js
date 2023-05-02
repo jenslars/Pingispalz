@@ -114,7 +114,7 @@ app.post('/createOrg', async (req, res) => {
       INSERT INTO leaderboards (leaderboard_name, leaderboard_description, owner, leaderboard_image)
       VALUES ($1, $2, $3, $4)
       RETURNING id
-    `, [tableName, tableDescription, user_id, filename]);
+    `, [tableName, tableDescription, loggedInUserId, filename]);
 
     const leaderboardId = leaderboardInsertResult.rows[0].id;
     const newTableName = `${tableName}#${leaderboardId}`;
