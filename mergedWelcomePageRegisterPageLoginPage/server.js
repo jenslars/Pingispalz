@@ -98,8 +98,6 @@ app.post('/login', async (req, res) => {
 
 app.post('/createOrg', async (req, res) => {
   const { tableName, tableDescription } = req.body;
-  const user_id = 1; // change this to your actual user ID
-
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -119,9 +117,10 @@ app.post('/createOrg', async (req, res) => {
     `, [tableName, tableDescription, user_id, filename]);
 
     const leaderboardId = leaderboardInsertResult.rows[0].id;
+    const newTableName = `${tableName}#${leaderboardId}`;
 
     await client.query(`
-      CREATE TABLE ${tableName} (
+      CREATE TABLE "${newTableName}" (
         server_id INTEGER REFERENCES leaderboards(id),
         player_id INTEGER REFERENCES users(user_id),
         elo INTEGER,
@@ -132,9 +131,9 @@ app.post('/createOrg', async (req, res) => {
     `);
 
     await client.query(`
-      INSERT INTO ${tableName} (server_id, player_id, elo, wins, losses, is_admin)
+      INSERT INTO "${newTableName}" (server_id, player_id, elo, wins, losses, is_admin)
       VALUES ($1, $2, $3, $4, $5, $6)
-    `, [leaderboardId, user_id, 0, 0, 0, true]);
+    `, [leaderboardId, loggedInUserId, 0, 0, 0, true]);
 
     await client.query('COMMIT');
   } catch (e) {

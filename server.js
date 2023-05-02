@@ -103,7 +103,7 @@ app.post('/createOrg', async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    
+
     const leaderboardInsertResult = await client.query(`
       INSERT INTO leaderboards (leaderboard_name, leaderboard_description, owner)
       VALUES ($1, $2, $3)
@@ -112,8 +112,10 @@ app.post('/createOrg', async (req, res) => {
 
     const leaderboardId = leaderboardInsertResult.rows[0].id;
 
+    const newTableName = `${tableName}${leaderboardId}`;
+
     await client.query(`
-      CREATE TABLE ${tableName} (
+      CREATE TABLE "${newTableName}" (
         server_id INTEGER REFERENCES leaderboards(id),
         player_id INTEGER REFERENCES users(user_id),
         elo INTEGER,
@@ -123,7 +125,7 @@ app.post('/createOrg', async (req, res) => {
       )
     `);
     await client.query(`
-      INSERT INTO ${tableName} (server_id, player_id, elo, wins, losses, is_admin)
+      INSERT INTO "${newTableName}" (server_id, player_id, elo, wins, losses, is_admin)
       VALUES ($1, $2, $3, $4, $5, $6)
     `, [leaderboardId, loggedInUserId, 0, 0, 0, true]);
 
@@ -134,9 +136,9 @@ app.post('/createOrg', async (req, res) => {
   } finally {
     client.release();
   }
-
-
 });
+
+
 
 app.get('/:page', (req, res) => {
   const page = req.params.page;
