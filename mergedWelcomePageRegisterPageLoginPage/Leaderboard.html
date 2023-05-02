@@ -54,9 +54,43 @@
                 </thead>
                 <tbody id="leaderboard"></tbody>
             </table>
-                <script src="leaderboardScript.js"> </script>
         </div>
-    
+        <script>
+            //Laddar in användare från databas in i leaderboarden
+            function loadLeaderboard() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "/leaderboard/score")
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send();
+                xhr.onreadystatechange = function() {
+                    console.log('hello world')
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const response = xhr.response
+                            console.log(xhr)
+                            const ladder = document.getElementById('leaderboard');
+                            ladder.innerHTML = '';
+                            
+                            JSON.parse(response).forEach(player => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${player.placement}</td>
+                                <td>${player.username}</td>
+                                <td>${player.wins}</td>
+                                <td>${player.wins/player.losses}</td>
+                                <td>${player.elo}</td>
+                                <td>${player.status}</td>
+                                <td><button>Play</button></td>
+                            `;
+                            ladder.appendChild(row);
+                            });
+                } else {
+                }
+                }
+            };
+            }
+            testLoadLeaderboard()
+        </script>
     </div>
 </body>
 </html>

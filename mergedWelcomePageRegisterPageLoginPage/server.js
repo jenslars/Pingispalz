@@ -16,6 +16,7 @@ const port = 3000;
 
 app.use(express.static('images'));
 app.use(express.static('public'));
+app.use(express.static('./mergedWelcomePageRegisterPageLoginPage'))
 
 app.get('/', (req, res) => {
   fs.readFile('index.html', function(error, data) {

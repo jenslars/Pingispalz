@@ -1,110 +1,105 @@
-// let players = [{
-// placement: "1",
-// username: "Lucas",
-// wins: 50,
-// winRatio: "3.0",
-// elo: 1400,
-// status: true
-// },
-// {
-// placement: "2",
-// username: "Jens",
-// wins: 50,
-// winRatio: "3.0",
-// elo: 1400,
-// status: true
-// },
-// {
-// placement: "3",
-// username: "Oliver",
-// wins: 100,
-// winRatio: "3.0",
-// elo: 1300,
-// status: false
-// },
-// {
-// placement: "4",
-// username: "Henningsson",
-// wins: 60,
-// winRatio: "3.0",
-// elo: 1200,
-// status: true
-// },
-// {
-// placement: "5",
-// username: "Felix",
-// wins: 40,
-// winRatio: "3.0",
-// elo: 1200,
-// status: false
-// },
-// {
-// placement: "6",
-// username: "Hamza",
-// wins: 27,
-// winRatio: "4.0",
-// elo: 1500,
-// status: true
-// },
-// {
-// placement: "7",
-// username: "Hampus",
-// wins: 60,
-// winRatio: "3.0",
-// elo: 1200,
-// status: false
-// },
-// {
-// placement: "8",
-// username: "David",
-// wins: 60,
-// winRatio: "3.0",
-// elo: 1200,
-// status: false
-// },
-// {
-// placement: "9",
-// username: "Martin",
-// wins: 60,
-// winRatio: "3.0",
-// elo: 1200,
-// status: true
-// },
-// {
-// placement: "10",
-// username: "Jesper",
-// wins: 60,
-// winRatio: "3.0",
-// elo: 1200,
-// status: true
-// },
-// {
-// placement: "11",
-// username: "Simone",
-// wins: 60,
-// winRatio: "3.0",
-// elo: 1200,
-// status: true
-// },
-// {
-// placement: "12",
-// username: "Carlos",
-// wins: 60,
-// winRatio: "3.0",
-// elo: 1200,
-// status: true
-// },
-// ];
+let players = [{
+placement: "1",
+username: "Lucas",
+wins: 50,
+winRatio: "3.0",
+elo: 1400,
+status: true
+},
+{
+placement: "2",
+username: "Jens",
+wins: 50,
+winRatio: "3.0",
+elo: 1400,
+status: true
+},
+{
+placement: "3",
+username: "Oliver",
+wins: 100,
+winRatio: "3.0",
+elo: 1300,
+status: false
+},
+{
+placement: "4",
+username: "Henningsson",
+wins: 60,
+winRatio: "3.0",
+elo: 1200,
+status: true
+},
+{
+placement: "5",
+username: "Felix",
+wins: 40,
+winRatio: "3.0",
+elo: 1200,
+status: false
+},
+{
+placement: "6",
+username: "Hamza",
+wins: 27,
+winRatio: "4.0",
+elo: 1500,
+status: true
+},
+{
+placement: "7",
+username: "Hampus",
+wins: 60,
+winRatio: "3.0",
+elo: 1200,
+status: false
+},
+{
+placement: "8",
+username: "David",
+wins: 60,
+winRatio: "3.0",
+elo: 1200,
+status: false
+},
+{
+placement: "9",
+username: "Martin",
+wins: 60,
+winRatio: "3.0",
+elo: 1200,
+status: true
+},
+{
+placement: "10",
+username: "Jesper",
+wins: 60,
+winRatio: "3.0",
+elo: 1200,
+status: true
+},
+{
+placement: "11",
+username: "Simone",
+wins: 60,
+winRatio: "3.0",
+elo: 1200,
+status: true
+},
+{
+placement: "12",
+username: "Carlos",
+wins: 60,
+winRatio: "3.0",
+elo: 1200,
+status: true
+},
+];
 
-
-
-  $(document).ready(function(){
-  document.getElementById('test1').innerHTML = 'hello world';
-  console.log('hej världen')
-  fetch('/leaderboard/score')
+fetch('/leaderboard/score')
   .then(response => response.json())
   .then(players => {
-    const ladder = document.getElementById('leaderboard');
+    const ladder = document.getElementById('ladder');
     ladder.innerHTML = '';
 
     players.forEach(player => {
@@ -121,43 +116,11 @@
     });
   });
 
-  return 'hello world'
-  
- });
 
-
-
-
-// async function fetchLeaderboardData() {
-//     try {
-//       const response = await fetch('/leaderboard', {
-//         method: 'GET'
-//       });
-//       const players = await response.json();
-  
-//       const leaderboardTable = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
-//       leaderboardTable.innerHTML = '';
-  
-//       players.forEach(player => {
-//         const row = leaderboardTable.insertRow();
-//         const usernameCell = row.insertCell();
-//         usernameCell.innerHTML = player.username;
-//         const eloCell = row.insertCell();
-//         eloCell.innerHTML = player.elo;
-//         const winsCell = row.insertCell();
-//         winsCell.innerHTML = player.wins;
-//         const lossesCell = row.insertCell();
-//         lossesCell.innerHTML = player.losses;
-//       });
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-  
-//   fetchLeaderboardData();
-  
-
-  
+// function displayLeaderboard() {
+//   var table = "<tbody>";
+//   for (let i = 0; )
+// }
 
 function ladder(players) {
     var table = "<tbody>";
