@@ -12,7 +12,7 @@ body {
     background-color:#FFFFFF ;
 }
 
-.orgSubmit {
+#createOrgForm {
     width: 100%;
     margin: auto;
     padding: 15px;
@@ -23,7 +23,8 @@ body {
     grid-row: 1 ;
 }
 
-.orgSubmit input {
+#createOrgForm input {
+    display:block;
     accent-color: #66cccc;
     border: #FFF none;
     background-color: #66CCCC;
@@ -34,7 +35,7 @@ body {
     font-weight: bold;
 }
 
-.orgSubmit input[type="radio"]{
+#createOrgForm input[type="radio"]{
     display: inline-block;
     width: 20px;
     height: 16px;
@@ -44,18 +45,39 @@ body {
     margin-right: 5px;
 }
 
-.orgSubmit button[type="button"]{
+#createOrgForm button[type="submit"]{
     margin-top: 45px;
     font-weight: bold;
     color: #000000;
     font-size: 14px;
     padding: 10px;
     height: 40px;
+    min-width: 94px;
     background-color: #ff3366; 
     transition: ease-in-out 0.3s;
 }
 
-.orgSubmit button[type="button"]:hover{
+input[type="file"] {
+    display: none;
+}
+
+
+
+#createOrgForm textarea {
+    accent-color: #66cccc;
+    border: #FFF none;
+    background-color: #66CCCC;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.25);
+    height: 40px;
+    min-height: 40px;
+    min-width: 230px;
+    padding: 5px;
+    padding-top: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#createOrgForm button[type="submit"]:hover{
     background-color: #66CCCC; 
     cursor: pointer;  
     transition: ease-in-out 0.3s;
@@ -104,8 +126,8 @@ section {
 
 label {
     font-family: 'Lexend', sans-serif;
-    display: inline;
+    display: block;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
     padding: 5px;
 }
