@@ -1,121 +1,152 @@
-let players = [{
-placement: "1",
-username: "Lucas",
-wins: 50,
-winRatio: "3.0",
-elo: 1400,
-status: true
-},
-{
-placement: "2",
-username: "Jens",
-wins: 50,
-winRatio: "3.0",
-elo: 1400,
-status: true
-},
-{
-placement: "3",
-username: "Oliver",
-wins: 100,
-winRatio: "3.0",
-elo: 1300,
-status: false
-},
-{
-placement: "4",
-username: "Henningsson",
-wins: 60,
-winRatio: "3.0",
-elo: 1200,
-status: true
-},
-{
-placement: "5",
-username: "Felix",
-wins: 40,
-winRatio: "3.0",
-elo: 1200,
-status: false
-},
-{
-placement: "6",
-username: "Hamza",
-wins: 27,
-winRatio: "4.0",
-elo: 1500,
-status: true
-},
-{
-placement: "7",
-username: "Hampus",
-wins: 60,
-winRatio: "3.0",
-elo: 1200,
-status: false
-},
-{
-placement: "8",
-username: "David",
-wins: 60,
-winRatio: "3.0",
-elo: 1200,
-status: false
-},
-{
-placement: "9",
-username: "Martin",
-wins: 60,
-winRatio: "3.0",
-elo: 1200,
-status: true
-},
-{
-placement: "10",
-username: "Jesper",
-wins: 60,
-winRatio: "3.0",
-elo: 1200,
-status: true
-},
-{
-placement: "11",
-username: "Simone",
-wins: 60,
-winRatio: "3.0",
-elo: 1200,
-status: true
-},
-{
-placement: "12",
-username: "Carlos",
-wins: 60,
-winRatio: "3.0",
-elo: 1200,
-status: true
-},
-];
+// let players = [{
+// placement: "1",
+// username: "Lucas",
+// wins: 50,
+// winRatio: "3.0",
+// elo: 1400,
+// status: true
+// },
+// {
+// placement: "2",
+// username: "Jens",
+// wins: 50,
+// winRatio: "3.0",
+// elo: 1400,
+// status: true
+// },
+// {
+// placement: "3",
+// username: "Oliver",
+// wins: 100,
+// winRatio: "3.0",
+// elo: 1300,
+// status: false
+// },
+// {
+// placement: "4",
+// username: "Henningsson",
+// wins: 60,
+// winRatio: "3.0",
+// elo: 1200,
+// status: true
+// },
+// {
+// placement: "5",
+// username: "Felix",
+// wins: 40,
+// winRatio: "3.0",
+// elo: 1200,
+// status: false
+// },
+// {
+// placement: "6",
+// username: "Hamza",
+// wins: 27,
+// winRatio: "4.0",
+// elo: 1500,
+// status: true
+// },
+// {
+// placement: "7",
+// username: "Hampus",
+// wins: 60,
+// winRatio: "3.0",
+// elo: 1200,
+// status: false
+// },
+// {
+// placement: "8",
+// username: "David",
+// wins: 60,
+// winRatio: "3.0",
+// elo: 1200,
+// status: false
+// },
+// {
+// placement: "9",
+// username: "Martin",
+// wins: 60,
+// winRatio: "3.0",
+// elo: 1200,
+// status: true
+// },
+// {
+// placement: "10",
+// username: "Jesper",
+// wins: 60,
+// winRatio: "3.0",
+// elo: 1200,
+// status: true
+// },
+// {
+// placement: "11",
+// username: "Simone",
+// wins: 60,
+// winRatio: "3.0",
+// elo: 1200,
+// status: true
+// },
+// {
+// placement: "12",
+// username: "Carlos",
+// wins: 60,
+// winRatio: "3.0",
+// elo: 1200,
+// status: true
+// },
+// ];
 
-fetch('/leaderboard/score')
-  .then(response => response.json())
-  .then(players => {
-    const ladder = document.getElementById('ladder');
-    ladder.innerHTML = '';
+// fetch('/leaderboard')
+//   .then(response => response.json())
+//   .then(players => {
+//     const ladder = document.getElementById('ladder');
+//     ladder.innerHTML = '';
 
-    players.forEach(player => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${player.placement}</td>
-        <td>${player.username}</td>
-        <td>${player.wins}</td>
-        <td>${player.winRatio}</td>
-        <td>${player.elo}</td>
-        <td><button>Play</button></td>
-      `;
-      ladder.appendChild(row);
-    });
-  });
+//     players.forEach(player => {
+//       const row = document.createElement('tr');
+//       row.innerHTML = `
+//         <td>${player.placement}</td>
+//         <td>${player.username}</td>
+//         <td>${player.wins}</td>
+//         <td>${player.winRatio}</td>
+//         <td>${player.elo}</td>
+//         <td><button>Play</button></td>
+//       `;
+//       ladder.appendChild(row);
+//     });
+//   });
 
+
+async function fetchLeaderboardData() {
+    try {
+      const response = await fetch('/leaderboard', {
+        method: 'GET'
+      });
+      const players = await response.json();
+  
+      const leaderboardTable = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
+      leaderboardTable.innerHTML = '';
+  
+      players.forEach(player => {
+        const row = leaderboardTable.insertRow();
+        const usernameCell = row.insertCell();
+        usernameCell.innerHTML = player.username;
+        const eloCell = row.insertCell();
+        eloCell.innerHTML = player.elo;
+        const winsCell = row.insertCell();
+        winsCell.innerHTML = player.wins;
+        const lossesCell = row.insertCell();
+        lossesCell.innerHTML = player.losses;
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  fetchLeaderboardData();
+  
+
+  
 
 function ladder(players) {
     var table = "<tbody>";

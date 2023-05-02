@@ -119,18 +119,3 @@ app.get('/leaderboard/score', async (req, res) => {
    res.end();
 })
 
-app.get('/', (req, res) => {
-  db.query('SELECT * FROM leaderboard', (error, results) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send('Internal Server Error');
-    } else {
-      let table = "<table><thead><tr><th>Server ID</th><th>Player ID</th><th>Elo</th><th>Wins</th></tr></thead><tbody>";
-      results.forEach(result => {
-        table += `<tr><td>${result.server_id}</td><td>${result.player_id}</td><td>${result.elo}</td><td>${result.wins}</td></tr>`;
-      });
-      table += "</tbody></table>";
-      res.status(200).send(table);
-    }
-  });
-});
