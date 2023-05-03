@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const http = require('http');
 const fs = require('fs');
+const fileUpload = require('express-fileupload');
 const { Pool } = require('pg');
 const pool = new Pool({
     user: 'an7066',
@@ -18,6 +19,7 @@ const port = 3000;
 //Declares logged in user
 let loggedInUserId;
 
+app.use(fileUpload());
 app.use(express.static('images'));
 app.use(express.static('public'));
 app.use(express.static('views'));
@@ -100,10 +102,9 @@ app.post('/createOrg', async (req, res) => {
   //Function to create organization
   const { tableName, tableDescription } = req.body;
   const client = await pool.connect();
+  const imageFile = req.files.image;
   try {
     await client.query('BEGIN');
-
-    const imageFile = req.files.image;
 
     const timestamp = new Date().getTime();
     const filename = `${timestamp}_${imageFile.name}`;

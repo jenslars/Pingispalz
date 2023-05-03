@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="org.css" type="text/css">
+    <title>create an org</title>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <aside>
+                <!-- pingis logo -->
+                <nav>
+                    <input class="searchBar" type="text" placeholder="Search...">
+                    <ul>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="friends.html">Friends</a></li>
+                        <li><a href="games.html">Games</a></li>
+                        <li><a href="tournament.html">Tournament</a></li>
+                        <li><a href="clubs.html">Clubs</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <h1 id="itemCenter">Create New Organization</h1>
+            <section>
+                <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
+                    <label for="tableName"> Organization name:
+                        <input id="tableName" name="tableName" type="text" placeholder="org name" required>
+                    </label><br>
+                    <label for="tableDescription"> Organization Description:
+                        <textarea name="tableDescription" id="tableDescription" cols="30" rows="10"></textarea>
+                    </label><br>
+                    <label for="image"> Image for organization:
+                        <input type="file" name="image" id="image" required>
+                    </label>
+                    <button type="submit">Create org</button>
+                    <p id="error-message"></p>
+                </form>                
+            </section>
+        </div>
+    </main>
+    <script>
+        function createOrg() {
+            var tableName = document.getElementById("tableName").value;
+            var tableDescription = document.getElementById("tableDescription").value;
+            //const isPublic = document.querySelector('input[name="openOrInvite"]:checked').value;
+            tableName = tableName.replace(/\s+/g, '_');
+            console.log("We are in the createOrg function script")
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/createOrg", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        document.getElementById("error-message").innerHTML = "Organization created successfully";
+                    } else {
+                        document.getElementById("error-message").innerHTML = "Looks like you missed something, try again.";
+                    }
+                } else {
+                    document.getElementById("error-message").innerHTML = "Something went wrong while creating the organization";
+                }
+            };
+            xhr.send(JSON.stringify({
+                tableName: tableName,
+                tableDescription: tableDescription,
+                // isPublic: isPublic
+            }));
+        }
+    </script>
+</body>
+</html>
