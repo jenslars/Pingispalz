@@ -1,25 +1,18 @@
 let playerData;
 
 function testLoadLeaderboard() {
-    // Code to fetch player data from the server
+    
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 playerData = JSON.parse(xhr.response);
-                // Code to populate the leaderboard table with player data
+                
             } else {
-                // Handle error
+               
             }
         }
     };
 }
-
-function someOtherFunction() {
-    // Use the player data stored in the global variable
-    console.log(playerData);
-}
-
-
 
 function ladder(players) {
     var table = "<tbody>";
