@@ -57,7 +57,7 @@
         </div>
         <script>
             //Laddar in användare från databas in i leaderboarden
-            function loadLeaderboard() {
+            function testLoadLeaderboard() {
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", "/leaderboard/score")
                 xhr.setRequestHeader('Content-Type', 'application/json');
@@ -91,6 +91,7 @@
             }
             testLoadLeaderboard()
         </script>
+        <script src="leaderboardScript.js"></script>
     </div>
 </body>
 </html>
