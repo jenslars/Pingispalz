@@ -47,9 +47,14 @@
                 <div id="join-club-success"></div>
                 <div id="join-club-error"></div>
             </form>
-                <button href="/findclub" id="findclub"></button>
-                <p>Don't know a clubs name?</p>
-                <p>Check out the current Clubs in Club Discovery</p>
+            <div id="findclub" role="button" onclick="window.location.href='/findclub'">
+                <img src="compasswhite.png" id="compasswhite">
+                <div id="findclubtext">
+                    <h2>Don't know a clubs name?</h2>
+                    <p>Check out the current Clubs in Club Discovery</p>
+                </div>
+                <img src="right-arrowblack.png" id="rightarrowblack">
+            </div>
             <footer id="popupfooter">
             <p>Want to create you own club?</p>
             <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>

@@ -215,6 +215,65 @@ position: sticky;
     border-radius: 14px;
 }
 
+#findclub{
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    padding: 0px 10px 10px 10px;
+}
+
+#findclubtext{
+    display: flex;
+    flex-direction: column;
+}
+
+#findclubtext h2{
+    text-align: unset;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-bottom: 0px;
+}
+
+#findclubtext p{
+    color: #555557;
+    text-align: unset;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+#rightarrowblack{
+    height: 30px;
+    width: 30px;
+    margin-top: 6%;
+}
+
+#findclub #compasswhite{
+    height: 40px;
+    width: 40px;
+    padding: 5px;
+    background-color: #66cccc;
+    background-repeat: no-repeat;
+    border-radius: 100px;
+    margin-top: auto;
+}
+
+#findclub:hover #compasswhite{
+    border-radius: 14px;
+    transition: 0.4s;
+}
+
+#findclub:hover{
+    background-color: #e2e2e2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: 0.4s;
+}
+
+#findserverpopup:hover {
+    transition: 0.4s;
+    border-radius: 14px;
+}
+
 #findserver {
     height: 50px;
     width: 50px;
