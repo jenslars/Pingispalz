@@ -1,31 +1,24 @@
+let playerData;
 
+function testLoadLeaderboard() {
+    // Code to fetch player data from the server
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                playerData = JSON.parse(xhr.response);
+                // Code to populate the leaderboard table with player data
+            } else {
+                // Handle error
+            }
+        }
+    };
+}
 
-  $(document).ready(function(){
-  document.getElementById('test1').innerHTML = 'hello world';
-  console.log('hej världen')
-  fetch('/leaderboard/score')
-  .then(response => response.json())
-  .then(players => {
-    const ladder = document.getElementById('leaderboard');
-    ladder.innerHTML = '';
+function someOtherFunction() {
+    // Use the player data stored in the global variable
+    console.log(playerData);
+}
 
-    players.forEach(player => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${player.placement}</td>
-        <td>${player.username}</td>
-        <td>${player.wins}</td>
-        <td>${player.winRatio}</td>
-        <td>${player.elo}</td>
-        <td><button>Play</button></td>
-      `;
-      ladder.appendChild(row);
-    });
-  });
-
-  return 'hello world'
-  
- });
 
 
 function ladder(players) {
@@ -50,29 +43,6 @@ function ladder(players) {
     table += "</tbody>";
     document.getElementById("ladder").innerHTML = table;
     } 
-
-// function ladder(players) {
-// var table = "<tbody>";
-// for (let i = 0; i < players.length ; i++) {
-
-//         table += "<tr>";
-//         table += "<td>" + players[i].placement + "</td>";
-//         table += "<td>" + players[i].username + "</td>";
-//         table += "<td>" + players[i].wins + "</td>";
-//         table += "<td>" + players[i].winRatio + "</td>";
-//         table += "<td>" + players[i].elo + "</td>";
-//         if (players[i].status === true) {
-//             table += "<td>" + '<span id="readyDot" title="Available">' + "</td>";
-//         }
-//         else {
-//             table += "<td>" + '<span id="notReadyDot" title="Away">' + "</td>";
-//         }
-//         table += "<td>" + '<span id="playIcon">' + "Play" + "</span>" + "</td>";
-//         table += "</tr>"
-// }
-// table += "</tbody>";
-// document.getElementById("ladder").innerHTML = table;
-// } 
 
 ladder(players);
 

@@ -57,6 +57,7 @@
         </div>
         <script>
             //Laddar in användare från databas in i leaderboarden
+            let playerData;
             function testLoadLeaderboard() {
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", "/leaderboard/score")
@@ -67,6 +68,8 @@
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
                             const response = xhr.response
+                            players = JSON.parse(response);
+                            assignPlacements(playerData);
                             console.log(xhr)
                             const ladder = document.getElementById('leaderboard');
                             ladder.innerHTML = '';
@@ -90,6 +93,64 @@
             };
             }
             testLoadLeaderboard()
+                function topPlayers(playerData) {
+                const top1 = players.find(player => player.placement === "1");
+                const top2 = players.find(player => player.placement === "2");
+                const top3 = players.find(player => player.placement === "3");
+
+                const top1Div = `
+                    <img class="crown" src="Crown.png">
+                    <img class="playerProfilePhoto" src="mightyloaf.png">
+                    <p>${top1.username}</p>
+                    <p>#${top1.placement}</p>
+                `;
+
+                const top2Div = `
+                    <img class="playerProfilePhoto" src="akwardcat.jpg">
+                    <p>${top2.username}</p>
+                    <p>#${top2.placement}</p>
+                `;
+
+                const top3Div = `
+                    <img class="playerProfilePhoto" src="akwardcat.jpg">
+                    <p>${top3.username}</p>
+                    <p>#${top3.placement}</p>
+                `;
+
+                document.getElementById("top1").innerHTML = top1Div;
+                document.getElementById("top2").innerHTML = top2Div;
+                document.getElementById("top3").innerHTML = top3Div;
+            }
+
+            function loadLeaderboard() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "/leaderboard/score");
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.send();
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const response = JSON.parse(xhr.response);
+                        topPlayers(response);
+                    }
+                };
+            }
+
+            loadLeaderboard();
+function assignPlacements(playerData) {
+  for (let i = 0; i < players.length; i++) {
+    if (i === 0) {
+      players[i].placement = "1";
+    } else if (i === 1) {
+      players[i].placement = "2";
+    } else if (i === 2) {
+      players[i].placement = "3";
+    } else {
+      players[i].placement = (i + 1).toString();
+    }
+  }
+}
+
         </script>
         <script src="leaderboardScript.js"></script>
     </div>
