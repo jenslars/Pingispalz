@@ -43,8 +43,9 @@
                 <div id="joinformfield">
                     <input type="text" id="join-club-input" placeholder="club#123" required>
                     <button type="submit" id="join-club-button">Join Club</button>
-                    <div id="join-club-error"></div>
                 </div>
+                <div id="join-club-success"></div>
+                <div id="join-club-error"></div>
             </form>
                 <button href="/findclub" id="findclub"></button>
                 <p>Don't know a clubs name?</p>
@@ -81,7 +82,7 @@
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    document.getElementById('join-club-error').innerHTML = 'Successfully joined the club';
+                    document.getElementById('join-club-success').innerHTML = 'Successfully joined the club';
                 } else {
                     document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
                 }

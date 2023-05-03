@@ -53,6 +53,18 @@ transition: 1s;
     outline: none; 
  }
 
+#join-club-error{
+    text-align: center;
+    margin-top: 10px;
+    color: #FF3366;
+}
+
+#join-club-success{
+    text-align: center;
+    margin-top: 10px;
+    color: #5cff33;
+}
+
 #join-club-button{
     font-family: 'Lexend';
     font-style: normal;
