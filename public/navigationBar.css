@@ -88,11 +88,12 @@ transition: 1s;
 }
 
 .sidenav {
-grid-column: 1;
-display: flex;
-flex-direction: column;
-position: sticky;
-background-color:#66cccc;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    background-color:#66cccc;
+
 }
 
 #searchfield{
@@ -234,13 +235,17 @@ body{
 .sidenav a{
     margin-bottom: 40px;
     color: #fff;
-    font-size: 22px;
+    font-size: 4vw;
     margin-left: 5px;
+    
+}
+.sidenav > a > p{
+    font-size: 1.5vw;
 }
 
 #search{
     background-image: url(search.png);
-    background-position: 10px 8px;
+    background-position: center left;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -271,7 +276,7 @@ body{
 
 #home{
     background-image: url(navbarhome.png);
-    background-position: 10px 8px;
+    background-position: center left;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -282,7 +287,7 @@ body{
 
 #leaderboards{
     background-image: url(podium.png);
-    background-position: 10px 8px;
+    background-position: center left;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -303,7 +308,7 @@ body{
 
 #challenges{
     background-image: url(pingpong2.png);
-    background-position: 10px 8px;
+    background-position: center left;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -324,7 +329,7 @@ body{
 
 #profile{
     background-image: url(profile.png);
-    background-position: 10px 8px;
+    background-position: center left;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -348,7 +353,7 @@ h2{
 }
 
 /* Mobile css */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     * {
       box-sizing: border-box;
     }
@@ -364,20 +369,27 @@ h2{
         position: fixed;
         bottom: 0;
         width: 100%;
-        height: 7%;
+        height: 10%;
         display: flex;
         flex-direction: row;
     }
     .sidenav a{
+        height: 50%;
         margin: 0px;
         padding: 0px;
+        margin: auto;
+        justify-content: space-around;
+        text-align: center;
+    } 
+    .sidenav > a > p{
+        font-size: 5vw;
     } 
     #logo {
         display: none;
     }
     #searchfield.active{
-        bottom: 7%;
-        height: 5%;
+        bottom: 10%;
+        height: 8%;
         position: absolute;
         visibility: visible;
         width: 100%;
@@ -387,15 +399,15 @@ h2{
         margin: 0px;
     }
     #searchfield > form > input{
-        width: 90%;
+        width: 100% !important;
         padding: 0px;
         margin: 0px;
-        height: 50px;
+        height: 80px;
         background-image: none;
     }
     #leaderboardoptions.active{
-        bottom: 8%;
-        height: 5%;
+        bottom: 130px;
+        height: 7%;
         position: absolute;
         visibility: visible;
         width: 100%;
@@ -406,8 +418,42 @@ h2{
 
     }
     #leaderboardoptions > button{
+        bottom: 0;
         padding: 0px;
         margin: 0px;
+        height: 80px;
+        width: 80px;
+        background-position: center center;
+    }
+    #home > p{
+        display: none;
+    }
+    #search > p{
+        display: none;
+    }
+    #leaderboards > p{
+        display: none;
+    }
+    #challenges > p{
+        display: none;
+    }
+    #profile > p{
+        display: none;
+    }
+    #home.active > p{
+        display:contents;
+    }
+    #search.active > p{
+        display:contents;
+    }
+    #leaderboards.active > p{
+        display:contents;
+    }
+    #challenges.active > p{
+        display:contents;
+    }
+    #profile.active > p{
+        display:contents;
     }
 
     
