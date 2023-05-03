@@ -37,19 +37,6 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/createorg', (req, res) => {
-  fs.readFile('views/createOrg.html', function(error, data) {
-      if (error) {
-          res.writeHead(404);
-          res.write('Error: File Not Found');
-      } else {
-          res.writeHead(200, {'Content-Type': 'text/html'});
-          res.write(data);
-      }
-      res.end();
-  });
-});
-
 http.createServer(app).listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
@@ -67,7 +54,8 @@ app.post('/register', async (req, res) => {
 
   try {
     await pool.query('SELECT insert_user($1, $2, $3)', [email, username, password])
-    loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
+    userId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
+    loggedInUserId = userId.rows[0].user_id;
     res.sendFile(__dirname + '/views/home.html');
   } catch (err) {
     console.error(err);
@@ -85,7 +73,8 @@ app.post('/login', async (req, res) => {
   
   try {
     const result = await pool.query('SELECT login($1, $2)', [email, password]);
-    loggedInUserId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
+    userId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
+    loggedInUserId = userId.rows[0].user_id;
     const isValidLogin = result.rows[0].login;
     if (isValidLogin) {
       res.sendFile(__dirname + '/views/home.html');
