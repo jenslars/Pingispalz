@@ -30,10 +30,10 @@
             <section>
                 <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
                     <label for="tableName"> Organization name:
-                        <input id="tableName" name="tableName" type="text" placeholder="org name" required>
+                        <input id="tableName" name="tableName" type="text" placeholder="org name" maxlength="25" required>
                     </label><br>
                     <label for="tableDescription"> Organization Description: <br>
-                        <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Describe your organization"></textarea>
+                        <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Describe your organization" maxlength="255"></textarea>
                     </label><br>
                     <label for="image"> Image for organization:
                         <input type="file" name="image" id="image" required>

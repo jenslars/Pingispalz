@@ -23,9 +23,14 @@ body {
     grid-row: 1 ;
 }
 
-#createOrgForm input {
+#createOrgForm textarea:focus {
+    outline: none !important;
+    border:3px solid #66CCCC;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+#createOrgForm #tableName {
     display:block;
-    accent-color: #66cccc;
     border: #FFF none;
     background-color: #66CCCC;
     box-shadow: 2px 2px rgba(0, 0, 0, 0.25);
@@ -34,8 +39,13 @@ body {
     font-size: 16px;
     font-weight: bold;
 }
+#createOrgForm #tableName:focus {
+    outline: none !important;
+    border:3px solid #66CCCC;
+    box-shadow: 0 0 10px #719ECE;
+}
 
-#createOrgForm input[type="radio"]{
+/* #createOrgForm #tableName[type="radio"]{
     display: inline-block;
     width: 20px;
     height: 16px;
@@ -43,7 +53,7 @@ body {
     border-radius: 50%;
     background-color: blue;
     margin-right: 5px;
-}
+} */
 
 #createOrgForm button[type="submit"]{
     margin-top: 45px;
@@ -53,24 +63,22 @@ body {
     padding: 10px;
     height: 40px;
     min-width: 94px;
-    background-color: #ff3366; 
+    background-color: #66CCCC; 
     transition: ease-in-out 0.3s;
+    outline: none !important;
+    border:3px solid #54a7a7;
+    box-shadow: 0 0 10px #719ECE;
 }
-
-input[type="file"] {
-    display: none;
-}
-
-
 
 #createOrgForm textarea {
-    accent-color: #66cccc;
     border: #FFF none;
-    background-color: #66CCCC;
-    box-shadow: 2px 2px rgba(0, 0, 0, 0.25);
-    height: 40px;
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.25);
+    height: 150px;
+    width: 75%;
     min-height: 40px;
-    min-width: 230px;
+    min-width: 60%;
+    max-width: 75%;
+    max-height: 150px;
     padding: 5px;
     padding-top: 8px;
     font-size: 16px;
@@ -78,9 +86,13 @@ input[type="file"] {
 }
 
 #createOrgForm button[type="submit"]:hover{
-    background-color: #66CCCC; 
+    background-color: #8dd1d1; 
+    color: #fff;
     cursor: pointer;  
     transition: ease-in-out 0.3s;
+    outline: none !important;
+    border:3px solid #54a7a7;
+    box-shadow: 0 0 10px #719ECE;
 }
 
 .searchBar {
@@ -129,5 +141,5 @@ label {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    padding: 5px;
+    padding: 7px;
 }
