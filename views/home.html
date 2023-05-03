@@ -35,11 +35,20 @@
             <h2>test</h2>
         </div>
         <div id="leaderboardpopup">
-            <header id="popupheader">
             <button id="exitpopup" onclick="exitpopup()"></button>
-            <h1>Add a Club</h1>
-            </header>
-            <p>Join a club by pressing the button next to the server you would like to join.</p>
+            <h1>Join a Club</h1>
+            <p>Enter a clubs name below to join their leaderboard.</p>
+            <form id="join-club-form">
+                <label>Club name</label>
+                <div id="joinformfield">
+                    <input type="text" id="join-club-input" placeholder="club#123" required>
+                    <button type="submit" id="join-club-button">Join Club</button>
+                    <div id="join-club-error"></div>
+                </div>
+            </form>
+                <button href="/findclub" id="findclub"></button>
+                <p>Don't know a clubs name?</p>
+                <p>Check out the current Clubs in Club Discovery</p>
             <footer id="popupfooter">
             <p>Want to create you own club?</p>
             <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
@@ -62,7 +71,28 @@
         gridcontainerLink.classList.remove('active');   
         }
 
+        /* Sends Join a Club form to backend */
+        document.getElementById('join-club-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const club = document.getElementById('join-club-input').value;
 
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/joinClub');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('join-club-error').innerHTML = 'Successfully joined the club';
+                } else {
+                    document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+                }
+            };
+
+            xhr.onerror = function() {
+                document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+            };
+
+            xhr.send(JSON.stringify({ club }));
+        });
         /* desktop navbar function */
         var homeLink = document.getElementById('home');
         var searchLink = document.getElementById('search');

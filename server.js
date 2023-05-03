@@ -135,6 +135,24 @@ app.post('/createOrg', async (req, res) => {
   }
 });
 
+app.post('/joinClub', async (req, res) => {
+  const { club } = req.body;
+
+  try {
+      const leaderboardId = await pool.query('SELECT id from leaderboards WHERE leaderboard_name = $1', [club]);
+      const selectedLeadboardId = leaderboardId.rows[0].id;
+      await pool.query(`
+          INSERT into "${club}" (server_id, player_id, elo, wins, losses, is_admin)
+          VALUES ($1, $2, $3, $4, $5, $6)
+      `, [selectedLeadboardId, loggedInUserId, 0, 0, 0, false]);
+
+      res.status(200).send({ message: 'Successfully joined the club' });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send({ message: 'Unable to join the club' });
+  }
+});
+
 app.get('/:page', (req, res) => {
   const page = req.params.page;
   const filePath = path.join(__dirname, 'views', `${page}.html`);

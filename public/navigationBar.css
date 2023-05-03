@@ -19,7 +19,7 @@ transition: 1s;
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
-    padding: 50px 25px 50px 25px;
+    padding: 30px 25px 50px 25px;
     transition: 1s;
     border-radius: 10px;
 }
@@ -32,17 +32,45 @@ transition: 1s;
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
-    padding: 50px 25px 50px 25px;
+    padding: 30px 25px 50px 25px;
     transition: 1s;
 }
 
-#popupheader{
-    display: flex;
-    flex-direction: row;
+#leaderboardpopup h1{
+    text-align: center;
 }
 
-#popupheader h1{
-    margin-left: 28%;
+#join-club-input{
+   border: none; 
+   background-color: #dbdbdb;
+   font-family: 'Lexend';
+   padding: 0px 20% 0px 10px;
+   border-radius: 5px;
+   font-size: 15px;
+}
+
+#join-club-input:focus{
+    outline: none; 
+ }
+
+#join-club-button{
+    font-family: 'Lexend';
+    font-style: normal;
+    color: #fff;
+    background-color: #66cccc;
+    font-size: 18px;
+    padding: 10px 10px 10px 10px;
+    display: block;
+    text-align: center;
+    border: none;
+    margin: auto;
+    border-radius: 5px;
+}
+
+#join-club-button:hover{
+    background-color: #54a8a8;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
 }
 
 #leaderboardpopup p{
@@ -54,6 +82,11 @@ transition: 1s;
 
 #popupfooter{
     margin-top: 50px;
+}
+
+#joinformfield{
+    display: flex;
+    flex-direction: row;
 }
 
 #createorg-btn{
@@ -81,7 +114,6 @@ transition: 1s;
     background-image: url(returnarrowblack.png);
     background-size: 100%;
     background-repeat: no-repeat;
-    background-position: 9px 9px;
     border: none;
     padding: 20px;
     background-color: #fff;
@@ -195,7 +227,6 @@ position: sticky;
 #searchfield.active input{
     width: 70%;
     transition: 0.7s;
-    
 }
 
 #content {
