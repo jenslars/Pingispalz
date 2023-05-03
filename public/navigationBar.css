@@ -92,6 +92,7 @@ grid-column: 1;
 display: flex;
 flex-direction: column;
 position: sticky;
+background-color:#66cccc;
 }
 
 #searchfield{
@@ -211,7 +212,6 @@ background-color: #fff;
 html{
     font-family: 'Lexend';
     font-style: normal;
-    background-color: #66cccc;
     overflow: hidden;
 }
 
@@ -352,4 +352,64 @@ h2{
     * {
       box-sizing: border-box;
     }
+    .grid-container {
+        display: grid;
+        grid-template-columns: 0;
+        grid-template-rows: 10fr;
+        height: 200vh;
+    }
+    .sidenav {
+        background-color: #66cccc;
+        overflow: hidden;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 7%;
+        display: flex;
+        flex-direction: row;
+    }
+    .sidenav a{
+        margin: 0px;
+        padding: 0px;
+    } 
+    #logo {
+        display: none;
+    }
+    #searchfield.active{
+        bottom: 7%;
+        height: 5%;
+        position: absolute;
+        visibility: visible;
+        width: 100%;
+        transition: 1s;
+        border: 1px solid #ebebeb;
+        padding: 0px;
+        margin: 0px;
+    }
+    #searchfield > form > input{
+        width: 90%;
+        padding: 0px;
+        margin: 0px;
+        height: 50px;
+        background-image: none;
+    }
+    #leaderboardoptions.active{
+        bottom: 8%;
+        height: 5%;
+        position: absolute;
+        visibility: visible;
+        width: 100%;
+        transition: 1s;
+        border-right: 1px solid #ebebeb;
+        padding: 0px;
+        margin: auto;
+
+    }
+    #leaderboardoptions > button{
+        padding: 0px;
+        margin: 0px;
+    }
+
+    
+    
 }
