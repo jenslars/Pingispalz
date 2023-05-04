@@ -85,6 +85,13 @@
                                 <td>${player.status}</td>
                                 <td><button>Play</button></td>
                             `;
+                            if (player.losses) {
+                                const winLossRatio = player.wins / player.losses;
+                                row.children[3].textContent = winLossRatio;
+                            }
+                            else {
+                                row.children[3].textContent = "n/a"
+                            }
                             ladder.appendChild(row);
                             });
                 } else {
