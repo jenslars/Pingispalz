@@ -139,19 +139,24 @@ app.post('/joinClub', async (req, res) => {
   const { club } = req.body;
 
   try {
-      const leaderboardId = await pool.query('SELECT id from leaderboards WHERE leaderboard_name = $1', [club]);
-      const selectedLeadboardId = leaderboardId.rows[0].id;
-      await pool.query(`
-          INSERT into "${club}" (server_id, player_id, elo, wins, losses, is_admin)
-          VALUES ($1, $2, $3, $4, $5, $6)
-      `, [selectedLeadboardId, loggedInUserId, 0, 0, 0, false]);
+    const leaderboardId = await pool.query(`SELECT server_id FROM "${club}" ORDER BY server_id ASC LIMIT 1 OFFSET 0`);
+    const selectedLeadboardId = leaderboardId.rows[0].server_id;
+    await pool.query(`
+      INSERT into "${club}" (server_id, player_id, elo, wins, losses, is_admin)
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `, [selectedLeadboardId, loggedInUserId, 0, 0, 0, false]);
+    await pool.query(`
+      INSERT into users_in_leaderboards (user_id, leaderboard_id)
+      VALUES ($1, $2)
+    `, [loggedInUserId, selectedLeadboardId]);
 
-      res.status(200).send({ message: 'Successfully joined the club' });
+    res.status(200).send({ message: 'Successfully joined the club' });
   } catch (err) {
-      console.error(err);
-      res.status(500).send({ message: 'Unable to join the club' });
+    console.error(err);
+    res.status(500).send({ message: 'Unable to join the club' });
   }
 });
+
 
 app.get('/:page', (req, res) => {
   const page = req.params.page;
