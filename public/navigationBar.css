@@ -93,6 +93,7 @@ transition: 1s;
     flex-direction: column;
     position: sticky;
     background-color:#66cccc;
+    
 
 }
 
@@ -237,15 +238,18 @@ body{
     color: #fff;
     font-size: 4vw;
     margin-left: 5px;
+
+    
     
 }
 .sidenav > a > p{
-    font-size: 1.5vw;
+    font-size: 1vw;
+    text-align: center;
 }
 
 #search{
     background-image: url(search.png);
-    background-position: center left;
+    background-position: center left 10%;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -272,11 +276,12 @@ body{
     background-size: 17% ;
     width: 60%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    
 }
 
 #home{
     background-image: url(navbarhome.png);
-    background-position: center left;
+    background-position: center left 10%;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -287,7 +292,7 @@ body{
 
 #leaderboards{
     background-image: url(podium.png);
-    background-position: center left;
+    background-position: center left 10%;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -308,7 +313,7 @@ body{
 
 #challenges{
     background-image: url(pingpong2.png);
-    background-position: center left;
+    background-position: center left 10%;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -329,7 +334,7 @@ body{
 
 #profile{
     background-image: url(profile.png);
-    background-position: center left;
+    background-position: center left 10%;
     background-repeat: no-repeat;
     background-size: 25% ;
     padding: 10px 5px 10px 50px;
@@ -389,7 +394,7 @@ h2{
     }
     #searchfield.active{
         bottom: 10%;
-        height: 8%;
+        height: 6%;
         position: absolute;
         visibility: visible;
         width: 100%;
@@ -404,9 +409,10 @@ h2{
         margin: 0px;
         height: 80px;
         background-image: none;
+        font-size: 40px;
     }
     #leaderboardoptions.active{
-        bottom: 130px;
+        bottom: 135px;
         height: 7%;
         position: absolute;
         visibility: visible;
