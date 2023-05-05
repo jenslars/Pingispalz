@@ -23,6 +23,8 @@ app.use(fileUpload());
 app.use(express.static('images'));
 app.use(express.static('public'));
 app.use(express.static('views'));
+app.use(express.static('organisation_images'));
+
 
 app.get('/', (req, res) => {
   fs.readFile('views/index.html', function(error, data) {
@@ -160,23 +162,18 @@ app.post('/joinClub', async (req, res) => {
 app.get('/clubLinks', async (req, res) => {
   //Function to send users club links
   try {
-    // Retrieve the leaderboard IDs that the user is registered in
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
-    
-    // Retrieve the leaderboard names and images for the retrieved IDs
     const leaderboards = await Promise.all(leaderboardIds.rows.map(async ({ leaderboard_id }) => {
-      const result = await pool.query('SELECT leaderboard_name, leaderboard_image FROM leaderboards WHERE leaderboard_id = $1', [leaderboard_id]);
+      const result = await pool.query('SELECT id, leaderboard_name, leaderboard_image FROM leaderboards WHERE id = $1', [leaderboard_id]);
       return result.rows[0];
     }));
     
-    // Send the retrieved leaderboards as a JSON array
     res.status(200).send(leaderboards);
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Error: Internal server error' });
   }
 });
-
 
 app.get('/:page', (req, res) => {
   const page = req.params.page;
