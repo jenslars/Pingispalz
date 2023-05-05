@@ -17,23 +17,9 @@ body {
     padding-top: 0px;
     
 }
-.sidebar { 
-    width: 15%;
-    height: 100%;
+.sidenav { 
     grid-area: menu;
-    background-color: #66CCCC;
-    position: fixed;
-    word-wrap: break-word;
     
-}
-.sidebar  li {
-    padding: 5px;
-    display: block;
-}
-
-.sidebar > h3 {
-    color: #fff;
-    padding-left: 30px;
 }
 #ladder { 
     grid-area: ladder; 
@@ -42,7 +28,7 @@ body {
     grid-area: footer;
     
 }
-.grid {
+.grid-container {
   display: grid;
   grid-template-columns: 1fr 6fr;
   grid-template-areas:
