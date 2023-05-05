@@ -25,7 +25,6 @@ app.use(express.static('public'));
 app.use(express.static('views'));
 app.use(express.static('organisation_images'));
 
-
 app.get('/', (req, res) => {
   fs.readFile('views/index.html', function(error, data) {
     if (error) {
@@ -164,7 +163,7 @@ app.get('/clubLinks', async (req, res) => {
   try {
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
     const leaderboards = await Promise.all(leaderboardIds.rows.map(async ({ leaderboard_id }) => {
-      const result = await pool.query('SELECT id, leaderboard_name, leaderboard_image FROM leaderboards WHERE id = $1', [leaderboard_id]);
+      const result = await pool.query('SELECT id, leaderboard_name, COALESCE(leaderboard_image, \'stockclubimage\') AS leaderboard_image FROM leaderboards WHERE id = $1', [leaderboard_id]);
       return result.rows[0];
     }));
     

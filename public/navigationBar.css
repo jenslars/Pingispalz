@@ -188,11 +188,22 @@ position: sticky;
     height: 100vh;
     position: absolute;
     visibility: visible;
-    width: 6%;
+    width: 80px;
     transition: 1s;
     border-right: 1px solid #ebebeb;
 }
 
+.club-link img{
+    height: 50px;
+    width: 50px;
+    border-radius: 100px;
+    margin-left: 20%;
+}
+
+.club-link:hover img{
+    transition: 0.4s;
+    border-radius: 14px;
+}
 
 #addserver{
     height: 50px;
@@ -301,8 +312,8 @@ position: sticky;
 }
 
 #content {
-grid-column: 2;
-background-color: #fff;
+    grid-column: 2;
+    background-color: #fff;
 }
 
 #content.active {
