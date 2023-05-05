@@ -198,6 +198,8 @@ position: sticky;
     width: 50px;
     border-radius: 100px;
     margin-left: 20%;
+    background-color: #93b8b8;
+    border: none;
 }
 
 .club-link:hover img{
