@@ -93,6 +93,7 @@ app.post('/createOrg', async (req, res) => {
   const { tableName, tableDescription } = req.body;
   const client = await pool.connect();
   const imageFile = req.files.image;
+  let leaderboardId;
   try {
     await client.query('BEGIN');
 
@@ -108,7 +109,7 @@ app.post('/createOrg', async (req, res) => {
       RETURNING id
     `, [tableName, tableDescription, loggedInUserId, filename]);
 
-    const leaderboardId = leaderboardInsertResult.rows[0].id;
+    leaderboardId = leaderboardInsertResult.rows[0].id;
     const newTableName = `${tableName}#${leaderboardId}`;
 
     await client.query(`
@@ -132,8 +133,20 @@ app.post('/createOrg', async (req, res) => {
     await client.query('ROLLBACK');
     throw e;
   } finally {
-    client.release();
+    try { 
+      await pool.query(`
+          INSERT into users_in_leaderboards (user_id, leaderboard_id)
+          VALUES ($1, $2)
+        `, [loggedInUserId, leaderboardId]);
+      await client.query('COMMIT');
+    } catch (e) {
+      await client.query('ROLLBACK');
+      throw e;
+    } finally {
+      client.release();
+    }
   }
+
 });
 
 app.post('/joinClub', async (req, res) => {
