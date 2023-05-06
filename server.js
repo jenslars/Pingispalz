@@ -132,22 +132,20 @@ app.post('/createOrg', async (req, res) => {
   } catch (e) {
     await client.query('ROLLBACK');
     throw e;
+  } try { 
+    await pool.query(`
+        INSERT into users_in_leaderboards (user_id, leaderboard_id)
+        VALUES ($1, $2)
+      `, [loggedInUserId, leaderboardId]);
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
   } finally {
-    try { 
-      await pool.query(`
-          INSERT into users_in_leaderboards (user_id, leaderboard_id)
-          VALUES ($1, $2)
-        `, [loggedInUserId, leaderboardId]);
-      await client.query('COMMIT');
-    } catch (e) {
-      await client.query('ROLLBACK');
-      throw e;
-    } finally {
-      client.release();
-    }
+    client.release();
   }
-
 });
+
 
 app.post('/joinClub', async (req, res) => {
   const { club } = req.body;
