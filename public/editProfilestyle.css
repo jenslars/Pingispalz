@@ -458,8 +458,103 @@ body{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-h2{
-    text-align: center;
+/* editProfile css */
+#headerbackground{
+    height: 200px;
+    background: linear-gradient(180deg, rgba(102, 204, 204, 0.83) 0%, rgba(102, 204, 204, 0.21) 100%);
+}
+
+#headercontent{
+    display: flex;
+    flex-direction: row;
+}
+
+#headercontent p{
+    margin-left: 20px;
+    font-size: 25px;
+}
+
+#discorddetails{
+    display: flex;
+    flex-direction: row;
+    background-color: #7c85f0;
+    position: relative;
+    color: #fff;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-top: -20px;
+}
+
+#discorddetails p{
+    font-size: 12px;
+    margin: auto 10px auto 10px;
+}
+
+#discordlogo{
+    background-color: #5865F2;
+    height: 20px;
+    width: auto;
+    padding: 10px 6px 10px 6px;
+    border-radius: 10px;
+}
+
+#profile-image{
+    margin-top: -40px;
+    margin-left: 50px;
+    position: relative;
+}
+
+#contentsections{
+    display: flex;
+    flex-direction: row;
+}
+
+#contentleft{
+    display: flex;
+    flex-direction: column;
+}
+
+
+#profile-card{
+    margin: auto;
+    background-color: #f2f2f2;
+    height: 100vh;
+}
+
+#about{
+    background-color: #fff;
+    width: 500px;
+    height: 200px;
+    margin: 20px 50px 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#about p{
+    margin-left: 20px;
+    
+}
+
+#recentgames{
+    background-color: #fff;
+    width: 400px;
+    height: 450px;
+    margin: 20px auto 20px auto ;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#achievements{
+    background-color: #fff;
+    width: 500px;
+    height: 200px;
+    margin: 20px 20px 20px 50px ;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#achievements p{
+    margin-left: 20px;
 }
 
 /* Mobile css */
