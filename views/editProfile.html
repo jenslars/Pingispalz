@@ -94,13 +94,14 @@
             <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
             </footer>
         </div>
-        <div id="addProfilePicturePopup">
-            <h1>Select an image</h1>
-            <button id="exitpopup"></button>
-            <form>
-                <input type="file" name="image" id="image" required>
-            </form>
-        </div>
+        
+    </div>
+    <div id="addProfilePicturePopup">
+        <h1>Select an image</h1>
+        <button id="exitpopup" onclick="exitAddProfilePicturePopup()"></button>
+        <form>
+            <input type="file" name="image" id="image" required>
+        </form>
     </div>
     <script>
           // Get the div where the links are displayed
@@ -129,10 +130,10 @@
         }
 
         function exitAddProfilePicturePopup() {
-        var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+        var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup');
         var gridcontainerLink = document.getElementById('blur');
-        leaderboardpopupDiv.classList.add('active');
-        gridcontainerLink.classList.add('active');
+        addProfilePicturePopupDiv.classList.remove('active');
+        gridcontainerLink.classList.remove('active');
         }
 
 

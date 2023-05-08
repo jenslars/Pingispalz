@@ -7,8 +7,13 @@
   }
 
 #blur.active > *:not(#leaderboardpopup) {
-filter: blur(2px);
-transition: 1s;
+    filter: blur(2px);
+    transition: 1s;
+}
+
+#blur2.active > *:not(#addProfilePicturePopup) {
+    filter: blur(2px);
+    transition: 1s;
 }
 
 #leaderboardpopup{
