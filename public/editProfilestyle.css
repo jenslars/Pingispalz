@@ -532,7 +532,11 @@ body{
 
 #about p{
     margin-left: 20px;
-    
+}
+
+#aboutheader{
+    display: flex;
+    flex-direction: row;
 }
 
 #recentgames{
@@ -547,10 +551,12 @@ body{
 .editButton{
     height: 30px;
     width: 30px;
-    background-image: url(editwriting.png);
+    background-image: url(edit.png);
     background-size: 30px;
     background-repeat: no-repeat;
     border: none;
+    margin-left: 340px;
+    margin-top: 10px;
 }
 
 #achievements{
