@@ -549,14 +549,41 @@ body{
 }
 
 .editButton{
+    font-size: 18px;
+    font-weight: 600;
     height: 30px;
     width: 30px;
-    background-image: url(edit.png);
-    background-size: 30px;
+    background-image: url(pencil.png);
+    background-size: 20px;
     background-repeat: no-repeat;
     border: none;
-    margin-left: 340px;
+    margin-left: 300px;
     margin-top: 10px;
+    font-family: 'Lexend';
+    padding-right: 60px;
+    background-position: 45px 4px;
+}
+
+#changeProfileImage{
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    background-image: url(add-image-white.png);
+    background-color: #66cccc;
+    background-size: 32px;
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 100px;
+    background-position: 6px 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-left: 165px;
+    margin-top: 70px;
+    transition: 0.5s;
+}
+
+#changeProfileImage:hover{
+    transition: 0.5s;
+    border-radius: 10px;
 }
 
 #achievements{
@@ -570,6 +597,31 @@ body{
 
 #achievements p{
     margin-left: 20px;
+}
+
+#addProfilePicturePopup{
+    visibility: hidden;
+    position: absolute;
+    background-color: #fff;
+    top: -20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
+    border-radius: 10px;
+}
+
+#addProfilePicturePopup.active{
+    visibility: visible;
+    position: absolute;
+    background-color: #fff;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
 }
 
 /* Mobile css */

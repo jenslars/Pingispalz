@@ -41,6 +41,7 @@
                 </header>
                 <header id="headercontent">
                     <img id="profile-image" src="stevendoe.png">
+                    <button id="changeProfileImage" onclick="addProfilePicturePopup()"></button>
                     <section id="headerdetails">
                         <p>Steven doe</p>
                         <div id="discorddetails">
@@ -93,6 +94,13 @@
             <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
             </footer>
         </div>
+        <div id="addProfilePicturePopup">
+            <h1>Select an image</h1>
+            <button id="exitpopup"></button>
+            <form>
+                <input type="file" name="image" id="image" required>
+            </form>
+        </div>
     </div>
     <script>
           // Get the div where the links are displayed
@@ -111,6 +119,22 @@
         });
     })
     .catch(error => console.error(error));
+
+        //Popup for uploading profilepicture
+        function addProfilePicturePopup() {
+        var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup')
+        var gridcontainerLink = document.getElementById('blur');
+        addProfilePicturePopupDiv.classList.add('active');
+        gridcontainerLink.classList.add('active');
+        }
+
+        function exitAddProfilePicturePopup() {
+        var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+        var gridcontainerLink = document.getElementById('blur');
+        leaderboardpopupDiv.classList.add('active');
+        gridcontainerLink.classList.add('active');
+        }
+
 
         /*Popup for adding leaderboards*/
         function leaderboardpopup() {
