@@ -229,3 +229,37 @@ app.get('/leaderboard/score', async (req, res) => {
    res.end();
 })
 
+app.get('/leaderboard/:page', async (req, res) => {
+  const { page } = req.params.page;
+  try {
+    const result = await pool.query(`SELECT username, elo, wins, losses FROM "${page}" JOIN users ON player_id = user_id ORDER BY elo DESC`);
+    res.status(200).send(result.rows);
+  } catch (err) {
+    res.status(500).send('Error: Internal server error, please try again')
+  }
+});
+
+app.get('/leaderboard/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const userResult = await pool.query('SELECT * FROM user WHERE user_id = $1', [userId]);
+    const user = userResult.rows[0];
+    if (!user) {
+      res.status(404).send('Not found');
+      return;
+    }
+    const serverId = user.server_id;
+    const leaderboardResult = await pool.query('SELECT * FROM leaderboards WHERE server_id = $1', [serverId]);
+    const leaderboard = leaderboardResult.rows[0];
+    if (!leaderboard) {
+      res.status(404).send('Leaderboard not found :(');
+      return;
+    }
+    const leaderboardName = leaderboard.name;
+    const leaderboardDataResult = await pool.query(`SELECT username, elo, wins, losses FROM ${leaderboardName} JOIN users ON player_id = user_id ORDER BY elo DESC`);
+    const leaderboardData = leaderboardDataResult.rows;
+    res.status(200).send(leaderboardData)
+  } catch (err) {
+    res.status(500).send('Error: Internal server error, please try again');
+  }
+})
