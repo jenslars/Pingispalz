@@ -25,8 +25,7 @@ body {
     grid-area: ladder; 
 }
 .player { 
-    grid-area: footer;
-    
+    grid-area: top;
 }
 .grid-container {
   display: grid;
@@ -244,40 +243,56 @@ table {
   }
 
 @media screen and (max-width: 600px){
-    .grid {
-        display: grid;
-        grid-template-columns: 100%;
+    .grid-container	{
         grid-template-areas:
-        "header"
-        "top"
-        "ladder"
-        "menu";
-      }
-
-    .sidebar {
-        position: relative;
-        width: auto;
+            'header'
+            'top'
+            'menu';
+        grid-template-columns: auto !important;
+        grid-template-rows: auto;
+    } 
+    #topPlayers{
+        gap: 0px !important;
     }
-
-    #ranking {
-        height: 400px;
     }
-
-    .sidebar li {
+    #top1, #top2, #top3 {
+        border-radius: 50%;
+        transition: all .2s ease-in-out;
+    }
+    #top3, #top2 {
+        height: 100px;
+        width: 100px;
+    }
+    #top1 {
+        height: 120px;
+        width: 120px;
+    }
+    .sidenav {
+        position: fixed;
+    }
+    #topPlayers{
         display: flex;
         justify-content: center;
-        display: inline;
+        font-weight: bold;
+        padding: 5px; 
+        gap: 10%;
     }
-
-    input {
-        width: auto;
+    #topPlayer > div{
+        border-radius: 50%;
     }
-
-    input:focus {
-        width: auto;
+    tbody > tr >td:nth-child(1) {
+        display: none;
     }
-
-    li {
-        margin: 0;
+    tbody > tr >td:nth-child(3) {
+        display: none;
+    }
+    tbody > tr >td:nth-child(4) {
+        display: none;
+    }
+    tbody > tr >td:nth-child(6) {
+        display: none;
+    }
+    tr > #placement, #wins, #winRatio, #status {
+        display: none;
     }
 }
