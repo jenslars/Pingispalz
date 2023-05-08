@@ -10,64 +10,65 @@
     <link href="styleLeaderboard.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div class="grid-container" id="blur">
-        <nav class="sidenav">
-            <div id="logo">
-                <p>Pingispals<p class="redDot">.</p></p>
-            </div>
-            <a id="home" href="#" class="active">Home</a>
-            <a id="search" href="#">Search</a>
-            <a id="leaderboards" href="#">Clubs</a>
-            <a id="challenges" href="#">Challenges</a>
-            <a id="profile" href="#">Profile</a>
-        </nav>
-        <nav id="searchfield">
-            <form>
-                <input type="text" placeholder="Search">
-            </form>
-        </nav>
-        <nav id="leaderboardoptions">
-            <div id="leaderboardoptionsbuttons">
-                <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
-                <button type="button" id="findserver"></button>
-            </div>
-            <div id="clublinks">
-                <ul id="clublinkslist"></ul>
-            </div>
-        </nav>
-    <div class="grid">
-        <div class="header"> 
-            <h2> Malmo University </h2>
-            <h3> Leaderboard </h3>
-            <div id="topPlayers">
-                <div id="top2"> 
-                    
+    <div id="content">
+        <div class="grid-container" id="blur">
+            <nav class="sidenav">
+                <div id="logo">
+                    <p>Pingispals<p class="redDot">.</p></p>
                 </div>
-                <div id="top1"> 
-                    
+                <a id="home" href="#" class="active">Home</a>
+                <a id="search" href="#">Search</a>
+                <a id="leaderboards" href="#">Clubs</a>
+                <a id="challenges" href="#">Challenges</a>
+                <a id="profile" href="#">Profile</a>
+            </nav>
+            <nav id="searchfield">
+                <form>
+                    <input type="text" placeholder="Search">
+                </form>
+            </nav>
+            <nav id="leaderboardoptions">
+                <div id="leaderboardoptionsbuttons">
+                    <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
+                    <button type="button" id="findserver"></button>
                 </div>
-                <div id="top3"> 
-                    
+                <div id="clublinks">
+                    <ul id="clublinkslist"></ul>
                 </div>
+            </nav>
+        <div class="grid">
+            <div class="header"> 
+                <h2> Malmo University </h2>
+                <h3> Leaderboard </h3>
+                <div id="topPlayers">
+                    <div id="top2"> 
+                        
+                    </div>
+                    <div id="top1"> 
+                        
+                    </div>
+                    <div id="top3"> 
+                        
+                    </div>
+                </div>
+            </div>
+            <div id="ranking"> 
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="placement"> Placement </th>
+                            <th id="username"> Username </th>
+                            <th id="wins"> Wins </th>
+                            <th id="winRatio"> Win ratio </th>
+                            <th id="elo"> Elo </th>
+                            <th id="status"> Status </th>
+                            <th id="play"> Play </th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard"></tbody>
+                </table>
             </div>
         </div>
-        <div id="ranking"> 
-            <table>
-                <thead>
-                    <tr>
-                        <th id="placement"> Placement </th>
-                        <th id="username"> Username </th>
-                        <th id="wins"> Wins </th>
-                        <th id="winRatio"> Win ratio </th>
-                        <th id="elo"> Elo </th>
-                        <th id="status"> Status </th>
-                        <th id="play"> Play </th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard"></tbody>
-            </table>
-        </div>
-    </div>
         <div id="leaderboardpopup">
             <button id="exitpopup" onclick="exitpopup()"></button>
             <h1>Join a Club</h1>
