@@ -503,6 +503,25 @@ body{
     border-radius: 10px;
 }
 
+#editdiscord{
+    height: 30px;
+    width: 30px;
+    background-image: url(pencil-white.png);
+    background-color: #7c85f0;
+    background-size: 17px;
+    background-repeat: no-repeat;
+    border: none;
+    background-position: 6px 6px;
+    border-radius: 100px;
+    margin: auto 5px auto -5px;
+    transition: 0.5s;
+}
+
+#editdiscord:hover{
+    background-color: #464c91;
+    transition: 0.5s;
+}
+
 #profile-image{
     margin-top: -40px;
     margin-left: 50px;
@@ -555,18 +574,28 @@ body{
 
 .editButton{
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 400;
     height: 30px;
     width: 30px;
-    background-image: url(pencil.png);
-    background-size: 20px;
+    background-image: url(pencil-white.png);
+    background-size: 16px;
     background-repeat: no-repeat;
     border: none;
     margin-left: 300px;
     margin-top: 10px;
     font-family: 'Lexend';
-    padding-right: 60px;
-    background-position: 45px 4px;
+    padding: 5px 70px 5px 10px;
+    background-position: 52px 8px;
+    background-color: #66cccc;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.editButton:hover{
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    transition: 0.5s;
 }
 
 #changeProfileImage{
@@ -633,11 +662,8 @@ input[type="file"] {
     display: none;
 }
 .custom-file-upload {
-    border-radius: 100px;
-    width: 100px;
-    height: 100px;
     cursor: pointer;
-    
+    align-items: center;
 }
 
 #uploadimageimg{

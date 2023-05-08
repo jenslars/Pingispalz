@@ -47,6 +47,7 @@
                         <div id="discorddetails">
                             <img id="discordlogo" src="discordlogo.png">
                             <p>steven#1234</p>
+                            <button id="editdiscord"></button>
                         </div>
                     </section>
                 </header>
@@ -103,9 +104,27 @@
                 <img src="add-image-white.png" id="uploadimageimg">
             </label>
             <input id="file-upload" type="file"/>
+            <button type="submit" onclick="addProfilePicture()"></button>
         </div>
     </div>
     <script>
+            function addProfilePicture() {
+                const formData = new FormData();
+                const fileInput = document.getElementById("file-upload");
+                formData.append("image", fileInput.files[0]);
+
+                fetch("/uploadprofilepicture", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(response => {
+                    // handle response from backend function
+                })
+                .catch(error => {
+                    // handle error
+                });
+                }
+
           // Get the div where the links are displayed
           const clubLinksDiv = document.getElementById('clublinks');
             fetch('/clubLinks')

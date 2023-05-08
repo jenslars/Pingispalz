@@ -24,6 +24,7 @@ app.use(express.static('images'));
 app.use(express.static('public'));
 app.use(express.static('views'));
 app.use(express.static('organisation_images'));
+app.use(express.static('profile_images'));
 
 app.get('/', (req, res) => {
   fs.readFile('views/index.html', function(error, data) {
@@ -171,6 +172,33 @@ app.get('/clubLinks', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Error: Internal server error' });
+  }
+});
+
+app.post('/uploadprofilepicture', async (req, res) => {
+  const client = await pool.connect();
+  const imageFile = req.files.image;
+  try {
+    await client.query('BEGIN');
+
+    const timestamp = new Date().getTime();
+    const filename = `${timestamp}_${imageFile.name}`;
+
+    const savePath = path.join(__dirname, 'organisation_images', filename);
+    await imageFile.mv(savePath);
+
+    await client.query(`
+  UPDATE users
+  SET profile_image = $1
+  WHERE user_id = $2
+`, [filename, loggedInUserId]);
+
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
+  } finally {
+    client.release();
   }
 });
 
