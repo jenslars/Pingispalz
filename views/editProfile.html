@@ -94,14 +94,16 @@
             <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
             </footer>
         </div>
-        
     </div>
     <div id="addProfilePicturePopup">
-        <h1>Select an image</h1>
         <button id="exitpopup" onclick="exitAddProfilePicturePopup()"></button>
-        <form>
-            <input type="file" name="image" id="image" required>
-        </form>
+        <h1>Select an image</h1>
+            <div id="uploadimage">
+            <label for="file-upload" class="custom-file-upload">
+                <img src="add-image-white.png" id="uploadimageimg">
+            </label>
+            <input id="file-upload" type="file"/>
+        </div>
     </div>
     <script>
           // Get the div where the links are displayed
