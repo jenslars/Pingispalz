@@ -29,8 +29,6 @@ body {
 .sidebar  li {
     padding: 5px;
     display: block;
-    
-
 }
 
 .sidebar > h3 {
@@ -258,3 +256,42 @@ table {
     letter-spacing: .1em;
     text-transform: uppercase;
   }
+
+@media screen and (max-width: 600px){
+    .grid {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-areas:
+        "header"
+        "top"
+        "ladder"
+        "menu";
+      }
+
+    .sidebar {
+        position: relative;
+        width: auto;
+    }
+
+    #ranking {
+        height: 400px;
+    }
+
+    .sidebar li {
+        display: flex;
+        justify-content: center;
+        display: inline;
+    }
+
+    input {
+        width: auto;
+    }
+
+    input:focus {
+        width: auto;
+    }
+
+    li {
+        margin: 0;
+    }
+}
