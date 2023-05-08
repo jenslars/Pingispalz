@@ -520,7 +520,7 @@ body{
 }
 
 #discordform{
-    margin: auto;
+    width: 200px;
 }
 
 #discordforminput{
@@ -530,7 +530,10 @@ body{
     font-size: 14px;
     color: white;
     font-family: 'Lexend';
-    background-color: #fff;
+    background-color: #7c85f0;
+    position: absolute;
+    margin-top: 10px;
+    outline: none;
 }
 
 #editdiscord.active{
@@ -565,9 +568,10 @@ body{
     border: none;
     background-position: 0px 0px;
     border-radius: 100px;
-    margin: auto auto auto 5px;
+    margin: auto auto auto 120px;
     transition: 0.5s;
     background-color: #7c85f0;
+    position: relative;
 }
 
 #savediscordname:hover{
@@ -584,9 +588,10 @@ body{
     border: none;
     background-position: 6px 6px;
     border-radius: 100px;
-    margin: auto 5px auto 5px;
+    margin: 5px 5px auto 0px;
     transition: 0.5s;
     background-color: #7c85f0;
+    position: relative;
 }
 
 #exitdiscordform:hover{

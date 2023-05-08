@@ -53,7 +53,7 @@ app.use(express.json());
 app.post('/register', async (req, res) => {
   //function to register account
   const { email, username, password } = req.body;
-
+  const client = await pool.connect();
   try {
     await pool.query('SELECT insert_user($1, $2, $3)', [email, username, password])
     userId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
@@ -67,12 +67,13 @@ app.post('/register', async (req, res) => {
       res.sendStatus(500);
     }
   }
+  client.release();
 });
 
 app.post('/login', async (req, res) => {
   //Function to validate users login input
   const { email, password } = req.body;
-  
+  const client = await pool.connect();
   try {
     const result = await pool.query('SELECT login($1, $2)', [email, password]);
     userId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
@@ -87,6 +88,7 @@ app.post('/login', async (req, res) => {
     console.error(err);
     res.sendStatus(500);
   }
+  client.release();
 });
 
 app.post('/createOrg', async (req, res) => {
@@ -139,7 +141,7 @@ app.post('/createOrg', async (req, res) => {
 
 app.post('/joinClub', async (req, res) => {
   const { club } = req.body;
-
+  const client = await pool.connect();
   try {
     const leaderboardId = await pool.query(`SELECT server_id FROM "${club}" ORDER BY server_id ASC LIMIT 1 OFFSET 0`);
     const selectedLeadboardId = leaderboardId.rows[0].server_id;
@@ -162,6 +164,7 @@ app.post('/joinClub', async (req, res) => {
 
 app.get('/clubLinks', async (req, res) => {
   //Function to send users club links
+  const client = await pool.connect();
   try {
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
     const leaderboards = await Promise.all(leaderboardIds.rows.map(async ({ leaderboard_id }) => {
@@ -202,6 +205,23 @@ app.post('/uploadprofilepicture', async (req, res) => {
   } finally {
     client.release();
   }
+});
+
+app.post('/uploaddiscordform', async (req, res) => {
+  const { contact_info } = req.body;
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      UPDATE users
+      SET contact_info = $1
+      WHERE user_id = $2
+    `, [contact_info, loggedInUserId]);
+    res.status(200).send({ message: 'Discord info updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
 });
 
 app.get('/:page', (req, res) => {

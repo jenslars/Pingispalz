@@ -49,11 +49,10 @@
                             <p id="discordname" class="active">steven#1234</p>
                             <button id="editdiscord" onclick="toggleEditDiscord()" class="active"></button>
                             <form id="discordform">
-                                <input type="text" id="discordforminput">
-                                <button id="savediscordname"></button>
-                                <button id="exitdiscordform"></button>
+                                <input type="text" id="discordforminput" placeholder="Discord name">
+                                <button id="savediscordname" type="submit"></button>
+                                <button id="exitdiscordform" type="button" onclick="exitDiscordForm()"></button>
                             </form>
-
                         </div>
                     </section>
                 </header>
@@ -114,33 +113,66 @@
         </div>
     </div>
     <script>
+            document.getElementById('discordform').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const contact_info = document.getElementById('discordforminput').value;
 
-            function toggleEditDiscord() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/uploaddiscordform');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      document.getElementById('discordFormError').innerHTML = 'success';
+    } else {
+      document.getElementById('discordFormError').innerHTML = 'Error';
+    }
+  };
+
+  xhr.onerror = function() {
+    document.getElementById('discordFormError').innerHTML = 'Unable to update Discord info';
+  };
+
+  xhr.send(JSON.stringify({ contact_info }));
+});
+
+        function exitDiscordForm() {
+            var discordformToggle = document.getElementById('discordform');
+            var editdiscordToggle = document.getElementById('editdiscord');
+            var discordnameToggle = document.getElementById('discordname');
+            discordformToggle.classList.remove('active');
+            editdiscordToggle.classList.add('active');
+            discordnameToggle.classList.add('active');
+        }
+
+        function toggleEditDiscord() {
             var discordformToggle = document.getElementById('discordform');
             var editdiscordToggle = document.getElementById('editdiscord');
             var discordnameToggle = document.getElementById('discordname');
             discordformToggle.classList.add('active');
             editdiscordToggle.classList.remove('active');
             discordnameToggle.classList.remove('active');
+        }
 
+        function submitDiscordForm() {
+
+        }
+
+        function addProfilePicture() {
+            const formData = new FormData();
+            const fileInput = document.getElementById("file-upload");
+            formData.append("image", fileInput.files[0]);
+
+            fetch("/uploadprofilepicture", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => {
+                // handle response from backend function
+            })
+            .catch(error => {
+                // handle error
+            });
             }
-
-            function addProfilePicture() {
-                const formData = new FormData();
-                const fileInput = document.getElementById("file-upload");
-                formData.append("image", fileInput.files[0]);
-
-                fetch("/uploadprofilepicture", {
-                    method: "POST",
-                    body: formData,
-                })
-                .then(response => {
-                    // handle response from backend function
-                })
-                .catch(error => {
-                    // handle error
-                });
-                }
 
           // Get the div where the links are displayed
           const clubLinksDiv = document.getElementById('clublinks');
