@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="navigationBar.css" rel="stylesheet" type="text/css">
+    <link href="styleLeaderboard.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div class="grid-container" id="blur">
@@ -36,8 +36,38 @@
             </div>
         </nav>
         <div id="content">
-            <h1>Test</h1>
-            <h2>test</h2>
+            <div class="grid">
+                <div class="header"> 
+                    <h2> Malmo University </h2>
+                    <h3> Leaderboard </h3>
+                    <div id="topPlayers">
+                        <div id="top2"> 
+                            
+                        </div>
+                        <div id="top1"> 
+                            
+                        </div>
+                        <div id="top3"> 
+                            
+                        </div>
+                    </div>
+                </div>
+                <div id="ranking"> 
+                    <table>
+                        <thead>
+                            <tr>
+                                <th id="placement"> Placement </th>
+                                <th id="username"> Username </th>
+                                <th id="wins"> Wins </th>
+                                <th id="winRatio"> Win ratio </th>
+                                <th id="elo"> Elo </th>
+                                <th id="status"> Status </th>
+                                <th id="play"> Play </th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard"></tbody>
+                    </table>
+                </div>
         </div>
         <div id="leaderboardpopup">
             <button id="exitpopup" onclick="exitpopup()"></button>
