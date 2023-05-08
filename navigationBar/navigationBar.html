@@ -27,22 +27,39 @@
             </form>
         </nav>
         <nav id="leaderboardoptions">
-            <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
-            <button type="button" id="findserver"></button>
+            <div id="leaderboardoptionsbuttons">
+                <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
+                <button type="button" id="findserver"></button>
+            </div>
+            <div id="clublinks">
+                <ul id="clublinkslist"></ul>
+            </div>
         </nav>
         <div id="content">
             <h1>Test</h1>
             <h2>test</h2>
         </div>
         <div id="leaderboardpopup">
-            <header id="popupheader">
             <button id="exitpopup" onclick="exitpopup()"></button>
-            <h1>Add a Club</h1>
-            </header>
-            <p>Join a club by writing their name in the field and press join.</p>
-            <form>
-                <input type="text">
+            <h1>Join a Club</h1>
+            <p>Enter a clubs name below to join their leaderboard.</p>
+            <form id="join-club-form">
+                <label>Club name</label>
+                <div id="joinformfield">
+                    <input type="text" id="join-club-input" placeholder="club#123" required>
+                    <button type="submit" id="join-club-button">Join Club</button>
+                </div>
+                <div id="join-club-success"></div>
+                <div id="join-club-error"></div>
             </form>
+            <div id="findclub" role="button" onclick="window.location.href='/findclub'">
+                <img src="compasswhite.png" id="compasswhite">
+                <div id="findclubtext">
+                    <h2>Don't know a clubs name?</h2>
+                    <p>Check out the current Clubs in Club Discovery</p>
+                </div>
+                <img src="right-arrowblack.png" id="rightarrowblack">
+            </div>
             <footer id="popupfooter">
             <p>Want to create you own club?</p>
             <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
@@ -50,6 +67,23 @@
         </div>
     </div>
     <script>
+          // Get the div where the links are displayed
+          const clubLinksDiv = document.getElementById('clublinks');
+            fetch('/clubLinks')
+                .then(response => response.json())
+                .then(leaderboardsData => {
+                    leaderboardsData.forEach((leaderboard) => {
+                        const link = document.createElement('a');
+                        link.href = `/leaderboards/${leaderboard.id}`; 
+                        link.classList.add('club-link'); 
+                        const image = document.createElement('img');
+                        image.src = leaderboard.leaderboard_image;
+                        link.appendChild(image);
+                        clubLinksDiv.appendChild(link);
+        });
+    })
+    .catch(error => console.error(error));
+
         /*Popup for adding leaderboards*/
         function leaderboardpopup() {
         var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
@@ -65,7 +99,28 @@
         gridcontainerLink.classList.remove('active');   
         }
 
+        /* Sends Join a Club form to backend */
+        document.getElementById('join-club-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const club = document.getElementById('join-club-input').value;
 
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/joinClub');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('join-club-success').innerHTML = 'Successfully joined the club';
+                } else {
+                    document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+                }
+            };
+
+            xhr.onerror = function() {
+                document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+            };
+
+            xhr.send(JSON.stringify({ club }));
+        });
         /* desktop navbar function */
         var homeLink = document.getElementById('home');
         var searchLink = document.getElementById('search');
@@ -131,3 +186,4 @@
     </script>
   </body>
 </html>
+
