@@ -157,6 +157,7 @@ app.post('/joinClub', async (req, res) => {
     console.error(err);
     res.status(500).send({ message: 'Unable to join the club' });
   }
+  client.release();
 });
 
 app.get('/clubLinks', async (req, res) => {
@@ -173,6 +174,7 @@ app.get('/clubLinks', async (req, res) => {
     console.error(err);
     res.status(500).send({ message: 'Error: Internal server error' });
   }
+  client.release();
 });
 
 app.post('/uploadprofilepicture', async (req, res) => {
@@ -184,7 +186,7 @@ app.post('/uploadprofilepicture', async (req, res) => {
     const timestamp = new Date().getTime();
     const filename = `${timestamp}_${imageFile.name}`;
 
-    const savePath = path.join(__dirname, 'organisation_images', filename);
+    const savePath = path.join(__dirname, 'profile_images', filename);
     await imageFile.mv(savePath);
 
     await client.query(`

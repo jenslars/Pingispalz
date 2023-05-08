@@ -46,8 +46,14 @@
                         <p>Steven doe</p>
                         <div id="discorddetails">
                             <img id="discordlogo" src="discordlogo.png">
-                            <p>steven#1234</p>
-                            <button id="editdiscord"></button>
+                            <p id="discordname" class="active">steven#1234</p>
+                            <button id="editdiscord" onclick="toggleEditDiscord()" class="active"></button>
+                            <form id="discordform">
+                                <input type="text" id="discordforminput">
+                                <button id="savediscordname"></button>
+                                <button id="exitdiscordform"></button>
+                            </form>
+
                         </div>
                     </section>
                 </header>
@@ -108,6 +114,17 @@
         </div>
     </div>
     <script>
+
+            function toggleEditDiscord() {
+            var discordformToggle = document.getElementById('discordform');
+            var editdiscordToggle = document.getElementById('editdiscord');
+            var discordnameToggle = document.getElementById('discordname');
+            discordformToggle.classList.add('active');
+            editdiscordToggle.classList.remove('active');
+            discordnameToggle.classList.remove('active');
+
+            }
+
             function addProfilePicture() {
                 const formData = new FormData();
                 const fileInput = document.getElementById("file-upload");

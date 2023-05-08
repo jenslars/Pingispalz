@@ -491,7 +491,7 @@ body{
 }
 
 #discorddetails p{
-    font-size: 12px;
+    font-size: 14px;
     margin: auto 10px auto 10px;
 }
 
@@ -504,6 +504,8 @@ body{
 }
 
 #editdiscord{
+    display: none;
+    visibility: hidden;
     height: 30px;
     width: 30px;
     background-image: url(pencil-white.png);
@@ -517,9 +519,89 @@ body{
     transition: 0.5s;
 }
 
+#discordform{
+    margin: auto;
+}
+
+#discordforminput{
+    border: none;
+    width: 100px;
+    margin-left: 5px;
+    font-size: 14px;
+    color: white;
+    font-family: 'Lexend';
+    background-color: #fff;
+}
+
+#editdiscord.active{
+    display: unset;
+    visibility: visible;
+    transition: 0.5s;
+}
+
+#discordname{
+    display: none;
+    visibility: hidden;
+    transition: 0.5s;
+}
+
+#discordname.active{
+    display: unset;
+    visibility: visible;
+    transition: 0.5s;
+}
+
 #editdiscord:hover{
     background-color: #464c91;
     transition: 0.5s;
+}
+
+#savediscordname{
+    width: 30px;
+    height: 30px;
+    background-image: url(uploaddiscordwhite.png);
+    background-size: 30px;
+    background-repeat: no-repeat;
+    border: none;
+    background-position: 0px 0px;
+    border-radius: 100px;
+    margin: auto auto auto 5px;
+    transition: 0.5s;
+    background-color: #7c85f0;
+}
+
+#savediscordname:hover{
+    background-color: #464c91;
+    transition: 0.5s;
+}
+
+#exitdiscordform{
+    width: 30px;
+    height: 30px;
+    background-image: url(exitdiscordwhite.png);
+    background-size: 18px;
+    background-repeat: no-repeat;
+    border: none;
+    background-position: 6px 6px;
+    border-radius: 100px;
+    margin: auto 5px auto 5px;
+    transition: 0.5s;
+    background-color: #7c85f0;
+}
+
+#exitdiscordform:hover{
+    background-color: #464c91;
+    transition: 0.5s;
+}
+
+#discordform{
+    visibility: hidden;
+    display: none;
+}
+
+#discordform.active{
+    visibility: visible;
+    display: unset;
 }
 
 #profile-image{
