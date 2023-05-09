@@ -17,7 +17,7 @@ function testLoadLeaderboard() {
 function ladder(players) {
     var table = "<tbody>";
     for (let i = 0; i < players.length ; i++) {
-    
+        console.log(players)
             table += "<tr>";
             table += "<td>" + players[i].placement + "</td>";
             table += "<td>" + players[i].username + "</td>";
@@ -46,9 +46,9 @@ tableBody.innerHTML = "";
 
 for (let i = 0; i < players.length; i++) {
     let player = players[i];
-
     let row = document.createElement("tr");
     row.innerHTML = `
+
     <td>${player.placement}</td>
     <td>${player.username}</td>
     <td>${player.wins}</td>

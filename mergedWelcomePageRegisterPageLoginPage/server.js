@@ -78,8 +78,6 @@ app.post('/login', async (req, res) => {
 
 app.get('/:page', (req, res) => {
   const page = req.params.page;
-  console.log('Hello world')
-  console.log('insidepage')
   fs.readFile(`${page}.html`, function(error, data) {
     if (error) {
       res.writeHead(404);
