@@ -184,10 +184,20 @@ app.get('/getLoggedInUserInfo', async (req, res) => {
   //Function to send the logged in users data to edit profile
   const client = await pool.connect();
   try {
-    const loggedInUserData = await pool.query(
-      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, contact_info, user_bio FROM users WHERE user_id = $1'
+    const result = await pool.query(
+      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, contact_info, user_bio FROM users WHERE user_id = $1'
       , [loggedInUserId]);
-    res.status(200).send(loggedInUserData);
+      const profile_image = result.rows[0].profile_image;
+      const username = result.rows[0].username;
+      const contact_info = result.rows[0].contact_info;
+      const user_bio = result.rows[0].user_bio;
+      console.log(profile_image)
+      res.status(200).send({ 
+        profile_image: profile_image,
+        username: username,
+        contact_info: contact_info,
+        user_bio: user_bio
+      });
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Error: Internal server error' });

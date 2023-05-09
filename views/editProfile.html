@@ -40,13 +40,16 @@
                 <header id="headerbackground">
                 </header>
                 <header id="headercontent">
-                    <img id="profile-image" src="stevendoe.png">
+                <!-- Add fetched profile image in "profile-image"-->
+                    <img id="profile-image" src="">
                     <button id="changeProfileImage" onclick="addProfilePicturePopup()"></button>
                     <section id="headerdetails">
-                        <p>Steven doe</p>
+                        <!-- Add fetched username in "username"-->
+                        <p id="username"></p>
                         <div id="discorddetails">
                             <img id="discordlogo" src="discordlogo.png">
-                            <p id="discordname" class="active">steven#1234</p>
+                            <!-- Add fetched contact_info in "discordname"-->
+                            <p id="discordname" class="active"></p>
                             <button id="editdiscord" onclick="toggleEditDiscord()" class="active"></button>
                             <form id="discordform">
                                 <input type="text" id="discordforminput" placeholder="Discord name">
@@ -68,7 +71,8 @@
                                     <button id="ExitDescriptionForm" onclick="exitDescriptionForm()"></button>
                                 </div>
                                 <article id="userDescription">
-                                    <p id="fetchedUserDescription" class="active">Content</p>
+                                    <!-- Add fetched user_bio in "fecthedUserDescription"-->
+                                    <p id="fetchedUserDescription" class="active"></p>
                                     <form id="editUserDescriptionForm">
                                         <textarea id="descriptionFormInput"></textarea>
                                     </form>
@@ -244,6 +248,19 @@
                     });
                 })
                 .catch(error => console.error(error));
+            
+                // Fetch user profile data from the server
+                fetch('/getLoggedInUserInfo')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the HTML elements with the fetched data
+                        document.getElementById('profile-image').src = data.profile_image;
+                        document.getElementById('username').textContent = data.username;
+                        document.getElementById('discordname').textContent = data.contact_info;
+                        document.getElementById('fetchedUserDescription').textContent = data.user_bio;
+                    })
+                    .catch(error => console.error(error));
+
 
         //Popup for uploading profilepicture
         function addProfilePicturePopup() {
