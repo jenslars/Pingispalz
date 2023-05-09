@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Navigation bar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="editProfilestyle.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div class="grid-container" id="blur">
+        <nav class="sidenav">
+            <div id="logo">
+                <p>Pingispals<p class="redDot">.</p></p>
+            </div>
+            <a id="home" href="/home">Home</a>
+            <a id="search" href="#">Search</a>
+            <a id="leaderboards" href="#">Clubs</a>
+            <a id="challenges" href="#">Challenges</a>
+            <a id="profile" href="/editProfile" class="active">Profile</a>
+        </nav>
+        <nav id="searchfield">
+            <form>
+                <input type="text" placeholder="Search">
+            </form>
+        </nav>
+        <nav id="leaderboardoptions">
+            <div id="leaderboardoptionsbuttons">
+                <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
+                <button type="button" id="findserver"></button>
+            </div>
+            <div id="clublinks">
+                <ul id="clublinkslist"></ul>
+            </div>
+        </nav>
+        <div id="content">
+            <main id="profile-card">
+                <header id="headerbackground">
+                </header>
+                <header id="headercontent">
+                <!-- Add fetched profile image in "profile-image"-->
+                    <img id="profile-image" src="">
+                    <button id="changeProfileImage" onclick="addProfilePicturePopup()"></button>
+                    <section id="headerdetails">
+                        <!-- Add fetched username in "username"-->
+                        <p id="username"></p>
+                        <div id="discorddetails">
+                            <img id="discordlogo" src="discordlogo.png">
+                            <!-- Add fetched contact_info in "discordname"-->
+                            <p id="discordname" class="active"></p>
+                            <button id="editdiscord" onclick="toggleEditDiscord()" class="active"></button>
+                            <form id="discordform">
+                                <input type="text" id="discordforminput" placeholder="Discord name">
+                                <button id="savediscordname" type="submit"></button>
+                                <button id="exitdiscordform" type="button" onclick="exitDiscordForm()"></button>
+                            </form>
+                        </div>
+                    </section>
+                </header>
+                <div id="contentsections">
+                    <div id="contentleft">
+                        <section id="about">
+                            <div id="aboutheader">
+                                <h3>Description</h3>
+                                <button id="editButton" class="active" onclick="toggleEditDescription()">Edit</button>
+                                <div id="formbuttons">
+                                    <p>Editing</p>
+                                    <button id="uploadDescriptionForm" type="submit" form="editUserDescriptionForm"></button>
+                                    <button id="ExitDescriptionForm" onclick="exitDescriptionForm()"></button>
+                                </div>
+                                <article id="userDescription">
+                                    <!-- Add fetched user_bio in "fecthedUserDescription"-->
+                                    <p id="fetchedUserDescription" class="active"></p>
+                                    <form id="editUserDescriptionForm">
+                                        <textarea id="descriptionFormInput"></textarea>
+                                    </form>
+                                </article>
+                            </div>
+                        </section>
+                        <section id="achievements">
+                            <p>achievements</p>
+                        </section>
+                    </div>
+                    <section id="recentgames">
+                        <p>recentgames</p>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <div id="leaderboardpopup">
+            <button id="exitpopup" onclick="exitpopup()"></button>
+            <h1>Join a Club</h1>
+            <p>Enter a clubs name below to join their leaderboard.</p>
+            <form id="join-club-form">
+                <label>Club name</label>
+                <div id="joinformfield">
+                    <input type="text" id="join-club-input" placeholder="club#123" required>
+                    <button type="submit" id="join-club-button">Join Club</button>
+                </div>
+                <div id="join-club-success"></div>
+                <div id="join-club-error"></div>
+            </form>
+            <div id="findclub" role="button" onclick="window.location.href='/findclub'">
+                <img src="compasswhite.png" id="compasswhite">
+                <div id="findclubtext">
+                    <h2>Don't know a clubs name?</h2>
+                    <p>Check out the current Clubs in Club Discovery</p>
+                </div>
+                <img src="right-arrowblack.png" id="rightarrowblack">
+            </div>
+            <footer id="popupfooter">
+                <p>Want to create you own club?</p>
+                <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
+            </footer>
+        </div>
+    </div>
+    <div id="addProfilePicturePopup">
+        <button id="exitpopup" onclick="exitAddProfilePicturePopup()"></button>
+        <h1>Select an image</h1>
+            <div id="uploadimage">
+            <label for="file-upload" class="custom-file-upload">
+                <img src="add-image-white.png" id="uploadimageimg">
+            </label>
+            <input id="file-upload" type="file"/>
+            <button type="submit" onclick="addProfilePicture()" id="submitProfileImageButton">Submit</button>
+        </div>
+    </div>
+    <script>
+        //Function to toggle description form
+        function toggleEditDescription() {
+            var fetchedUserDescriptionToggle = document.getElementById('fetchedUserDescription');
+            var editButtonToggle = document.getElementById('editButton');
+            var editUserDescriptionFormToggle = document.getElementById('editUserDescriptionForm');
+            var formbuttonsToggle = document.getElementById('formbuttons');
+            editUserDescriptionFormToggle.classList.add('active');
+            formbuttonsToggle.classList.add('active');
+            editButtonToggle.classList.remove('active');
+            fetchedUserDescriptionToggle.classList.remove('active');
+        }
+        //Function to detoggle description form
+        function exitDescriptionForm(){
+            var fetchedUserDescriptionToggle = document.getElementById('fetchedUserDescription');
+            var editButtonToggle = document.getElementById('editButton');
+            var editUserDescriptionFormToggle = document.getElementById('editUserDescriptionForm');
+            var formbuttonsToggle = document.getElementById('formbuttons');
+            editUserDescriptionFormToggle.classList.remove('active');
+            formbuttonsToggle.classList.remove('active');
+            editButtonToggle.classList.add('active');
+            fetchedUserDescriptionToggle.classList.add('active');
+        }
+
+        //Sends description form to backend
+        document.getElementById('editUserDescriptionForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const user_description = document.getElementById('descriptionFormInput').value;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uploadUserDescriptionForm');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+            document.getElementById('Userbiostatus').innerHTML = 'success';
+            } else {
+            document.getElementById('Userbiostatus').innerHTML = 'Error';
+            }
+        };
+
+        xhr.onerror = function() {
+            document.getElementById('Userbiostatus').innerHTML = 'Unable to update user bio';
+        };
+
+        xhr.send(JSON.stringify({ user_description }));
+        });
+
+        //Sends discorddetails form to backend
+        document.getElementById('discordform').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const contact_info = document.getElementById('discordforminput').value;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uploaddiscordform');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+            document.getElementById('discordFormError').innerHTML = 'success';
+            } else {
+            document.getElementById('discordFormError').innerHTML = 'Error';
+            }
+        };
+
+        xhr.onerror = function() {
+            document.getElementById('discordFormError').innerHTML = 'Unable to update Discord info';
+        };
+
+        xhr.send(JSON.stringify({ contact_info }));
+        });
+
+        //Function to detoggle discordform
+        function exitDiscordForm() {
+            var discordformToggle = document.getElementById('discordform');
+            var editdiscordToggle = document.getElementById('editdiscord');
+            var discordnameToggle = document.getElementById('discordname');
+            discordformToggle.classList.remove('active');
+            editdiscordToggle.classList.add('active');
+            discordnameToggle.classList.add('active');
+        }
+        //Function to toggle discordform
+        function toggleEditDiscord() {
+            var discordformToggle = document.getElementById('discordform');
+            var editdiscordToggle = document.getElementById('editdiscord');
+            var discordnameToggle = document.getElementById('discordname');
+            discordformToggle.classList.add('active');
+            editdiscordToggle.classList.remove('active');
+            discordnameToggle.classList.remove('active');
+        }
+
+        //Function to send profile picture to backend
+        function addProfilePicture() {
+            const formData = new FormData();
+            const fileInput = document.getElementById("file-upload");
+            formData.append("image", fileInput.files[0]);
+
+            fetch("/uploadprofilepicture", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => {
+            })
+            .catch(error => {
+            });
+            }
+
+          // Creates the div where the links to leaderboards are displayed
+          const clubLinksDiv = document.getElementById('clublinks');
+            fetch('/clubLinks')
+                .then(response => response.json())
+                .then(leaderboardsData => {
+                    leaderboardsData.forEach((leaderboard) => {
+                        const link = document.createElement('a');
+                        link.href = `/leaderboards/${leaderboard.id}`; 
+                        link.classList.add('club-link'); 
+                        const image = document.createElement('img');
+                        image.src = leaderboard.leaderboard_image;
+                        link.appendChild(image);
+                        clubLinksDiv.appendChild(link);
+                    });
+                })
+                .catch(error => console.error(error));
+            
+                // Fetch user profile data from the server
+                fetch('/getLoggedInUserInfo')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the HTML elements with the fetched data
+                        document.getElementById('profile-image').src = data.profile_image;
+                        document.getElementById('username').textContent = data.username;
+                        document.getElementById('discordname').textContent = data.contact_info;
+                        document.getElementById('fetchedUserDescription').textContent = data.user_bio;
+                        document.getElementById('descriptionFormInput').textContent = data.user_bio;
+                    })
+                    .catch(error => console.error(error));
+
+
+        //Popup for uploading profilepicture
+        function addProfilePicturePopup() {
+            var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup')
+            var gridcontainerLink = document.getElementById('blur');
+            addProfilePicturePopupDiv.classList.add('active');
+            gridcontainerLink.classList.add('active');
+            }
+
+        function exitAddProfilePicturePopup() {
+            var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup');
+            var gridcontainerLink = document.getElementById('blur');
+            addProfilePicturePopupDiv.classList.remove('active');
+            gridcontainerLink.classList.remove('active');
+            }
+
+
+        /*Popup for adding leaderboards*/
+        function leaderboardpopup() {
+            var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+            var gridcontainerLink = document.getElementById('blur');
+            leaderboardpopupDiv.classList.add('active');
+            gridcontainerLink.classList.add('active');
+            }
+
+        function exitpopup() {
+            var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+            var gridcontainerLink = document.getElementById('blur');
+            leaderboardpopupDiv.classList.remove('active');
+            gridcontainerLink.classList.remove('active');   
+            }
+
+        /* Sends Join a Club form to backend */
+        document.getElementById('join-club-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const club = document.getElementById('join-club-input').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/joinClub');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('join-club-success').innerHTML = 'Successfully joined the club';
+                } else {
+                    document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+                }
+            };
+
+            xhr.onerror = function() {
+                document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+            };
+
+            xhr.send(JSON.stringify({ club }));
+        });
+        /* desktop navbar function */
+        var homeLink = document.getElementById('home');
+        var searchLink = document.getElementById('search');
+        var leaderboardsLink = document.getElementById('leaderboards');
+        var challengesLink = document.getElementById('challenges');
+        var profileLink = document.getElementById('profile');
+        var searchfieldLink = document.getElementById('searchfield');
+        var leaderboardoptionsLink = document.getElementById('leaderboardoptions');
+
+        homeLink.addEventListener('click', function() {
+        homeLink.classList.add('active');
+
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        searchLink.addEventListener('click', function() {
+        searchLink.classList.add('active');
+        searchfieldLink.classList.add('active');
+        
+        homeLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        leaderboardsLink.addEventListener('click', function() {
+        leaderboardsLink.classList.add('active');
+        leaderboardoptionsLink.classList.add('active');
+
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        challengesLink.addEventListener('click', function() {
+        challengesLink.classList.add('active');
+        
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        profileLink.addEventListener('click', function() {
+        profileLink.classList.add('active');
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        });
+    </script>
+  </body>
+</html>

@@ -24,6 +24,7 @@ app.use(express.static('images'));
 app.use(express.static('public'));
 app.use(express.static('views'));
 app.use(express.static('organisation_images'));
+app.use(express.static('profile_images'));
 
 app.get('/', (req, res) => {
   fs.readFile('views/index.html', function(error, data) {
@@ -52,7 +53,7 @@ app.use(express.json());
 app.post('/register', async (req, res) => {
   //function to register account
   const { email, username, password } = req.body;
-
+  const client = await pool.connect();
   try {
     await pool.query('SELECT insert_user($1, $2, $3)', [email, username, password])
     userId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
@@ -66,12 +67,13 @@ app.post('/register', async (req, res) => {
       res.sendStatus(500);
     }
   }
+  client.release();
 });
 
 app.post('/login', async (req, res) => {
   //Function to validate users login input
   const { email, password } = req.body;
-  
+  const client = await pool.connect();
   try {
     const result = await pool.query('SELECT login($1, $2)', [email, password]);
     userId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
@@ -86,6 +88,7 @@ app.post('/login', async (req, res) => {
     console.error(err);
     res.sendStatus(500);
   }
+  client.release();
 });
 
 app.post('/createOrg', async (req, res) => {
@@ -149,7 +152,7 @@ app.post('/createOrg', async (req, res) => {
 
 app.post('/joinClub', async (req, res) => {
   const { club } = req.body;
-
+  const client = await pool.connect();
   try {
     const leaderboardId = await pool.query(`SELECT server_id FROM "${club}" ORDER BY server_id ASC LIMIT 1 OFFSET 0`);
     const selectedLeadboardId = leaderboardId.rows[0].server_id;
@@ -167,10 +170,12 @@ app.post('/joinClub', async (req, res) => {
     console.error(err);
     res.status(500).send({ message: 'Unable to join the club' });
   }
+  client.release();
 });
 
 app.get('/clubLinks', async (req, res) => {
   //Function to send users club links
+  const client = await pool.connect();
   try {
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
     const leaderboards = await Promise.all(leaderboardIds.rows.map(async ({ leaderboard_id }) => {
@@ -183,6 +188,93 @@ app.get('/clubLinks', async (req, res) => {
     console.error(err);
     res.status(500).send({ message: 'Error: Internal server error' });
   }
+  client.release();
+});
+
+app.get('/getLoggedInUserInfo', async (req, res) => {
+  //Function to send the logged in users data to edit profile
+  const client = await pool.connect();
+  try {
+    const result = await pool.query(
+      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, contact_info, user_bio FROM users WHERE user_id = $1'
+      , [loggedInUserId]);
+      const profile_image = result.rows[0].profile_image;
+      const username = result.rows[0].username;
+      const contact_info = result.rows[0].contact_info;
+      const user_bio = result.rows[0].user_bio;
+      console.log(profile_image)
+      res.status(200).send({ 
+        profile_image: profile_image,
+        username: username,
+        contact_info: contact_info,
+        user_bio: user_bio
+      });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
+});
+
+app.post('/uploadprofilepicture', async (req, res) => {
+  const client = await pool.connect();
+  const imageFile = req.files.image;
+  try {
+    await client.query('BEGIN');
+
+    const timestamp = new Date().getTime();
+    const filename = `${timestamp}_${imageFile.name}`;
+
+    const savePath = path.join(__dirname, 'profile_images', filename);
+    await imageFile.mv(savePath);
+
+    await client.query(`
+  UPDATE users
+  SET profile_image = $1
+  WHERE user_id = $2
+`, [filename, loggedInUserId]);
+
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
+  } finally {
+    client.release();
+  }
+});
+
+app.post('/uploaddiscordform', async (req, res) => {
+  const { contact_info } = req.body;
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      UPDATE users
+      SET contact_info = $1
+      WHERE user_id = $2
+    `, [contact_info, loggedInUserId]);
+    res.status(200).send({ message: 'Discord info updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
+});
+
+app.post('/uploadUserDescriptionForm', async (req, res) => {
+  const { user_description } = req.body;
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      UPDATE users
+      SET user_bio = $1
+      WHERE user_id = $2
+    `, [user_description, loggedInUserId]);
+    res.status(200).send({ message: 'Bio updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
 });
 
 app.get('/:page', (req, res) => {

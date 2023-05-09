@@ -132,10 +132,10 @@ transition: 1s;
 }
 
 .sidenav {
-grid-column: 1;
-display: flex;
-flex-direction: column;
-position: sticky;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
 }
 
 #searchfield{
