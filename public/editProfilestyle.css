@@ -862,6 +862,7 @@ body{
     padding: 30px 25px 50px 25px;
     transition: 1s;
     border-radius: 10px;
+    width: 400px;
 }
 
 #addProfilePicturePopup.active{
@@ -876,6 +877,16 @@ body{
     transition: 1s;
 }
 
+#addProfilePicturePopup h1{
+    margin-left: 70px;
+    margin-top: -30px;
+}
+
+#uploadimageimg:hover {
+    border-radius: 30px;
+    transition: 0.5s;
+}
+
 input[type="file"] {
     display: none;
 }
@@ -884,13 +895,48 @@ input[type="file"] {
     align-items: center;
 }
 
+#uploadimage{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
 #uploadimageimg{
-    background-color: #66cccc;
+    background-color: #58b1b1;
     width: 50px;
     height: 50px;
-    border-radius: 100px;
+    border-radius: 80px;
     padding: 50px;
+    transition: 0.7s;
+    margin: auto;
+    margin-left: 120px;
 }
+
+#submitProfileImageButton{
+    font-size: 20px;
+    font-weight: 400;
+    background-image: url(uploaddiscordwhite.png);
+    background-size: 28px;
+    background-repeat: no-repeat;
+    background-position: 80px 4px;
+    border: none;
+    font-family: 'Lexend';
+    padding: 5px 40px 5px 10px;
+    background-color: #66cccc;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
+    width: 120px;
+    margin-left: 135px;
+    margin-top: 30px;
+}
+
+#submitProfileImageButton:hover {
+    background-color: #54a8a8;
+    transition: 0.5s;
+}
+
 
 /* Mobile css */
 @media screen and (max-width: 600px) {

@@ -124,7 +124,7 @@
                 <img src="add-image-white.png" id="uploadimageimg">
             </label>
             <input id="file-upload" type="file"/>
-            <button type="submit" onclick="addProfilePicture()"></button>
+            <button type="submit" onclick="addProfilePicture()" id="submitProfileImageButton">Submit</button>
         </div>
     </div>
     <script>
@@ -258,6 +258,7 @@
                         document.getElementById('username').textContent = data.username;
                         document.getElementById('discordname').textContent = data.contact_info;
                         document.getElementById('fetchedUserDescription').textContent = data.user_bio;
+                        document.getElementById('descriptionFormInput').textContent = data.user_bio;
                     })
                     .catch(error => console.error(error));
 
