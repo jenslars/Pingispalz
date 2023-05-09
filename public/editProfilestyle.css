@@ -639,15 +639,66 @@ body{
     margin: 20px 50px 30px 50px;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
 }
 
-#about p{
+#about h3{
     margin-left: 20px;
 }
 
 #aboutheader{
     display: flex;
     flex-direction: row;
+}
+
+#userDescription{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width:460px;
+    margin-left: -456px;
+    margin-top: 44px;
+    height: 140px;
+}
+
+#fetchedUserDescription{
+    font-size: 14px;
+    font-weight: 300;
+    color: #2E3031;
+    display: none;
+    visibility: hidden;
+}
+
+#fetchedUserDescription.active {
+    display: unset;
+    visibility: visible;
+}
+
+#editUserDescriptionForm textarea{
+    width: 460px;
+    height: 140px;
+    border: none;
+    resize: none;
+    outline: none;
+    color: black;
+    font-family: 'Lexend';
+    font-weight: 100;
+    display: none;
+    visibility: hidden;
+    position: absolute;
+    margin-left: -10px;
+    font-size: 14px;
+}
+
+#editUserDescriptionForm.active textarea{
+    display: unset;
+    visibility: visible;
+}
+
+#userDescription p{
+    margin-left: 0px;
+    margin-top: 0px;
 }
 
 #recentgames{
@@ -659,7 +710,7 @@ body{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.editButton{
+#editButton{
     font-size: 18px;
     font-weight: 400;
     height: 30px;
@@ -668,7 +719,7 @@ body{
     background-size: 16px;
     background-repeat: no-repeat;
     border: none;
-    margin-left: 300px;
+    margin-left: 270px;
     margin-top: 10px;
     font-family: 'Lexend';
     padding: 5px 70px 5px 10px;
@@ -677,13 +728,89 @@ body{
     color: #fff;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    visibility: hidden;
+    display: none;
 }
 
-.editButton:hover{
+#editButton:hover{
     box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     transition: 0.5s;
+    background-color: #54a8a8;
 }
+
+#editButton.active{
+    visibility: visible;
+    display: unset;
+}
+
+#formbuttons{
+    background-color: #66cccc;
+    width: 140px;
+    height: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-left: 220px;
+    margin-top: 10px;
+    display: none;
+    visibility: hidden;
+    
+}
+
+#formbuttons.active{
+    display: flex;
+    visibility: visible;
+    flex-direction: row;
+}
+
+#formbuttons p{
+    font-size: 18px;
+    font-weight: 400;
+    color: white;
+    margin-top: 4px;
+    margin-left: 10px;
+}
+
+#uploadDescriptionForm{
+    width: 26px;
+    height: 26px;
+    background-image: url(uploaddiscordwhite.png);
+    background-size: 26px;
+    background-repeat: no-repeat;
+    border: none;
+    background-position: 0px 0px;
+    border-radius: 100px;
+    transition: 0.5s;
+    background-color: #66cccc;
+    position: relative;
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+#uploadDescriptionForm:hover {
+    background-color: #54a8a8;
+}
+
+#ExitDescriptionForm{
+    width: 26px;
+    height: 26px;
+    background-image: url(exitdiscordwhite.png);
+    background-size: 15px;
+    background-repeat: no-repeat;
+    border: none;
+    background-position: 5px 6px;
+    border-radius: 100px;
+    transition: 0.5s;
+    background-color: #66cccc;
+    position: relative;
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+#ExitDescriptionForm:hover {
+    background-color: #54a8a8;
+}
+
 
 #changeProfileImage{
     height: 40px;

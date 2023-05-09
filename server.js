@@ -180,6 +180,21 @@ app.get('/clubLinks', async (req, res) => {
   client.release();
 });
 
+app.get('/getLoggedInUserInfo', async (req, res) => {
+  //Function to send the logged in users data to edit profile
+  const client = await pool.connect();
+  try {
+    const loggedInUserData = await pool.query(
+      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, contact_info, user_bio FROM users WHERE user_id = $1'
+      , [loggedInUserId]);
+    res.status(200).send(loggedInUserData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
+});
+
 app.post('/uploadprofilepicture', async (req, res) => {
   const client = await pool.connect();
   const imageFile = req.files.image;
@@ -217,6 +232,23 @@ app.post('/uploaddiscordform', async (req, res) => {
       WHERE user_id = $2
     `, [contact_info, loggedInUserId]);
     res.status(200).send({ message: 'Discord info updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
+});
+
+app.post('/uploadUserDescriptionForm', async (req, res) => {
+  const { user_description } = req.body;
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      UPDATE users
+      SET user_bio = $1
+      WHERE user_id = $2
+    `, [user_description, loggedInUserId]);
+    res.status(200).send({ message: 'Bio updated successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Error: Internal server error' });

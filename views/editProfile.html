@@ -60,8 +60,19 @@
                     <div id="contentleft">
                         <section id="about">
                             <div id="aboutheader">
-                                <p>Description</p>
-                                <button class="editButton">Edit</button>
+                                <h3>Description</h3>
+                                <button id="editButton" class="active" onclick="toggleEditDescription()">Edit</button>
+                                <div id="formbuttons">
+                                    <p>Editing</p>
+                                    <button id="uploadDescriptionForm" type="submit" form="editUserDescriptionForm"></button>
+                                    <button id="ExitDescriptionForm" onclick="exitDescriptionForm()"></button>
+                                </div>
+                                <article id="userDescription">
+                                    <p id="fetchedUserDescription" class="active">Content</p>
+                                    <form id="editUserDescriptionForm">
+                                        <textarea id="descriptionFormInput"></textarea>
+                                    </form>
+                                </article>
                             </div>
                         </section>
                         <section id="achievements">
@@ -96,8 +107,8 @@
                 <img src="right-arrowblack.png" id="rightarrowblack">
             </div>
             <footer id="popupfooter">
-            <p>Want to create you own club?</p>
-            <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
+                <p>Want to create you own club?</p>
+                <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
             </footer>
         </div>
     </div>
@@ -113,28 +124,76 @@
         </div>
     </div>
     <script>
-            document.getElementById('discordform').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const contact_info = document.getElementById('discordforminput').value;
+        //Function to toggle description form
+        function toggleEditDescription() {
+            var fetchedUserDescriptionToggle = document.getElementById('fetchedUserDescription');
+            var editButtonToggle = document.getElementById('editButton');
+            var editUserDescriptionFormToggle = document.getElementById('editUserDescriptionForm');
+            var formbuttonsToggle = document.getElementById('formbuttons');
+            editUserDescriptionFormToggle.classList.add('active');
+            formbuttonsToggle.classList.add('active');
+            editButtonToggle.classList.remove('active');
+            fetchedUserDescriptionToggle.classList.remove('active');
+        }
+        //Function to detoggle description form
+        function exitDescriptionForm(){
+            var fetchedUserDescriptionToggle = document.getElementById('fetchedUserDescription');
+            var editButtonToggle = document.getElementById('editButton');
+            var editUserDescriptionFormToggle = document.getElementById('editUserDescriptionForm');
+            var formbuttonsToggle = document.getElementById('formbuttons');
+            editUserDescriptionFormToggle.classList.remove('active');
+            formbuttonsToggle.classList.remove('active');
+            editButtonToggle.classList.add('active');
+            fetchedUserDescriptionToggle.classList.add('active');
+        }
 
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/uploaddiscordform');
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      document.getElementById('discordFormError').innerHTML = 'success';
-    } else {
-      document.getElementById('discordFormError').innerHTML = 'Error';
-    }
-  };
+        //Sends description form to backend
+        document.getElementById('editUserDescriptionForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const user_description = document.getElementById('descriptionFormInput').value;
 
-  xhr.onerror = function() {
-    document.getElementById('discordFormError').innerHTML = 'Unable to update Discord info';
-  };
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uploadUserDescriptionForm');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+            document.getElementById('Userbiostatus').innerHTML = 'success';
+            } else {
+            document.getElementById('Userbiostatus').innerHTML = 'Error';
+            }
+        };
 
-  xhr.send(JSON.stringify({ contact_info }));
-});
+        xhr.onerror = function() {
+            document.getElementById('Userbiostatus').innerHTML = 'Unable to update user bio';
+        };
 
+        xhr.send(JSON.stringify({ user_description }));
+        });
+
+        //Sends discorddetails form to backend
+        document.getElementById('discordform').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const contact_info = document.getElementById('discordforminput').value;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uploaddiscordform');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+            document.getElementById('discordFormError').innerHTML = 'success';
+            } else {
+            document.getElementById('discordFormError').innerHTML = 'Error';
+            }
+        };
+
+        xhr.onerror = function() {
+            document.getElementById('discordFormError').innerHTML = 'Unable to update Discord info';
+        };
+
+        xhr.send(JSON.stringify({ contact_info }));
+        });
+
+        //Function to detoggle discordform
         function exitDiscordForm() {
             var discordformToggle = document.getElementById('discordform');
             var editdiscordToggle = document.getElementById('editdiscord');
@@ -143,7 +202,7 @@
             editdiscordToggle.classList.add('active');
             discordnameToggle.classList.add('active');
         }
-
+        //Function to toggle discordform
         function toggleEditDiscord() {
             var discordformToggle = document.getElementById('discordform');
             var editdiscordToggle = document.getElementById('editdiscord');
@@ -153,10 +212,7 @@
             discordnameToggle.classList.remove('active');
         }
 
-        function submitDiscordForm() {
-
-        }
-
+        //Function to send profile picture to backend
         function addProfilePicture() {
             const formData = new FormData();
             const fileInput = document.getElementById("file-upload");
@@ -167,14 +223,12 @@
                 body: formData,
             })
             .then(response => {
-                // handle response from backend function
             })
             .catch(error => {
-                // handle error
             });
             }
 
-          // Get the div where the links are displayed
+          // Creates the div where the links to leaderboards are displayed
           const clubLinksDiv = document.getElementById('clublinks');
             fetch('/clubLinks')
                 .then(response => response.json())
@@ -187,40 +241,40 @@
                         image.src = leaderboard.leaderboard_image;
                         link.appendChild(image);
                         clubLinksDiv.appendChild(link);
-        });
-    })
-    .catch(error => console.error(error));
+                    });
+                })
+                .catch(error => console.error(error));
 
         //Popup for uploading profilepicture
         function addProfilePicturePopup() {
-        var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup')
-        var gridcontainerLink = document.getElementById('blur');
-        addProfilePicturePopupDiv.classList.add('active');
-        gridcontainerLink.classList.add('active');
-        }
+            var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup')
+            var gridcontainerLink = document.getElementById('blur');
+            addProfilePicturePopupDiv.classList.add('active');
+            gridcontainerLink.classList.add('active');
+            }
 
         function exitAddProfilePicturePopup() {
-        var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup');
-        var gridcontainerLink = document.getElementById('blur');
-        addProfilePicturePopupDiv.classList.remove('active');
-        gridcontainerLink.classList.remove('active');
-        }
+            var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup');
+            var gridcontainerLink = document.getElementById('blur');
+            addProfilePicturePopupDiv.classList.remove('active');
+            gridcontainerLink.classList.remove('active');
+            }
 
 
         /*Popup for adding leaderboards*/
         function leaderboardpopup() {
-        var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
-        var gridcontainerLink = document.getElementById('blur');
-        leaderboardpopupDiv.classList.add('active');
-        gridcontainerLink.classList.add('active');
-        }
+            var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+            var gridcontainerLink = document.getElementById('blur');
+            leaderboardpopupDiv.classList.add('active');
+            gridcontainerLink.classList.add('active');
+            }
 
         function exitpopup() {
-        var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
-        var gridcontainerLink = document.getElementById('blur');
-        leaderboardpopupDiv.classList.remove('active');
-        gridcontainerLink.classList.remove('active');   
-        }
+            var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+            var gridcontainerLink = document.getElementById('blur');
+            leaderboardpopupDiv.classList.remove('active');
+            gridcontainerLink.classList.remove('active');   
+            }
 
         /* Sends Join a Club form to backend */
         document.getElementById('join-club-form').addEventListener('submit', function(event) {
