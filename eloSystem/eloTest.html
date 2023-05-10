@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../public/addResults.css">
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <button id="player1" type="button" onclick="player1Victory(player_1, player_2)">Player 1 won</button>
-        <button id="player2" type="button" onclick="player2Victory(player_1, player_2)">Player 2 won</button>
+    <div class="grid-container" id="blur">
+        <p id="eloDesciption"></p>
+        <button id="addResults" type="button" onclick="resultsPopup()">addResults</button>
+        <div id="resultsPopup">
+            <h1>Who won?</h1>
+            <button id="player1" type="button" onclick="player1Victory(player_1, player_2)">Player 1 won</button>
+            <button id="player2" type="button" onclick="player2Victory(player_1, player_2)">Player 2 won</button>
+        </div>
     </div>
     <script src="eloSystem.js"></script>
 </body>

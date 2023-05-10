@@ -1,0 +1,31 @@
+
+
+#blur.active > *:not(#resultsPopup) {
+    filter: blur(2px);
+    transition: 1s;
+}
+
+#resultsPopup{
+    visibility: hidden;
+    position: absolute;
+    background-color: #fff;
+    top: -20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
+    border-radius: 10px;
+}
+
+#resultsPopup.active{
+    visibility: visible;
+    position: absolute;
+    background-color: #fff;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
+}
