@@ -57,6 +57,7 @@
                                 <button id="exitdiscordform" type="button" onclick="exitDiscordForm()"></button>
                             </form>
                         </div>
+                        <p id="discordFormError"></p>
                     </section>
                 </header>
                 <div id="contentsections">
@@ -77,6 +78,7 @@
                                         <textarea id="descriptionFormInput"></textarea>
                                     </form>
                                 </article>
+                                <p id="Userbiostatus"></p>
                             </div>
                         </section>
                         <section id="achievements">
@@ -128,6 +130,12 @@
         </div>
     </div>
     <script>
+        document.getElementById('discordform').addEventListener('submit', function(event) {
+  event.preventDefault();
+  console.log('Form submitted!');
+  // rest of the code
+});
+
         //Function to toggle description form
         function toggleEditDescription() {
             var fetchedUserDescriptionToggle = document.getElementById('fetchedUserDescription');
@@ -179,18 +187,18 @@
         document.getElementById('discordform').addEventListener('submit', function(event) {
         event.preventDefault();
         const contact_info = document.getElementById('discordforminput').value;
-
+            
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '/uploaddiscordform');
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function() {
             if (xhr.status === 200) {
-            document.getElementById('discordFormError').innerHTML = 'success';
-            window.location.reload();
+                document.getElementById('discordFormError').innerHTML = 'success';
+                location.reload(true);
             } else {
-            document.getElementById('discordFormError').innerHTML = 'Error';
+                document.getElementById('discordFormError').innerHTML = 'Error';
             }
-        };
+            };
 
         xhr.onerror = function() {
             document.getElementById('discordFormError').innerHTML = 'Unable to update Discord info';
