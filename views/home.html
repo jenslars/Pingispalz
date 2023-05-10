@@ -110,7 +110,7 @@
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     document.getElementById('join-club-success').innerHTML = 'Successfully joined the club';
-                    window.location.href = "/home";
+                    window.location.reload();
                 } else {
                     document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
                 }

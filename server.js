@@ -167,7 +167,6 @@ app.post('/joinClub', async (req, res) => {
     `, [loggedInUserId, selectedLeadboardId]);
 
     res.status(200).send({ message: 'Successfully joined the club' });
-    res.redirect('/home');
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Unable to join the club' });

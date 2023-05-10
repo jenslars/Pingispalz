@@ -7,67 +7,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="styleLeaderboard.css" rel="stylesheet" type="text/css">
+    <link href="navigationBar.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div id="content">
-        <div class="grid-container" id="blur">
-            <nav class="sidenav">
-                <div id="logo">
-                    <p>Pingispals<p class="redDot">.</p></p>
-                </div>
-                <a id="home" href="#" class="active">Home</a>
-                <a id="search" href="#">Search</a>
-                <a id="leaderboards" href="#">Clubs</a>
-                <a id="challenges" href="#">Challenges</a>
-                <a id="profile" href="#">Profile</a>
-            </nav>
-            <nav id="searchfield">
-                <form>
-                    <input type="text" placeholder="Search">
-                </form>
-            </nav>
-            <nav id="leaderboardoptions">
-                <div id="leaderboardoptionsbuttons">
-                    <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
-                    <button type="button" id="findserver"></button>
-                </div>
-                <div id="clublinks">
-                    <ul id="clublinkslist"></ul>
-                </div>
-            </nav>
-        <div class="grid">
-            <div class="header"> 
-                <h2> Malmo University </h2>
-                <h3> Leaderboard </h3>
-                <div id="topPlayers">
-                    <div id="top2"> 
-                        
-                    </div>
-                    <div id="top1"> 
-                        
-                    </div>
-                    <div id="top3"> 
-                        
-                    </div>
-                </div>
+    <div class="grid-container" id="blur">
+        <nav class="sidenav">
+            <div id="logo">
+                <p>Pingispals<p class="redDot">.</p></p>
             </div>
-            <div id="ranking"> 
-                <table>
-                    <thead>
-                        <tr>
-                            <th id="placement"> Placement </th>
-                            <th id="username"> Username </th>
-                            <th id="wins"> Wins </th>
-                            <th id="winRatio"> Win ratio </th>
-                            <th id="elo"> Elo </th>
-                            <th id="status"> Status </th>
-                            <th id="play"> Play </th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard"></tbody>
-                </table>
+            <a id="home" href="#" class="active">Home</a>
+            <a id="search" href="#">Search</a>
+            <a id="leaderboards" href="#">Clubs</a>
+            <a id="challenges" href="#">Challenges</a>
+            <a id="profile" href="/editProfile">Profile</a>
+        </nav>
+        <nav id="searchfield">
+            <form>
+                <input type="text" placeholder="Search">
+            </form>
+        </nav>
+        <nav id="leaderboardoptions">
+            <div id="leaderboardoptionsbuttons">
+                <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
+                <button type="button" id="findserver"></button>
             </div>
+            <div id="clublinks">
+                <ul id="clublinkslist"></ul>
+            </div>
+        </nav>
+        <div id="content">
+            <h1>Test</h1>
+            <h2>test</h2>
         </div>
         <div id="leaderboardpopup">
             <button id="exitpopup" onclick="exitpopup()"></button>
@@ -140,6 +110,7 @@
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     document.getElementById('join-club-success').innerHTML = 'Successfully joined the club';
+                    window.location.reload();
                 } else {
                     document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
                 }
@@ -216,4 +187,3 @@
     </script>
   </body>
 </html>
-
