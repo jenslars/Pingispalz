@@ -146,6 +146,7 @@ app.post('/createOrg', async (req, res) => {
     throw e;
   } finally {
     client.release();
+    res.redirect('/home');
   }
 });
 

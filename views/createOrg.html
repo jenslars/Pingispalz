@@ -8,43 +8,197 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="org.css" type="text/css">
+    <link href="navigationBar.css" rel="stylesheet" type="text/css">
     <title>create an org</title>
 </head>
 <body>
-    <main>
-        <div class="container">
-            <aside>
-                <!-- pingis logo -->
-                <nav>
-                    <input class="searchBar" type="text" placeholder="Search...">
-                    <ul>
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="friends.html">Friends</a></li>
-                        <li><a href="games.html">Games</a></li>
-                        <li><a href="tournament.html">Tournament</a></li>
-                        <li><a href="clubs.html">Clubs</a></li>
-                    </ul>
-                </nav>
-            </aside>
-            <h1 id="itemCenter">Create New Organization</h1>
-            <section>
-                <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
-                    <label for="tableName"> Organization name:
-                        <input id="tableName" name="tableName" type="text" placeholder="org name" maxlength="25" required>
-                    </label><br>
-                    <label for="tableDescription"> Organization Description: <br>
-                        <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Describe your organization" maxlength="255"></textarea>
-                    </label><br>
-                    <label for="image"> Image for organization:
-                        <input type="file" name="image" id="image" required>
-                    </label>
-                    <button type="submit">Create org</button>
-                    <p id="error-message"></p>
-                </form>                
-            </section>
+    <div class="grid-container" id="blur">
+        <nav class="sidenav">
+            <div id="logo">
+                <p>Pingispals<p class="redDot">.</p></p>
+            </div>
+            <a id="home" href="#">Home</a>
+            <a id="search" href="#">Search</a>
+            <a id="leaderboards" href="#" class="active">Clubs</a>
+            <a id="challenges" href="#">Challenges</a>
+            <a id="profile" href="#">Profile</a>
+        </nav>
+        <nav id="searchfield">
+            <form>
+                <input type="text" placeholder="Search">
+            </form>
+        </nav>
+        <nav id="leaderboardoptions">
+            <div id="leaderboardoptionsbuttons">
+                <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
+                <button type="button" id="findserver"></button>
+            </div>
+            <div id="clublinks">
+                <ul id="clublinkslist"></ul>
+            </div>
+        </nav>
+        <section>
+            <h1 id="itemCenter">Create New Club</h1>
+            <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
+                <label for="tableName"> Club Name:
+                    <input id="tableName" name="tableName" type="text" placeholder="Club name" maxlength="25" required>
+                </label><br>
+                <label for="tableDescription"> Club Description: <br>
+                    <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Describe your club" maxlength="255"></textarea>
+                </label><br>
+                <label for="image"> Image for club:
+                    <input type="file" name="image" id="image" required>
+                </label>
+                <button type="submit">Create Club</button>
+                <p id="error-message"></p>
+            </form>                
+        </section>
+        <div id="leaderboardpopup">
+            <button id="exitpopup" onclick="exitpopup()"></button>
+            <h1>Join a Club</h1>
+            <p>Enter a clubs name below to join their leaderboard.</p>
+            <form id="join-club-form">
+                <label>Club name</label>
+                <div id="joinformfield">
+                    <input type="text" id="join-club-input" placeholder="club#123" required>
+                    <button type="submit" id="join-club-button">Join Club</button>
+                </div>
+                <div id="join-club-success"></div>
+                <div id="join-club-error"></div>
+            </form>
+            <div id="findclub" role="button" onclick="window.location.href='/findclub'">
+                <img src="compasswhite.png" id="compasswhite">
+                <div id="findclubtext">
+                    <h2>Don't know a clubs name?</h2>
+                    <p>Check out the current Clubs in Club Discovery</p>
+                </div>
+                <img src="right-arrowblack.png" id="rightarrowblack">
+            </div>
+            <footer id="popupfooter">
+            <p>Want to create you own club?</p>
+            <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
+            </footer>
         </div>
-    </main>
+    </div>
     <script>
+          // Get the div where the links are displayed
+          const clubLinksDiv = document.getElementById('clublinks');
+            fetch('/clubLinks')
+                .then(response => response.json())
+                .then(leaderboardsData => {
+                    leaderboardsData.forEach((leaderboard) => {
+                        const link = document.createElement('a');
+                        link.href = `/leaderboards/${leaderboard.id}`; 
+                        link.classList.add('club-link'); 
+                        const image = document.createElement('img');
+                        image.src = leaderboard.leaderboard_image;
+                        link.appendChild(image);
+                        clubLinksDiv.appendChild(link);
+        });
+    })
+    .catch(error => console.error(error));
+
+        /*Popup for adding leaderboards*/
+        function leaderboardpopup() {
+        var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+        var gridcontainerLink = document.getElementById('blur');
+        leaderboardpopupDiv.classList.add('active');
+        gridcontainerLink.classList.add('active');
+        }
+
+        function exitpopup() {
+        var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+        var gridcontainerLink = document.getElementById('blur');
+        leaderboardpopupDiv.classList.remove('active');
+        gridcontainerLink.classList.remove('active');   
+        }
+
+        /* Sends Join a Club form to backend */
+        document.getElementById('join-club-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const club = document.getElementById('join-club-input').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/joinClub');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('join-club-success').innerHTML = 'Successfully joined the club';
+                } else {
+                    document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+                }
+            };
+
+            xhr.onerror = function() {
+                document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+            };
+
+            xhr.send(JSON.stringify({ club }));
+        });
+        /* desktop navbar function */
+        var homeLink = document.getElementById('home');
+        var searchLink = document.getElementById('search');
+        var leaderboardsLink = document.getElementById('leaderboards');
+        var challengesLink = document.getElementById('challenges');
+        var profileLink = document.getElementById('profile');
+        var searchfieldLink = document.getElementById('searchfield');
+        var leaderboardoptionsLink = document.getElementById('leaderboardoptions');
+
+        homeLink.addEventListener('click', function() {
+        homeLink.classList.add('active');
+
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        searchLink.addEventListener('click', function() {
+        searchLink.classList.add('active');
+        searchfieldLink.classList.add('active');
+        
+        homeLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        leaderboardsLink.addEventListener('click', function() {
+        leaderboardsLink.classList.add('active');
+        leaderboardoptionsLink.classList.add('active');
+
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        challengesLink.addEventListener('click', function() {
+        challengesLink.classList.add('active');
+        
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        profileLink.addEventListener('click', function() {
+        profileLink.classList.add('active');
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        });
+        
+        //function for creating clubs/ orgs 
         function createOrg() {
             var tableName = document.getElementById("tableName").value;
             var tableDescription = document.getElementById("tableDescription").value;
@@ -58,6 +212,7 @@
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         document.getElementById("error-message").innerHTML = "Organization created successfully";
+                        window.location.href = "/home";
                     } else {
                         document.getElementById("error-message").innerHTML = "Looks like you missed something, try again.";
                     }

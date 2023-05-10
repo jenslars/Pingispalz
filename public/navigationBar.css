@@ -132,6 +132,7 @@ transition: 1s;
 }
 
 .sidenav {
+    background-color: #66cccc;
     grid-column: 1;
     display: flex;
     flex-direction: column;
@@ -326,7 +327,6 @@ transition: 1s;
 html{
     font-family: 'Lexend';
     font-style: normal;
-    background-color: #66cccc;
     overflow: hidden;
 }
 
