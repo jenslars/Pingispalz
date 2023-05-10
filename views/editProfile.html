@@ -218,19 +218,29 @@
 
         //Function to send profile picture to backend
         function addProfilePicture() {
-            const formData = new FormData();
-            const fileInput = document.getElementById("file-upload");
-            formData.append("image", fileInput.files[0]);
+  const formData = new FormData();
+  const fileInput = document.getElementById("file-upload");
+  formData.append("image", fileInput.files[0]);
 
-            fetch("/uploadprofilepicture", {
-                method: "POST",
-                body: formData,
-            })
-            .then(response => {
-            })
-            .catch(error => {
-            });
-            }
+  fetch("/uploadprofilepicture", {
+    method: "POST",
+    body: formData,
+  })
+  .then(response => {
+  console.log(response);
+  if (response.status === 200) {
+    console.log("Upload successful");
+    window.location.reload();
+  } else {
+    console.log("Upload failed");
+  }
+})
+
+  .catch(error => {
+    console.log(error);
+  });
+}
+
 
           // Creates the div where the links to leaderboards are displayed
           const clubLinksDiv = document.getElementById('clublinks');
