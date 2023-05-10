@@ -166,6 +166,7 @@ app.post('/joinClub', async (req, res) => {
     `, [loggedInUserId, selectedLeadboardId]);
 
     res.status(200).send({ message: 'Successfully joined the club' });
+    res.redirect('/home');
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Unable to join the club' });
@@ -229,19 +230,22 @@ app.post('/uploadprofilepicture', async (req, res) => {
     await imageFile.mv(savePath);
 
     await client.query(`
-  UPDATE users
-  SET profile_image = $1
-  WHERE user_id = $2
-`, [filename, loggedInUserId]);
+      UPDATE users
+      SET profile_image = $1
+      WHERE user_id = $2
+    `, [filename, loggedInUserId]);
 
     await client.query('COMMIT');
+
+    res.status(200).send({ message: "Upload successful" }); // Send a response back to the client
   } catch (e) {
     await client.query('ROLLBACK');
-    throw e;
+    res.status(500).send({ message: "Upload failed" }); // Send an error response back to the client
   } finally {
     client.release();
   }
 });
+
 
 app.post('/uploaddiscordform', async (req, res) => {
   const { contact_info } = req.body;
