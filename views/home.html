@@ -74,7 +74,7 @@
                 .then(leaderboardsData => {
                     leaderboardsData.forEach((leaderboard) => {
                         const link = document.createElement('a');
-                        link.href = `/leaderboards/${leaderboard.id}`; 
+                        link.href = `/leaderboard/${leaderboard.id}`; 
                         link.classList.add('club-link'); 
                         const image = document.createElement('img');
                         image.src = leaderboard.leaderboard_image;
