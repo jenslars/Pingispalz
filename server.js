@@ -293,26 +293,11 @@ app.get('/:page', (req, res) => {
     }
     res.end();
   });
-
-  app.get('/leaderboard', (req, res) => {
-    const page = req.params.page;
-    fs.readFile('Leaderboard.html', function(error, data) {
-      if (error) {
-        res.writeHead(404);
-        res.write('Error: File Not Found');
-      }
-      else {
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(data);
-      }
-       res.end();
-    });
-  })
   
   app.get('/leaderboard/score', async (req, res) => {
     const page = req.params.page;
      try {
-       const result = await pool.query('SELECT username, elo, wins, losses FROM mautest JOIN users ON player_id = user_id ORDER BY elo DESC')
+       const result = await pool.query('SELECT username, elo, wins, losses FROM "ClubTest#85" JOIN users ON player_id = user_id ORDER BY elo DESC')
        res.status(200).send(result.rows);
      }
      catch {
@@ -338,50 +323,45 @@ app.get('/leaderboard', (req, res) => {
   });
 })
 
+let GlobalLeaderboardValue;
+
+app.get('/leaderboards/:page', async (req, res) => {
+  GlobalLeaderboardValue = req.params.page;
+  fs.readFile('views/leaderboard.html', function(error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write('Error: File Not Found');
+      res.end();
+    }
+    else {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
+      res.end();
+    }
+  });
+});
+console.log(GlobalLeaderboardValue)
+
 app.get('/leaderboard/score', async (req, res) => {
-  const page = req.params.page;
-   try {
-     const result = await pool.query('SELECT username, elo, wins, losses FROM "TestClub#85" JOIN users ON player_id = user_id ORDER BY elo DESC')
-     res.status(200).send(result.rows);
-   }
-   catch {
+  const client = await pool.connect();
+  try {
+    const fetchedLeaderboardName = await pool.query('SELECT leaderboard_name FROM leaderboards WHERE id = $1', [GlobalLeaderboardValue]);
+    const finalfetchedLeaderboardName = fetchedLeaderboardName.rows[0].user_bio;
+
+    const tableName = `${finalfetchedLeaderboardName}#${GlobalLeaderboardValue}`;
+
+    const result = await pool.query('SELECT username, elo, wins, losses FROM $1 JOIN users ON player_id = user_id ORDER BY elo DESC', [tableName])
+    res.status(200).send(result.rows);
+    }
+    catch {
     res.writeHead(500);
     res.write('Error: Internal server error');
-   }
-   res.end();
-})
-
-app.get('/leaderboard/:page', async (req, res) => {
-  const { page } = req.params.page;
-  try {
-    const result = await pool.query(`SELECT username, elo, wins, losses FROM "${page}" JOIN users ON player_id = user_id ORDER BY elo DESC`);
-    res.status(200).send(result.rows);
-  } catch (err) {
-    res.status(500).send('Error: Internal server error, please try again')
-  }
+    }
+    res.end();
 });
 
-app.get('/leaderboard/:userId', async (req, res) => {
-  const { userId } = req.params;
-  try {
-    const userResult = await pool.query('SELECT * FROM user WHERE user_id = $1', [userId]);
-    const user = userResult.rows[0];
-    if (!user) {
-      res.status(404).send('Not found');
-      return;
-    }
-    const serverId = user.server_id;
-    const leaderboardResult = await pool.query('SELECT * FROM leaderboards WHERE server_id = $1', [serverId]);
-    const leaderboard = leaderboardResult.rows[0];
-    if (!leaderboard) {
-      res.status(404).send('Leaderboard not found :(');
-      return;
-    }
-    const leaderboardName = leaderboard.name;
-    const leaderboardDataResult = await pool.query(`SELECT username, elo, wins, losses FROM ${leaderboardName} JOIN users ON player_id = user_id ORDER BY elo DESC`);
-    const leaderboardData = leaderboardDataResult.rows;
-    res.status(200).send(leaderboardData)
-  } catch (err) {
-    res.status(500).send('Error: Internal server error, please try again');
-  }
-})
+
+
+
+
+

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
         <title>Welcome Pingispals!</title>
         <link rel="icon" type="image/x-icon" href="images/PingisPalsSmallIcon.png">
-        <link href="styleLeaderboard.css" rel="stylesheet">
-        <link href="navigationbar.css" rel="stylesheet">
+        <link href="/styleLeaderboard.css" rel="stylesheet">
+        <link href="/navigationbar.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -203,20 +203,20 @@
                 const top3 = players.find(player => player.placement === "3");
 
                 const top1Div = `
-                    <img class="crown" src="Crown.png">
-                    <img class="playerProfilePhoto" src="mightyloaf.png">
+                    <img class="crown" src="/Crown.png">
+                    <img class="playerProfilePhoto" src="/mightyloaf.png">
                     <p>${top1.username}</p>
                     <p>#${top1.placement}</p>
                 `;
 
                 const top2Div = `
-                    <img class="playerProfilePhoto" src="akwardcat.jpg">
+                    <img class="playerProfilePhoto" src="/akwardcat.jpg">
                     <p>${top2.username}</p>
                     <p>#${top2.placement}</p>
                 `;
 
                 const top3Div = `
-                    <img class="playerProfilePhoto" src="akwardcat.jpg">
+                    <img class="playerProfilePhoto" src="/akwardcat.jpg">
                     <p>${top3.username}</p>
                     <p>#${top3.placement}</p>
                 `;
