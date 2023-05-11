@@ -708,15 +708,6 @@ body{
     margin-top: 0px;
 }
 
-#recentgames{
-    background-color: #fff;
-    width: 400px;
-    height: 450px;
-    margin: 20px auto 20px auto ;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
 #editButton{
     font-size: 18px;
     font-weight: 400;
@@ -841,6 +832,19 @@ body{
     border-radius: 10px;
 }
 
+#recentgames{
+    background-color: #fff;
+    width: 400px;
+    height: 450px;
+    margin: 20px auto 20px auto ;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#recentgames h3{
+    margin-left: 20px;
+}
+
 #achievements{
     background-color: #fff;
     width: 500px;
@@ -852,6 +856,24 @@ body{
 
 #achievements p{
     margin-left: 20px;
+}
+
+#matchhistorylist{
+    height: 370px;
+    background-color: #5865F2;
+    width: 360px;
+    margin: auto;
+}
+
+#match{
+    border-bottom: 2px solid #93b8b8;
+}
+
+#match img{
+    height: 50px;
+    width: 50px;
+    border-radius: 100px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 #addProfilePicturePopup{
