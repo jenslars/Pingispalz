@@ -237,10 +237,17 @@ app.post('/uploadprofilepicture', async (req, res) => {
 
     await client.query('COMMIT');
 
+<<<<<<< Updated upstream
     res.status(200).send({ message: "Upload successful" }); // Send a response back to the client
   } catch (e) {
     await client.query('ROLLBACK');
     res.status(500).send({ message: "Upload failed" }); // Send an error response back to the client
+=======
+    res.status(200).send('Image uploaded successfully');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    res.status(500).send('Error uploading image');
+>>>>>>> Stashed changes
   } finally {
     client.release();
   }
