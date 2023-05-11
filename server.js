@@ -313,13 +313,10 @@ app.get('/leaderboard', (req, res) => {
 
 app.get('/leaderboard/score', async (req, res) => {
   const client = await pool.connect();
-  console.log("Vi är i nya funktionen")
   try {
     const fetchedLeaderboardName = await pool.query('SELECT leaderboard_name FROM leaderboards WHERE id = $1', [GlobalLeaderboardValue]);
     const finalfetchedLeaderboardName = fetchedLeaderboardName.rows[0].leaderboard_name;
-    console.log(finalfetchedLeaderboardName)
     const tableName = `${finalfetchedLeaderboardName}#${GlobalLeaderboardValue}`;
-    console.log(tableName)
     const result = await pool.query(`SELECT username, elo, wins, losses FROM "${tableName}" JOIN users ON player_id = user_id ORDER BY elo DESC`)
     res.status(200).send(result.rows);
   } catch (err) {
