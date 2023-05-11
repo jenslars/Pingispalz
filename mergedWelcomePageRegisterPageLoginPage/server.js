@@ -108,7 +108,7 @@ app.get('/leaderboard', (req, res) => {
 app.get('/leaderboard/score', async (req, res) => {
   const page = req.params.page;
    try {
-     const result = await pool.query('SELECT username, elo, wins, losses FROM mautest JOIN users ON player_id = user_id ORDER BY elo DESC')
+     const result = await pool.query('SELECT username, elo, wins, losses FROM "TestClub#85" JOIN users ON player_id = user_id ORDER BY elo DESC')
      res.status(200).send(result.rows);
    }
    catch {
