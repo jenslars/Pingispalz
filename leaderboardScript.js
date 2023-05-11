@@ -27,7 +27,7 @@ fetch('/leaderboard/score')
 function ladder(players) {
     var table = "<tbody>";
     for (let i = 0; i < players.length ; i++) {
-    
+        console.log(players)
             table += "<tr>";
             table += "<td>" + players[i].placement + "</td>";
             table += "<td>" + players[i].username + "</td>";
@@ -79,6 +79,7 @@ tableBody.innerHTML = "";
 
 for (let i = 0; i < players.length; i++) {
     let player = players[i];
+    console.log(players)
 
     let row = document.createElement("tr");
     row.innerHTML = `
