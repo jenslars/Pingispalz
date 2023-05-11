@@ -258,45 +258,6 @@ table {
     text-transform: uppercase;
   }
 
-@media screen and (max-width: 600px){
-    .grid {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-areas:
-        "header"
-        "top"
-        "ladder"
-        "menu";
-      }
-
-    .sidebar {
-        position: relative;
-        width: auto;
-    }
-
-    #ranking {
-        height: 400px;
-    }
-
-    .sidebar li {
-        display: flex;
-        justify-content: center;
-        display: inline;
-    }
-
-    input {
-        width: auto;
-    }
-
-    input:focus {
-        width: auto;
-    }
-
-    li {
-        margin: 0;
-    }
-}
-
 /* Desktop css*/
 .grid-container {
     display: grid;
@@ -646,7 +607,7 @@ body{
 }
 
 .sidenav a{
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     color: #fff;
     font-size: 22px;
     margin-left: 5px;
@@ -657,7 +618,6 @@ body{
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 31px 31px ;
-    padding: 10px 5px 10px 50px;
     width: 30%;
     text-decoration: none;
     border-radius: 15px;
@@ -1012,6 +972,43 @@ table {
   }
 
 @media screen and (max-width: 600px){
+        .grid {
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-areas:
+            "header"
+            "top"
+            "ladder"
+            "menu";
+          }
+    
+        .sidebar {
+            position: relative;
+            width: auto;
+        }
+    
+        #ranking {
+            height: 400px;
+        }
+    
+        .sidebar li {
+            display: flex;
+            justify-content: center;
+            display: inline;
+        }
+    
+        input {
+            width: auto;
+        }
+    
+        input:focus {
+            width: auto;
+        }
+    
+        li {
+            margin: 0;
+        }
+    
     .grid-container	{
         grid-template-areas:
             'header'
