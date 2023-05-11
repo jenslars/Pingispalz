@@ -63,7 +63,7 @@
                         <th id="placement"> Placement </th>
                         <th id="username"> Username </th>
                         <th id="wins"> Wins </th>
-                        <th id="winRatio"> Win ratio </th>
+                        <th id="winRatio"> WinRate </th>
                         <th id="elo"> Elo </th>
                         <th id="status"> Status </th>
                         <th id="play"> Play </th>
@@ -182,8 +182,9 @@
                                 <td><button>Play</button></td>
                             `;
                             if (player.losses) {
-                                const winLossRatio = player.wins / player.losses;
+                                const winLossRatio = (player.wins / (player.wins + player.losses) * 100).toFixed(0) + "%";
                                 row.children[3].textContent = winLossRatio;
+
                             }
                             else {
                                 row.children[3].textContent = "n/a"
