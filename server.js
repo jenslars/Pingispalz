@@ -293,20 +293,7 @@ app.get('/:page', (req, res) => {
     }
     res.end();
   });
-  
-  app.get('/leaderboard/score', async (req, res) => {
-    const page = req.params.page;
-     try {
-       const result = await pool.query('SELECT username, elo, wins, losses FROM "ClubTest#85" JOIN users ON player_id = user_id ORDER BY elo DESC')
-       res.status(200).send(result.rows);
-     }
-     catch {
-      res.writeHead(500);
-      res.write('Error: Internal server error');
-     }
-     res.end();
-  });
-});
+})
 
 app.get('/leaderboard', (req, res) => {
   const page = req.params.page;
@@ -323,10 +310,32 @@ app.get('/leaderboard', (req, res) => {
   });
 })
 
+
+app.get('/leaderboard/score', async (req, res) => {
+  const client = await pool.connect();
+  console.log("Vi är i nya funktionen")
+  try {
+    const fetchedLeaderboardName = await pool.query('SELECT leaderboard_name FROM leaderboards WHERE id = $1', [GlobalLeaderboardValue]);
+    const finalfetchedLeaderboardName = fetchedLeaderboardName.rows[0].leaderboard_name;
+    console.log(finalfetchedLeaderboardName)
+    const tableName = `${finalfetchedLeaderboardName}#${GlobalLeaderboardValue}`;
+    console.log(tableName)
+    const result = await pool.query(`SELECT username, elo, wins, losses FROM "${tableName}" JOIN users ON player_id = user_id ORDER BY elo DESC`)
+    res.status(200).send(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
 let GlobalLeaderboardValue;
 
 app.get('/leaderboards/:page', async (req, res) => {
   GlobalLeaderboardValue = req.params.page;
+  console.log(GlobalLeaderboardValue);
   fs.readFile('views/leaderboard.html', function(error, data) {
     if (error) {
       res.writeHead(404);
@@ -340,27 +349,6 @@ app.get('/leaderboards/:page', async (req, res) => {
     }
   });
 });
-console.log(GlobalLeaderboardValue)
-
-app.get('/leaderboard/score', async (req, res) => {
-  const client = await pool.connect();
-  try {
-    const fetchedLeaderboardName = await pool.query('SELECT leaderboard_name FROM leaderboards WHERE id = $1', [GlobalLeaderboardValue]);
-    const finalfetchedLeaderboardName = fetchedLeaderboardName.rows[0].user_bio;
-
-    const tableName = `${finalfetchedLeaderboardName}#${GlobalLeaderboardValue}`;
-
-    const result = await pool.query('SELECT username, elo, wins, losses FROM $1 JOIN users ON player_id = user_id ORDER BY elo DESC', [tableName])
-    res.status(200).send(result.rows);
-    }
-    catch {
-    res.writeHead(500);
-    res.write('Error: Internal server error');
-    }
-    res.end();
-});
-
-
 
 
 
