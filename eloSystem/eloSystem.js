@@ -9,7 +9,7 @@ class Player {
 let player_1 = new Player("Alice", 100);
 let player_2 = new Player("Bob", 200);
 
-document.getElementById("eloDescription").innerHTML = ` ${player_1.name}, " has:", ${Math.round(player_1.elo)}, " elo, ", {player_2.name}, " has:", ${Math.round(player_2.elo)}," elo"`
+document.getElementById("eloDescription").innerHTML = `${player_1.name}  has: ${Math.round(player_1.elo)}  elo,  ${player_2.name} has: ${Math.round(player_2.elo)} elo`
 
 document.getElementById("player1").innerHTML = `${player_1.name} won`
 document.getElementById("player2").innerHTML = `${player_2.name} won`
@@ -85,9 +85,9 @@ function resultsPopup() {
 
 }
 
-function exitpopup() { //fixa denna 
-    var resultsPopupDiv = document.getElementById('resultsPopup');
-    var gridcontainerLink = document.getElementById('blur');
-    resultsPopupDiv.classList.remove('active');
-    gridcontainerLink.classList.remove('active');   
-}
+// function exitpopup() { //fixa denna 
+//     var resultsPopupDiv = document.getElementById('resultsPopup');
+//     var gridcontainerLink = document.getElementById('blur');
+//     resultsPopupDiv.classList.remove('active');
+//     gridcontainerLink.classList.remove('active');   
+// }
