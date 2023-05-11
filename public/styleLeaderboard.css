@@ -559,9 +559,8 @@ transition: 1s;
 html{
     font-family: 'Lexend';
     font-style: normal;
-    /*background-color: #66cccc;*/
-    overflow: hidden;
 }
+
 #logo{        
     display: flex;
     flex-direction: row;

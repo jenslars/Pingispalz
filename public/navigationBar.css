@@ -136,7 +136,7 @@ transition: 1s;
     display: flex;
     flex-direction: column;
     position: sticky;
-    height: 100vh;
+    height: 100%;
 }
 
 #searchfield{
@@ -327,7 +327,6 @@ transition: 1s;
 html{
     font-family: 'Lexend';
     font-style: normal;
-    overflow: hidden;
 }
 
 body{
