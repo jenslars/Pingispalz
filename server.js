@@ -293,6 +293,34 @@ app.get('/:page', (req, res) => {
     }
     res.end();
   });
+
+  app.get('/leaderboard', (req, res) => {
+    const page = req.params.page;
+    fs.readFile('Leaderboard.html', function(error, data) {
+      if (error) {
+        res.writeHead(404);
+        res.write('Error: File Not Found');
+      }
+      else {
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write(data);
+      }
+       res.end();
+    });
+  })
+  
+  app.get('/leaderboard/score', async (req, res) => {
+    const page = req.params.page;
+     try {
+       const result = await pool.query('SELECT username, elo, wins, losses FROM mautest JOIN users ON player_id = user_id ORDER BY elo DESC')
+       res.status(200).send(result.rows);
+     }
+     catch {
+      res.writeHead(500);
+      res.write('Error: Internal server error');
+     }
+     res.end();
+  });
 });
 
 app.get('/leaderboard', (req, res) => {
