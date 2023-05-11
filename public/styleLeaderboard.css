@@ -8,7 +8,7 @@ body {
     background-color: #D9FFF8;
 }
 #ranking { 
-    grid-area: top;
+    grid-area: ladder;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -38,18 +38,7 @@ body {
 #ladder { 
     grid-area: ladder; 
 }
-.player { 
-    grid-area: footer;
-    
-}
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 6fr;
-  grid-template-areas:
-    'menu header header header header header '
-    'menu top top top top top'
-    'menu ladder ladder ladder ladder ladder'
-}
+
 .grid > div {
   text-align: center;
   padding: 20px 0;
@@ -126,6 +115,7 @@ tr:nth-child(even) {
     background-color: #eeeeee;
 }
 #topPlayers{
+    grid-area: top;
     display: flex;
     justify-content: center;
     font-weight: bold;
@@ -434,26 +424,7 @@ transition: 1s;
     border-right: 1px solid #ebebeb;
 }
 
-#leaderboardoptions{
-    grid-column: 1;
-    position: absolute;
-    visibility: hidden;
-    margin-left: 15%;
-    width: 0%;
-    background:rgba(226, 226, 226, 0.8);
-    -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
-    transition: background-color .3s cubic-bezier(.42, .00, .58, 1.00);
-}
 
-#leaderboardoptions.active{
-    height: 100vh;
-    position: absolute;
-    visibility: visible;
-    width: 80px;
-    transition: 1s;
-    border-right: 1px solid #ebebeb;
-}
 
 .club-link img{
     height: 50px;
@@ -742,12 +713,11 @@ h2{
 .player { 
     grid-area: top;
 }
-.grid-container {
+.grid {
   display: grid;
   grid-template-columns: 1fr 6fr;
   grid-template-areas:
     'menu header header header header header '
-    'menu top top top top top'
     'menu ladder ladder ladder ladder ladder'
 }
 .grid > div {
@@ -825,13 +795,7 @@ tr{
 tr:nth-child(even) {
     background-color: #eeeeee;
 }
-#topPlayers{
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    padding: 5px; 
-    gap: 5%;
-}
+
 #top1, #top2, #top3 {
     border-radius: 20px;
     transition: all .2s ease-in-out;
