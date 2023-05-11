@@ -170,8 +170,7 @@
                             console.log(xhr)
                             const ladder = document.getElementById('leaderboard');
                             ladder.innerHTML = '';
-                            
-                            JSON.parse(response).forEach(player => {
+                            players.forEach(player => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
                                 <td>${player.placement}</td>
