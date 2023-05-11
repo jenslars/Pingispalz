@@ -251,9 +251,8 @@ table {
         grid-template-columns: auto !important;
         grid-template-rows: auto;
     } 
-    #topPlayers{
+    #topPlayers {
         gap: 0px !important;
-    }
     }
     #top1, #top2, #top3 {
         border-radius: 50%;
