@@ -237,7 +237,6 @@
                 body: formData,
             })
             .then(response => {
-<<<<<<< Updated upstream
             console.log(response);
             if (response.status === 200) {
                 console.log("Upload successful");
@@ -252,16 +251,6 @@
         });
         }
 
-=======
-                if (response.ok) {
-                    location.reload();
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-}
->>>>>>> Stashed changes
 
           // Creates the div where the links to leaderboards are displayed
           const clubLinksDiv = document.getElementById('clublinks');

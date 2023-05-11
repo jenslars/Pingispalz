@@ -237,22 +237,14 @@ app.post('/uploadprofilepicture', async (req, res) => {
 
     await client.query('COMMIT');
 
-<<<<<<< Updated upstream
-    res.status(200).send({ message: "Upload successful" }); // Send a response back to the client
-  } catch (e) {
-    await client.query('ROLLBACK');
-    res.status(500).send({ message: "Upload failed" }); // Send an error response back to the client
-=======
     res.status(200).send('Image uploaded successfully');
   } catch (e) {
     await client.query('ROLLBACK');
     res.status(500).send('Error uploading image');
->>>>>>> Stashed changes
   } finally {
     client.release();
   }
 });
-
 
 app.post('/uploaddiscordform', async (req, res) => {
   const { contact_info } = req.body;
@@ -302,7 +294,6 @@ app.get('/:page', (req, res) => {
     res.end();
   });
 });
-
 
 app.get('/leaderboard', (req, res) => {
   const page = req.params.page;
