@@ -2,7 +2,6 @@
 .grid-container {
     display: grid;
     grid-template-columns: 15% 85%;
-    height: 100vh;
   }
 
 #blur.active > *:not(#leaderboardpopup) {
@@ -136,6 +135,7 @@ transition: 1s;
     display: flex;
     flex-direction: column;
     position: sticky;
+    height: 100%;
 }
 
 #searchfield{
