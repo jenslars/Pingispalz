@@ -348,10 +348,8 @@ body{
 .sidenav a{
     margin-bottom: 40px;
     color: #fff;
-    font-size: 4vw;
-    margin-left: 5px;
-
-    
+    font-size: 22px;
+    margin-left: 5px;   
     
 }
 .sidenav > a > p{
@@ -567,7 +565,4 @@ h2{
     #profile.active > p{
         display:contents;
     }
-
-    
-    
 }
