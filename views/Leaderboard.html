@@ -57,9 +57,15 @@
             </div>
         </div>
         <div id="ranking"> 
-            <div class="challangePopup" id="challangePopup"> 
-                <p> You want a challenge? </p>
-                <button type="button" onclick="closePopup()"> Close </button>
+            <div class="challengePopup" id="challengePopup"> 
+                <form method="post" action=""> 
+                    <img id="closeButton"src="../exitdiscordwhite.png" onclick="closePopup()">
+                    <h3 id="playerName1"> Player 1 </h3>
+                    <h2> Vs </h2>
+                    <h3 id="playerName2"> </h3>
+                    <input type="number" id="playerOneScore"> 
+                    <input type="number" id="playerTwoScore"> 
+                    <img id="check" src="../check.png" onclick="closePopup()">
             </div>
             <table>
                 <thead>
@@ -184,7 +190,7 @@
                                 <td>${player.wins/player.losses}</td>
                                 <td>${player.elo}</td>
                                 <td>${player.status}</td>
-                                <td><button class="challengebutton" onclick="openPopup()">Challenge</button></td>
+                                <td><button class="challengebutton" onclick="openPopup('${player.username}')">Challenge</button></td>
                             `;
                             if (player.losses) {
                                 const winLossRatio = (player.wins / (player.wins + player.losses) * 100).toFixed(0) + "%";
@@ -260,18 +266,21 @@ function assignPlacements(playerData) {
     }
   }
 }
+            let popup = document.getElementById("challengePopup");
 
-        </script>
-        <script> 
-            let popup = document.getElementById("challangePopup");
+            function openPopup(player){
+                challengePopup.classList.add("show-challengePopup");
+                challengedPlayer = player
+                document.getElementById("playerName2").innerHTML = player;
 
-            function openPopup(){
-                challangePopup.classList.add("show-challangePopup");
+                
             }
             function closePopup(){
-                challangePopup.classList.remove("show-challangePopup");
+                challengePopup.classList.remove("show-challengePopup");
             }
         </script> 
+
+        
     </div>
     
 </body>

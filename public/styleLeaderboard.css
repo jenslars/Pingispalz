@@ -132,7 +132,7 @@ tr{
     box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
     transition: 0.3s;
 }
-.challangePopup {
+.challengePopup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -146,12 +146,13 @@ tr{
     height: 18em;
     margin-top: -9em;
     margin-left: -15em;
-    border: 1px solid #666;
-    background-color: #54a8a8;
+    background-color: #B2E4DB;
     position: fixed;
     visibility: hidden;
+    border-radius: 50px;
 }
-.show-challangePopup{
+
+.show-challengePopup{
     visibility: visible;
 }
 tr:nth-child(even) {
