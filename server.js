@@ -129,7 +129,7 @@ app.post('/createOrg', async (req, res) => {
     await client.query(`
       INSERT INTO "${newTableName}" (server_id, player_id, elo, wins, losses, is_admin)
       VALUES ($1, $2, $3, $4, $5, $6)
-    `, [leaderboardId, loggedInUserId, 0, 0, 0, true]);
+    `, [leaderboardId, loggedInUserId, 1000, 0, 0, true]);
 
     await client.query('COMMIT');
   } catch (e) {
@@ -160,7 +160,7 @@ app.post('/joinClub', async (req, res) => {
     await pool.query(`
       INSERT into "${club}" (server_id, player_id, elo, wins, losses, is_admin)
       VALUES ($1, $2, $3, $4, $5, $6)
-    `, [selectedLeadboardId, loggedInUserId, 0, 0, 0, false]);
+    `, [selectedLeadboardId, loggedInUserId, 1000, 0, 0, false]);
     await pool.query(`
       INSERT into users_in_leaderboards (user_id, leaderboard_id)
       VALUES ($1, $2)
