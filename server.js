@@ -317,7 +317,7 @@ app.get('/leaderboard/score', async (req, res) => {
     const fetchedLeaderboardName = await pool.query('SELECT leaderboard_name FROM leaderboards WHERE id = $1', [GlobalLeaderboardValue]);
     const finalfetchedLeaderboardName = fetchedLeaderboardName.rows[0].leaderboard_name;
     const tableName = `${finalfetchedLeaderboardName}#${GlobalLeaderboardValue}`;
-    const result = await pool.query(`SELECT username, elo, wins, losses FROM "${tableName}" JOIN users ON player_id = user_id ORDER BY elo DESC`)
+    const result = await pool.query(`SELECT username, elo, wins, losses, status FROM "${tableName}" JOIN users ON player_id = user_id ORDER BY elo DESC`)
     res.status(200).send(result.rows);
   } catch (err) {
     console.error(err);

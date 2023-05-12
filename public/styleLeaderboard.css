@@ -901,6 +901,17 @@ thead {
     background-color: #66CCCC;
 }
 
+#leaderboard > tr > td > a {
+    text-decoration: none;
+    color: black;
+}
+
+#leaderboard > tr > td > a:hover {
+    text-decoration: underline;
+    color: darkblue;
+    cursor: pointer;
+    text-transform: uppercase;
+}
 
 /* From a website */
 table {
