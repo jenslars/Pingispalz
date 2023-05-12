@@ -73,6 +73,22 @@
             </table>
         </div>
         <script>
+            // Get the div where the links are displayed
+          const clubLinksDiv = document.getElementById('clublinks');
+            fetch('/clubLinks')
+                .then(response => response.json())
+                .then(leaderboardsData => {
+                    leaderboardsData.forEach((leaderboard) => {
+                        const link = document.createElement('a');
+                        link.href = `/leaderboards/${leaderboard.id}`; 
+                        link.classList.add('club-link'); 
+                        const image = document.createElement('img');
+                        image.src = leaderboard.leaderboard_image;
+                        link.appendChild(image);
+                        clubLinksDiv.appendChild(link);
+        });
+    })
+    .catch(error => console.error(error));
             /*Popup for adding leaderboards*/
             function leaderboardpopup() {
             var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
