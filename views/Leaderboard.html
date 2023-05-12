@@ -57,6 +57,10 @@
             </div>
         </div>
         <div id="ranking"> 
+            <div class="challangePopup" id="challangePopup"> 
+                <p> You want a challenge? </p>
+                <button type="button" onclick="closePopup()"> Close </button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -71,6 +75,7 @@
                 </thead>
                 <tbody id="leaderboard"></tbody>
             </table>
+            
         </div>
         <script>   
             /*Popup for adding leaderboards*/
@@ -179,7 +184,7 @@
                                 <td>${player.wins/player.losses}</td>
                                 <td>${player.elo}</td>
                                 <td>${player.status}</td>
-                                <td><button>Challange</button></td>
+                                <td><button class="challengebutton" onclick="openPopup()">Challenge</button></td>
                             `;
                             if (player.losses) {
                                 const winLossRatio = (player.wins / (player.wins + player.losses) * 100).toFixed(0) + "%";
@@ -257,7 +262,16 @@ function assignPlacements(playerData) {
 }
 
         </script>
-        
+        <script> 
+            let popup = document.getElementById("challangePopup");
+
+            function openPopup(){
+                challangePopup.classList.add("show-challangePopup");
+            }
+            function closePopup(){
+                challangePopup.classList.remove("show-challangePopup");
+            }
+        </script> 
     </div>
     
 </body>
