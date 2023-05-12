@@ -121,7 +121,7 @@ sortPlayerByElo(players);
 
 const placementHeader = document.getElementById("placement");
 
-// sorts players in the leaderboard by elo
+// sorts players in the leaderboard by placement
 function sortPlayerByplacement(players) {
 players.sort((a, b) => a.placement - b.placement);
 updateLeaderboard(players);

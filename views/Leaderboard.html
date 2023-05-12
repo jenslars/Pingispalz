@@ -174,9 +174,9 @@
                             const row = document.createElement('tr');
                             row.innerHTML = `
                                 <td>${player.placement}</td>
-                                <td>${player.username}</td>
+                                <td><a href="/player/${player.username}">${player.username}</a></td>
                                 <td>${player.wins}</td>
-                                <td>${player.wins/player.losses}</td>
+                                <td>${player.winratio}</td>
                                 <td>${player.elo}</td>
                                 <td>${player.status}</td>
                                 <td><button>Play</button></td>
@@ -259,6 +259,66 @@ function assignPlacements(playerData) {
       players[i].placement = (i + 1).toString();
     }
   }
+}
+
+
+// sorts players in the leaderboard by wins
+const winsHeader = document.getElementById('wins');
+function sortPlayersByWins(players) {
+    players.sort((a, b) => b.wins - a.wins);
+    updateLeaderboard(players);
+}
+winsHeader.addEventListener("click", function() {
+sortPlayersByWins(players);
+})
+//sorts players in the leaderboard by placement
+const placement = document.getElementById('placement');
+function sortPlayersByPlacement(players) {
+    players.sort((a, b) => a.placement - b.placement);
+    updateLeaderboard(players);
+}
+placement.addEventListener("click", function() {
+    sortPlayersByPlacement(players);    
+})
+//sorts players in the leaderboard by winrate funkar inte
+const winRateHeader = document.getElementById('winRatio')
+function sortPlayersByWinrate(players) {
+    players.sort((a, b) => b.winratio - a.winratio);
+    updateLeaderboard(players);
+}
+winRateHeader.addEventListener("click", function() {
+    sortPlayersByWinrate(players);
+})
+//Updates leaderboard with new placements
+function updateLeaderboard(players) {
+  const ladder = document.getElementById('leaderboard');
+  ladder.innerHTML = '';
+  players.forEach(player => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${player.placement}</td>
+      <td><a href="/player/${player.username}">${player.username}</a></td>
+      <td>${player.wins}</td>
+      <td>${player.winratio}</td>
+      <td>${player.elo}</td>
+      <td>${player.status}</td>
+      <td><button>Play</button></td>
+    `;
+    if (player.losses || player.wins) {
+        let winLossRatio;
+        if (player.losses) {
+            winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
+        } else {
+            winLossRatio = "100%";
+        }
+        row.children[3].textContent = winLossRatio;
+
+    }
+    else {
+        row.children[3].textContent = "n/a";
+    }
+    ladder.appendChild(row);
+  });
 }
 
         </script>
