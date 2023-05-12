@@ -181,13 +181,18 @@
                                 <td>${player.status}</td>
                                 <td><button>Play</button></td>
                             `;
-                            if (player.losses) {
-                                const winLossRatio = (player.wins / (player.wins + player.losses) * 100).toFixed(0) + "%";
+                            if (player.losses || player.wins) {
+                                let winLossRatio;
+                                if (player.losses) {
+                                    winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
+                                } else {
+                                    winLossRatio = "100%";
+                                }
                                 row.children[3].textContent = winLossRatio;
 
                             }
                             else {
-                                row.children[3].textContent = "n/a"
+                                row.children[3].textContent = "n/a";
                             }
                             ladder.appendChild(row);
                             });
