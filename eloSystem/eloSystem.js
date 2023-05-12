@@ -37,8 +37,6 @@ function getResults(){
     }
 }
 
-
-
 function player1Victory(player_1, player_2){
     const highest = Math.max(player_1.elo, player_2.elo);
     const lowest = Math.min(player_1.elo, player_2.elo);
@@ -67,7 +65,7 @@ function player1Victory(player_1, player_2){
     
     player_1.elo += calculate
     player_2.elo -= calculate
-    alert(` ${player_1.name} has: ${Math.round(player_1.elo)} elo,  ${player_2.name},  has: ${Math.round(player_2.elo)} elo. ${player_1.name} won`)
+    alert(`${player_1.name} has: ${Math.round(player_1.elo)} elo (+${calculate}),  \n${player_2.name} has: ${Math.round(player_2.elo)} elo (-${calculate}). \n${player_1.name} won`)
     exitpopup()
 }
 
@@ -75,7 +73,7 @@ function checkInput(input) {
     if (input.value > 11) {
       input.value = 11;
     }
-  }
+}
 
 function player2Victory(player_1, player_2){
     const highest = Math.max(player_1.elo, player_2.elo);
@@ -104,7 +102,7 @@ function player2Victory(player_1, player_2){
     } 
     player_2.elo += calculate
     player_1.elo -= calculate
-    alert(` ${player_1.name} has: ${Math.round(player_1.elo)} elo,  ${player_2.name},  has: ${Math.round(player_2.elo)} elo. ${player_2.name} won`)
+    alert(`${player_1.name} has: ${Math.round(player_1.elo)} elo (-${calculate}),  \n${player_2.name} has: ${Math.round(player_2.elo)} elo (+${calculate}). \n${player_2.name} won`)
     exitpopup()
 }
 
@@ -116,7 +114,7 @@ function resultsPopup() {
 
 }
 
-function exitpopup() { //fixa denna 
+function exitpopup() { 
     var resultsPopupDiv = document.getElementById('resultsPopup');
     var gridcontainerLink = document.getElementById('blur');
     resultsPopupDiv.classList.remove('active');
