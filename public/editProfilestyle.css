@@ -860,23 +860,69 @@ body{
 
 #matchhistorylist{
     height: 370px;
-    background-color: #5865F2;
     width: 360px;
     margin: auto;
 }
 
 .match{
-    border-bottom: 2px solid #93b8b8;
+    border-bottom: 1px solid #93b8b8;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
-
-
 .match img{
     height: 50px;
     width: 50px;
     border-radius: 100px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.player{
+    grid-column: 1 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.results{
+    grid-column: 2 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.playername{
+    margin: 5px -15px;
+}
+
+.opponent{
+    grid-column: 3 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.opponentname{
+    margin: 5px -5px;
+}
+
+.win{
+    color: #21B81E;
+    margin-top: -10px;
+}
+
+.score{
+    display: flex;
+    flex-direction: row;
+    margin-top: -10px;
+}
+
+.playersscore{ 
+    margin-left: -25px;
+}
+
+.opponentscore{
+    margin-left: 25px;
+}
+
+.divider{
+    margin-left: 25px;
 }
 
 #addProfilePicturePopup{
