@@ -14,8 +14,14 @@
         <div id="resultsPopup">
             <p id="eloDescription"> Results</p>
             <h1>Who won?</h1>
-            <button id="player1" type="button" onclick="player1Victory(player_1, player_2)">Player 1 won</button>
-            <button id="player2" type="button" onclick="player2Victory(player_1, player_2)">Player 2 won</button>
+            <!-- <button id="player1" type="button" onclick="player1Victory(player_1, player_2)">Player 1 won</button>
+            <button id="player2" type="button" onclick="player2Victory(player_1, player_2)">Player 2 won</button> -->
+
+            <form action="eloTest.html">
+                <input type="number" min="0" max ="11"name="points" id="player1" oninput="checkInput(this)">
+                <input type="number" min="0" max ="11" name="points" id="player2" oninput="checkInput(this)">
+                <button type="button" onclick="getResults()">Confirm results</button>
+            </form>
         </div>
     </div>
     <script src="eloSystem.js"></script>
