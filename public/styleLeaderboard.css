@@ -151,7 +151,6 @@ tr{
     visibility: hidden;
     border-radius: 50px;
 }
-.challengePopup
 
 .show-challengePopup{
     visibility: visible;
@@ -623,6 +622,10 @@ html{
     color: #fff;
     font-size: 22px;
     margin-left: 5px;
+}
+.sidenav > a > p{
+    font-size: 1vw;
+    text-align: center;
 }
 
 #search{
