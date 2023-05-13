@@ -73,6 +73,19 @@
             </table>
         </div>
         <script>   
+            let popup = document.getElementById("challengePopup");
+
+            function openPopup(player){
+                challengePopup.classList.add("show-challengePopup");
+                challengedPlayer = player
+                document.getElementById("playerName2").innerHTML = player;
+
+                
+            }
+            function closePopup(){
+                challengePopup.classList.remove("show-challengePopup");
+            }
+
             /*Popup for adding leaderboards*/
             function leaderboardpopup() {
             var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
@@ -179,7 +192,7 @@
                                 <td>${player.winratio}</td>
                                 <td>${player.elo}</td>
                                 <td>${player.status}</td>
-                                <td><button>Play</button></td>
+                                <td><button class="challengebutton" onclick="openPopup('${player.username}')">Challenge</button></td>
                             `;
                             if (player.losses || player.wins) {
                                 let winLossRatio;
@@ -302,7 +315,7 @@ function updateLeaderboard(players) {
       <td>${player.winratio}</td>
       <td>${player.elo}</td>
       <td>${player.status}</td>
-      <td><button>Play</button></td>
+      <td><button class="challengebutton" onclick="openPopup('${player.username}')">Challenge</button></td>
     `;
     if (player.losses || player.wins) {
         let winLossRatio;
