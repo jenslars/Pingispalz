@@ -151,6 +151,7 @@ tr{
     visibility: hidden;
     border-radius: 50px;
 }
+.challengePopup
 
 .show-challengePopup{
     visibility: visible;
