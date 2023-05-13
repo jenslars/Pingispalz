@@ -63,8 +63,11 @@
                     <h3 id="playerName1"> Player 1 </h3>
                     <h2> Vs </h2>
                     <h3 id="playerName2"> </h3>
-                    <input type="number" id="playerOneScore"> 
-                    <input type="number" id="playerTwoScore"> 
+                    <form action="eloTest.html">
+                        <input type="number" min="0" max ="11"name="points" id="player1" oninput="checkInput(this)">
+                        <input type="number" min="0" max ="11" name="points" id="player2" oninput="checkInput(this)">
+                        <button type="button" onclick="getResults()">Confirm results</button>
+                    </form>
                     <img id="check" src="../check.png" onclick="closePopup()">
             </div>
             <table>

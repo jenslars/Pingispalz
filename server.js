@@ -227,6 +227,18 @@ app.get('/getLoggedInUserInfo', async (req, res) => {
   client.release();
 });
 
+app.post('/submitResult', (req,res) =>{
+  const {winner, loser, elo} = req.body;
+
+  if (winner)
+  try {
+    const result = await pool.query(`
+      INSERT INTO ${tableName} (elo) VALUES (elo+${elo}) WHERE user_id = ${winner};
+      INSERT INTO ${tableName} (elo) VALUES (elo-${elo}) WHERE user_id = ${loser};
+   `)
+  }
+})
+
 app.post('/uploadprofilepicture', async (req, res) => {
   const client = await pool.connect();
   const imageFile = req.files.image;
