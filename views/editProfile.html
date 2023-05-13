@@ -101,10 +101,12 @@
                                         <p class="opponentscore">4</p>
                                     </div>
                                 </div>
-                                <div class="opponent" type="link" href="/viewProfile/1">
+                                <a href="/viewProfile/1" class="opponentuserlink">
+                                <div class="opponent">
                                     <img src="mff.png" class="opponentuserimage">
                                     <p class="opponentname">MFFfan</p>
                                 </div>
+                                </a>
                             </div>
                         </div>
                     </section>
@@ -236,6 +238,7 @@
             editdiscordToggle.classList.add('active');
             discordnameToggle.classList.add('active');
         }
+        
         //Function to toggle discordform
         function toggleEditDiscord() {
             var discordformToggle = document.getElementById('discordform');

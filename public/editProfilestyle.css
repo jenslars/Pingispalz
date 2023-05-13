@@ -902,6 +902,15 @@ body{
     margin: 5px -5px;
 }
 
+.opponentuserlink{
+    text-decoration: none;
+    color: #2E3031;
+}
+
+.opponentuserlink:hover p{
+    color: #555557;
+}
+
 .win{
     color: #21B81E;
     margin-top: -10px;
