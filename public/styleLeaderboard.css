@@ -118,6 +118,7 @@ tr:nth-child(even) {
     font-weight: bold;
     padding: 5px; 
     gap: 5%;
+    text-align: center;
 }
 #top1, #top2, #top3 {
     border-radius: 20px;
