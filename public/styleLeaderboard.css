@@ -64,6 +64,7 @@ td {
 tr{
     width: 100%;
 }
+
 .challengebutton {
     color: #FF3366;
     font-family: 'Lexend';
@@ -85,24 +86,55 @@ tr{
     box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
     transition: 0.3s;
 }
+
 .challengePopup {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     z-index: 10;
-    position: absolute;
-    background-color: #fff;
+    position: fixed;
+    background-color: #B2E4DB;
     top: 50%;
-    left: 55%;
+    left: 50%;
     width: 30em;
     height: 18em;
-    margin-top: -9em;
-    margin-left: -15em;
-    background-color: #B2E4DB;
-    position: fixed;
+    transform: translate(-50%, -50%);
     visibility: hidden;
-    border-radius: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.challengePopup.show-challengePopup {
+  visibility: visible;
+}
+#playerName1 {
+    margin: 0px auto 0px 50px;
+}
+#playerName2 {
+    margin: 0px 50px 0px auto;
+}
+
+#closeButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+}
+
+h3 {
+  margin: 10px 0;
+}
+
+#versus {
+    position: absolute;
+    align-items: center;
+    padding: 0px 30px;
+}
+#check {
+    position: absolute;
+    bottom: 10px;
+    cursor: pointer;
 }
 .show-challengePopup{
     visibility: visible;
