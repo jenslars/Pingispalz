@@ -267,13 +267,16 @@ function assignPlacements(playerData) {
   }
 }
             let popup = document.getElementById("challengePopup");
-
+            
             function openPopup(player){
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", '/challengePlayer');
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.send();
                 challengePopup.classList.add("show-challengePopup");
                 challengedPlayer = player
                 document.getElementById("playerName2").innerHTML = player;
-
-                
+                console.log(userNameForLoggedInUser)
             }
             function closePopup(){
                 challengePopup.classList.remove("show-challengePopup");

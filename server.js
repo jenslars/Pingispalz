@@ -1,4 +1,3 @@
-
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -19,7 +18,7 @@ const port = 3000;
 
 //Declares logged in user
 let loggedInUserId;
-
+module.exports.loggedInUserId=loggedInUserId;
 app.use(fileUpload());
 app.use(express.static('images'));
 app.use(express.static('public'));
@@ -338,6 +337,19 @@ app.get('/leaderboard/score', async (req, res) => {
   }
   res.end();
 });
+
+app.get('/challengePlayer', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const userNameForLoggedInUser = await pool.query('SELECT username FROM users WHERE id = $1', [loggedInUserId]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+})
 
 let GlobalLeaderboardValue;
 
