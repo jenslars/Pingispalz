@@ -296,7 +296,6 @@
                 fetch('/getLoggedInUserInfo')
                     .then(response => response.json())
                     .then(data => {
-                        // Update the HTML elements with the fetched data
                         document.getElementById('profile-image').src = data.profile_image;
                         document.getElementById('username').textContent = data.username;
                         document.getElementById('discordname').textContent = data.contact_info;

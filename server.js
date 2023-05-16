@@ -26,6 +26,7 @@ app.use(express.static('views'));
 app.use(express.static('organisation_images'));
 app.use(express.static('profile_images'));
 
+
 app.get('/', (req, res) => {
   fs.readFile('views/index.html', function(error, data) {
     if (error) {
@@ -41,11 +42,6 @@ app.get('/', (req, res) => {
 
 http.createServer(app).listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
-});
-
-// Starts the server
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
 });
 
 app.use(express.json());
@@ -186,6 +182,7 @@ app.post('/joinClub', async (req, res) => {
 
 app.get('/clubLinks', async (req, res) => {
   //Function to send users club links
+  console.log("vi är i clublinks")
   const client = await pool.connect();
   try {
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
@@ -289,20 +286,7 @@ app.post('/uploadUserDescriptionForm', async (req, res) => {
   client.release();
 });
 
-app.get('/:page', (req, res) => {
-  const page = req.params.page;
-  const filePath = path.join(__dirname, 'views', `${page}.html`);
-  fs.readFile(filePath, function(error, data) {
-    if (error) {
-      res.writeHead(404);
-      res.write('Error: File Not Found');
-    } else {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-    }
-    res.end();
-  });
-})
+
 
 app.get('/leaderboard', (req, res) => {
   const page = req.params.page;
@@ -341,7 +325,6 @@ let GlobalLeaderboardValue;
 
 app.get('/leaderboards/:page', async (req, res) => {
   GlobalLeaderboardValue = req.params.page;
-  console.log(GlobalLeaderboardValue);
   fs.readFile('views/leaderboard.html', function(error, data) {
     if (error) {
       res.writeHead(404);
@@ -355,6 +338,117 @@ app.get('/leaderboards/:page', async (req, res) => {
     }
   });
 });
+
+let globalViewProfileValue;
+
+app.get('/viewProfile/:page', async (req, res) => {
+  globalViewProfileValue = req.params.page;
+  fs.readFile('views/viewProfile.html', function(error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write('Error: File Not Found');
+      res.end();
+    }
+    else {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
+      res.end();
+    }
+  });
+});
+
+app.get('/getViewProfile', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const result = await pool.query(
+      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, contact_info, user_bio FROM users WHERE user_id = $1',
+      [globalViewProfileValue]
+    );
+    const profile_image = result.rows[0].profile_image;
+    const username = result.rows[0].username;
+    const contact_info = result.rows[0].contact_info;
+    const user_bio = result.rows[0].user_bio;
+    res.json({
+      profile_image: profile_image,
+      username: username,
+      contact_info: contact_info,
+      user_bio: user_bio
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error: Internal server error' });
+  }
+  client.release();
+});
+
+app.get('/sendChallenge', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const status = "PENDING";
+    await pool.query( 
+      `INSERT into matches (challenger_id, recipient_id, server_id, status)
+      VALUES ($1, $2, $3, $4)`,
+      [loggedInUserId, globalViewProfileValue, GlobalLeaderboardValue, status ]
+    );
+    res.status(200).send('Success, challenge sent');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.get('/cancelChallenge', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `DELETE from matches WHERE challenger_id = $1 and recipient_id = $2`,
+      [loggedInUserId, globalViewProfileValue]
+    );
+    res.status(200).send('Success, challenge cancelled');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.get('/checkIfUserSentChallenge', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const result = await pool.query( 
+      `SELECT match_id from matches WHERE challenger_id = $1 and recipient_id = $2`,
+      [loggedInUserId, globalViewProfileValue]
+    );
+    const matchId = result.rows[0].match_id;
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  } finally {
+    client.release();
+  }   
+});
+
+app.get('/:page', (req, res) => {
+  //Function to fetch html document, always keep on bottom of server.js!
+  const page = req.params.page;
+  const filePath = path.join(__dirname, 'views', `${page}.html`);
+  fs.readFile(filePath, function(error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write('Error: File Not Found');
+    } else {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
+    }
+    res.end();
+  });
+})
 
 
 
