@@ -174,7 +174,7 @@
                             const row = document.createElement('tr');
                             row.innerHTML = `
                                 <td>${player.placement}</td>
-                                <td><a href="/player/${player.username}">${player.username}</a></td>
+                                <td><a href="/viewProfile/${player.user_id}">${player.username}</a></td>
                                 <td>${player.wins}</td>
                                 <td>${player.winratio}</td>
                                 <td>${player.elo}</td>
@@ -297,7 +297,7 @@ function updateLeaderboard(players) {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${player.placement}</td>
-      <td><a href="/player/${player.username}">${player.username}</a></td>
+      <td><a href="/player/${player.user_id}">${player.username}</a></td>
       <td>${player.wins}</td>
       <td>${player.winratio}</td>
       <td>${player.elo}</td>
