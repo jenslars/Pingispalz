@@ -341,7 +341,6 @@ let GlobalLeaderboardValue;
 
 app.get('/leaderboards/:page', async (req, res) => {
   GlobalLeaderboardValue = req.params.page;
-  console.log(GlobalLeaderboardValue);
   fs.readFile('views/leaderboard.html', function(error, data) {
     if (error) {
       res.writeHead(404);
@@ -354,6 +353,49 @@ app.get('/leaderboards/:page', async (req, res) => {
       res.end();
     }
   });
+});
+
+let globalViewProfileValue;
+
+app.get('/viewProfile/:page', async (req, res) => {
+  globalViewProfileValue = req.params.page;
+  fs.readFile('views/viewProfile.html', function(error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write('Error: File Not Found');
+      res.end();
+    }
+    else {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
+      res.end();
+    }
+  });
+});
+
+app.get('/getViewProfile', async (req, res) => {
+  //Function to send the logged in users data to edit profile
+  const client = await pool.connect();
+  console.log("Vi är i getviewprofile")
+  try {
+    const result = await pool.query(
+      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, contact_info, user_bio FROM users WHERE user_id = $1'
+      , [globalViewProfileValue]);
+      const profile_image = result.rows[0].profile_image;
+      const username = result.rows[0].username;
+      const contact_info = result.rows[0].contact_info;
+      const user_bio = result.rows[0].user_bio;
+      res.status(200).send({ 
+        profile_image: profile_image,
+        username: username,
+        contact_info: contact_info,
+        user_bio: user_bio
+      });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
 });
 
 
