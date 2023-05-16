@@ -286,20 +286,7 @@ app.post('/uploadUserDescriptionForm', async (req, res) => {
   client.release();
 });
 
-app.get('/:page', (req, res) => {
-  const page = req.params.page;
-  const filePath = path.join(__dirname, 'views', `${page}.html`);
-  fs.readFile(filePath, function(error, data) {
-    if (error) {
-      res.writeHead(404);
-      res.write('Error: File Not Found');
-    } else {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-    }
-    res.end();
-  });
-})
+
 
 app.get('/leaderboard', (req, res) => {
   const page = req.params.page;
@@ -393,7 +380,20 @@ app.get('/getViewProfile', async (req, res) => {
   }
 });
 
-
+app.get('/:page', (req, res) => {
+  const page = req.params.page;
+  const filePath = path.join(__dirname, 'views', `${page}.html`);
+  fs.readFile(filePath, function(error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write('Error: File Not Found');
+    } else {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
+    }
+    res.end();
+  });
+})
 
 
 
