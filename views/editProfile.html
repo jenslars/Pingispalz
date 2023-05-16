@@ -86,7 +86,29 @@
                         </section>
                     </div>
                     <section id="recentgames">
-                        <p>recentgames</p>
+                        <h3>Recent Games</h3>
+                        <div id="matchhistorylist">
+                            <div class="match">
+                                <div class="player">
+                                    <img src="headshotgyros.png" class="playeruserimage">
+                                    <p class="playername">jenslarsen</p>
+                                </div>
+                                <div class="results">
+                                    <p class="win">WIN</p>
+                                    <div class="score">
+                                        <p class="playersscore">11</p>
+                                        <p class="divider">-</p>
+                                        <p class="opponentscore">4</p>
+                                    </div>
+                                </div>
+                                <a href="/viewProfile/1" class="opponentuserlink">
+                                <div class="opponent">
+                                    <img src="mff.png" class="opponentuserimage">
+                                    <p class="opponentname">MFFfan</p>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
                     </section>
                 </div>
             </main>
@@ -216,6 +238,7 @@
             editdiscordToggle.classList.add('active');
             discordnameToggle.classList.add('active');
         }
+        
         //Function to toggle discordform
         function toggleEditDiscord() {
             var discordformToggle = document.getElementById('discordform');

@@ -137,10 +137,10 @@
 }
 
 .sidenav {
-grid-column: 1;
-display: flex;
-flex-direction: column;
-position: sticky;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
 }
 
 #searchfield{
@@ -708,15 +708,6 @@ body{
     margin-top: 0px;
 }
 
-#recentgames{
-    background-color: #fff;
-    width: 400px;
-    height: 450px;
-    margin: 20px auto 20px auto ;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
 #editButton{
     font-size: 18px;
     font-weight: 400;
@@ -841,6 +832,19 @@ body{
     border-radius: 10px;
 }
 
+#recentgames{
+    background-color: #fff;
+    width: 400px;
+    height: 450px;
+    margin: 20px auto 20px auto ;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#recentgames h3{
+    margin-left: 20px;
+}
+
 #achievements{
     background-color: #fff;
     width: 500px;
@@ -852,6 +856,82 @@ body{
 
 #achievements p{
     margin-left: 20px;
+}
+
+#matchhistorylist{
+    height: 370px;
+    width: 360px;
+    margin: auto;
+}
+
+.match{
+    border-bottom: 1px solid #93b8b8;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.match img{
+    height: 50px;
+    width: 50px;
+    border-radius: 100px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.player{
+    grid-column: 1 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.results{
+    grid-column: 2 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.playername{
+    margin: 5px -15px;
+}
+
+.opponent{
+    grid-column: 3 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.opponentname{
+    margin: 5px -5px;
+}
+
+.opponentuserlink{
+    text-decoration: none;
+    color: #2E3031;
+}
+
+.opponentuserlink:hover p{
+    color: #555557;
+}
+
+.win{
+    color: #21B81E;
+    margin-top: -10px;
+}
+
+.score{
+    display: flex;
+    flex-direction: row;
+    margin-top: -10px;
+}
+
+.playersscore{ 
+    margin-left: -25px;
+}
+
+.opponentscore{
+    margin-left: 25px;
+}
+
+.divider{
+    margin-left: 25px;
 }
 
 #addProfilePicturePopup{

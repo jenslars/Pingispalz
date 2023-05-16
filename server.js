@@ -213,7 +213,6 @@ app.get('/getLoggedInUserInfo', async (req, res) => {
       const username = result.rows[0].username;
       const contact_info = result.rows[0].contact_info;
       const user_bio = result.rows[0].user_bio;
-      console.log(profile_image)
       res.status(200).send({ 
         profile_image: profile_image,
         username: username,
