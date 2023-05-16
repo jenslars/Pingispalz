@@ -26,6 +26,7 @@ app.use(express.static('views'));
 app.use(express.static('organisation_images'));
 app.use(express.static('profile_images'));
 
+
 app.get('/', (req, res) => {
   fs.readFile('views/index.html', function(error, data) {
     if (error) {
@@ -41,11 +42,6 @@ app.get('/', (req, res) => {
 
 http.createServer(app).listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
-});
-
-// Starts the server
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
 });
 
 app.use(express.json());
@@ -374,29 +370,28 @@ app.get('/viewProfile/:page', async (req, res) => {
 });
 
 app.get('/getViewProfile', async (req, res) => {
-  //Function to send the logged in users data to edit profile
-  const client = await pool.connect();
-  console.log("Vi är i getviewprofile")
   try {
     const result = await pool.query(
-      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, contact_info, user_bio FROM users WHERE user_id = $1'
-      , [globalViewProfileValue]);
-      const profile_image = result.rows[0].profile_image;
-      const username = result.rows[0].username;
-      const contact_info = result.rows[0].contact_info;
-      const user_bio = result.rows[0].user_bio;
-      res.status(200).send({ 
-        profile_image: profile_image,
-        username: username,
-        contact_info: contact_info,
-        user_bio: user_bio
-      });
+      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, contact_info, user_bio FROM users WHERE user_id = $1',
+      [globalViewProfileValue]
+    );
+    const profile_image = result.rows[0].profile_image;
+    const username = result.rows[0].username;
+    const contact_info = result.rows[0].contact_info;
+    const user_bio = result.rows[0].user_bio;
+    res.json({
+      profile_image: profile_image,
+      username: username,
+      contact_info: contact_info,
+      user_bio: user_bio
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).send({ message: 'Error: Internal server error' });
+    res.status(500).json({ message: 'Error: Internal server error' });
   }
-  client.release();
 });
+
+
 
 
 

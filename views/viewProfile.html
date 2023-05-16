@@ -19,7 +19,7 @@
             <a id="search" href="#">Search</a>
             <a id="leaderboards" href="#">Clubs</a>
             <a id="challenges" href="#">Challenges</a>
-            <a id="profile" href="/editProfile">Profile</a>
+            <a id="profile" href="/editprofile">Profile</a>
         </nav>
         <nav id="searchfield">
             <form>
@@ -41,7 +41,7 @@
                 </header>
                 <header id="headercontent">
                 <!-- Add fetched profile image in "profile-image"-->
-                    <img id="profile-image" src="/">
+                    <img id="profile-image" src="">
                     <section id="headerdetails">
                         <!-- Add fetched username in "username"-->
                         <p id="username"></p>
@@ -123,34 +123,52 @@
         </div>
     </div>
     <script>
-          // Creates the div where the links to leaderboards are displayed
-          const clubLinksDiv = document.getElementById('clublinks');
-            fetch('/clubLinks')
-                .then(response => response.json())
-                .then(leaderboardsData => {
-                    leaderboardsData.forEach((leaderboard) => {
-                        const link = document.createElement('a');
-                        link.href = `/leaderboards/${leaderboard.id}`; 
-                        link.classList.add('club-link'); 
-                        const image = document.createElement('img');
-                        image.src = leaderboard.leaderboard_image;
-                        link.appendChild(image);
-                        clubLinksDiv.appendChild(link);
-                    });
-                })
-                .catch(error => console.error(error));
+        document.addEventListener('DOMContentLoaded', function() {
+    // Call fetchProfileData function here
+    fetchProfileData();
+});
+
+// Function to fetch profile data and update HTML elements
+function fetchProfileData() {
+    fetch('/getViewProfile')
+        .then(response => response.json())
+        .then(data => {
+            // Insert profile image
+            document.getElementById('profile-image').src = data.profile_image;
             
-          // Fetch user profile data from the server
-          fetch('/getViewProfile')
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update the HTML elements with the fetched data
-                        document.getElementById('profile-image').src = data.profile_image;
-                        document.getElementById('username').textContent = data.username;
-                        document.getElementById('discordname').textContent = data.contact_info;
-                        document.getElementById('fetchedUserDescription').textContent = data.user_bio;
-                    })
-                    .catch(error => console.error(error));
+            // Insert username
+            document.getElementById('username').textContent = data.username;
+            
+            // Insert contact_info
+            document.getElementById('discordname').textContent = data.contact_info;
+            
+            // Insert user_bio
+            document.getElementById('fetchedUserDescription').textContent = data.user_bio;
+        })
+        .catch(error => console.error(error));
+}
+
+    </script>
+
+    <script>
+        // Creates the div where the links to leaderboards are displayed
+        const clubLinksDiv = document.getElementById('clublinks');
+        fetch('/clubLinks')
+            .then(response => response.json())
+            .then(leaderboardsData => {
+                leaderboardsData.forEach((leaderboard) => {
+                    const link = document.createElement('a');
+                    link.href = `/leaderboards/${leaderboard.id}`; 
+                    link.classList.add('club-link'); 
+                    const image = document.createElement('img');
+                    image.src = `/${leaderboard.leaderboard_image}`; // Add a forward slash in front of the image source
+                    link.appendChild(image);
+                    clubLinksDiv.appendChild(link);
+                });
+            })
+            .catch(error => console.error(error));
+
+
 
 
         /*Popup for adding leaderboards*/
@@ -191,6 +209,7 @@
 
             xhr.send(JSON.stringify({ club }));
         });
+
         /* desktop navbar function */
         var homeLink = document.getElementById('home');
         var searchLink = document.getElementById('search');
