@@ -270,17 +270,19 @@
                 .catch(error => console.error(error));
             
                 // Fetch user profile data from the server
-                fetch('/getLoggedInUserInfo')
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update the HTML elements with the fetched data
-                        document.getElementById('profile-image').src = data.profile_image;
-                        document.getElementById('username').textContent = data.username;
-                        document.getElementById('discordname').textContent = data.contact_info;
-                        document.getElementById('fetchedUserDescription').textContent = data.user_bio;
-                        document.getElementById('descriptionFormInput').textContent = data.user_bio;
-                    })
-                    .catch(error => console.error(error));
+                function openPopup(player) {
+                    fetch('/challenge/player')
+                        .then(response => response.json())
+                        .then(data => {
+                        document.getElementById('playerName1').textContent = data.queryUser.username;
+                        })
+                        .catch(error => console.error(error));
+
+                    challengePopup.classList.add("show-challengePopup");
+                    challengedPlayer = player;
+                    document.getElementById("playerName2").innerHTML = player;
+                    }
+
 
 
         //Popup for uploading profilepicture

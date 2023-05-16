@@ -60,7 +60,7 @@
             <div class="challengePopup" id="challengePopup"> 
 
                     <img id="closeButton"src="../exitdiscordwhite.png" onclick="closePopup()">
-                    <h3 id="playerName1"> Player 1 </h3>
+                    <h3 id="playerName1"></h3>
                     <h2> Vs </h2>
                     <h3 id="playerName2"> </h3>
                     <input type="number" id="playerOneScore"> 
@@ -269,14 +269,14 @@ function assignPlacements(playerData) {
             let popup = document.getElementById("challengePopup");
             
             function openPopup(player){
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", '/challenge/player');
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.send();
-                
-                console.log(queryUser);
-                
-                
+                fetch('/challenge/player')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the HTML elements with the fetched data
+                        document.getElementById('playerName1').textContent = data.queryUser;
+                    })
+                    .catch(error => console.error(error));
+
                 challengePopup.classList.add("show-challengePopup");
                 challengedPlayer = player
                 document.getElementById("playerName2").innerHTML = player;
