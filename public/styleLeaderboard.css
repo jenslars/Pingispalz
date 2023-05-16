@@ -87,7 +87,7 @@ tr{
 }
 .challengePopup {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     z-index: 10;
@@ -104,7 +104,6 @@ tr{
     visibility: hidden;
     border-radius: 50px;
 }
-
 .show-challengePopup{
     visibility: visible;
 }
