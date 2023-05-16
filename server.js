@@ -231,15 +231,15 @@ app.get('/getLoggedInUserInfo', async (req, res) => {
   client.release();
 });
 
-app.post('/submitResult', (req,res) =>{
+app.post('/submitResult', async (req,res) =>{
   const {winner, loser, elo} = req.body;
-
-  // if (winner)
+  const client = await pool.connect();
+  
   try {
     const result = client.query(`
-      INSERT INTO ${tableName} (elo) VALUES (elo+${elo}) WHERE user_id = ${winner};
-      INSERT INTO ${tableName} (elo) VALUES (elo-${elo}) WHERE user_id = ${loser};
-   `)
+      INSERT INTO $1 (elo) VALUES (elo+${elo}) WHERE username = ${winner};
+      INSERT INTO $1 (elo) VALUES (elo-${elo}) WHERE username = ${loser};
+    `, [tableName])
   } catch (err){
     console.error(err);
     res.status(500).send({ message: 'Error: Internal server error' });
@@ -347,7 +347,7 @@ app.get('/leaderboard/score', async (req, res) => {
     const finalfetchedLeaderboardName = fetchedLeaderboardName.rows[0].leaderboard_name;
     const tableName = `${finalfetchedLeaderboardName}#${GlobalLeaderboardValue}`;
     const result = await pool.query(`SELECT user_id, username, elo, wins, losses, status FROM "${tableName}" JOIN users ON player_id = user_id ORDER BY elo DESC`)
-    console.log("Här är resultaten",result)
+    
     res.status(200).send(result.rows);
   } catch (err) {
     console.error(err);

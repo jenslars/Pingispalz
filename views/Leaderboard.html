@@ -67,7 +67,7 @@
                     <form action="eloTest.html">
                         <input type="number" min="0" max ="11"name="points" id="player1" oninput="checkInput(this)">
                         <input type="number" min="0" max ="11" name="points" id="player2" oninput="checkInput(this)">
-                        <button type="button" onclick="getResults(`${players.user_id}`)">Confirm results</button>
+                        <button type="button" onclick="getResults()">Confirm results</button>
                     </form>
                     <img id="check" src="../check.png" onclick="closePopup()">
             </div>
@@ -89,6 +89,14 @@
     </div>
     
     <script>   
+
+        fetch('/getLoggedInUserInfo')
+            .then(response => response.json())
+            .then(data => {
+                // Update the HTML elements with the fetched data
+                document.getElementById('playerName1').textContent = data.username;
+            })
+            .catch(error => console.error(error));
         let popup = document.getElementById("challengePopup");
 
         function openPopup(player, playerId){
@@ -319,37 +327,6 @@
         winRateHeader.addEventListener("click", function() {
             sortPlayersByWinrate(players);
         })
-        //Updates leaderboard with new placements
-        function updateLeaderboard(players) {
-        const ladder = document.getElementById('leaderboard');
-        ladder.innerHTML = '';
-        players.forEach(player => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-            <td>${player.placement}</td>
-            <td><a href="/player/${player.username}">${player.username}</a></td>
-            <td>${player.wins}</td>
-            <td>${player.winratio}</td>
-            <td>${player.elo}</td>
-            <td>${player.status}</td>
-            <td><button class="challengebutton" onclick="openPopup('${player.username}')">Challenge</button></td>
-            `;
-            if (player.losses || player.wins) {
-                let winLossRatio;
-                if (player.losses) {
-                    winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
-                } else {
-                    winLossRatio = "100%";
-                }
-                row.children[3].textContent = winLossRatio;
-
-            }
-            else {
-                row.children[3].textContent = "n/a";
-            }
-            ladder.appendChild(row);
-        });
-        }
 
     </script>
 </body>

@@ -1,13 +1,5 @@
-const loggedInUserId = require('./server');
-
 
 console.log("Ett meddelande till dig", loggedInUserId)
-// class Player {
-//   constructor(name) {
-//     this.name = name;
-//     this.elo = elo;
-//     }
-// };
 
 // document.getElementById("eloDescription").innerHTML = `${player_1.name}  has: ${Math.round(player_1.elo)}  elo,  ${player_2.name} has: ${Math.round(player_2.elo)} elo`
 
@@ -15,32 +7,43 @@ console.log("Ett meddelande till dig", loggedInUserId)
 // document.getElementById("player2").innerHTML = `${player_2.name} won`
 
 //Recieves the results and makes sure they are valid
-function getResults(opponentId){
-    console.log("you called me", "here is the opponent id:", opponentId)
-    // var player1Result = document.getElementById("player1").value
-    // var player2Result = document.getElementById("player2").value
-    // let difference = Math.abs(player1Result - player2Result)
+function getResults(){
+    class Player {
+        constructor(name) {
+          this.name = name;
+          this.elo = elo;
+          }
+      };
+      
+    let player_1 = new Player(playerName1, player1Result);
+    let player_2 = new Player(playerName2, player2Result);
 
-    // let player_1 = new Player(loggedInUserId, player1Result);
-    // let player_2 = new Player(opponentId, player2Result);
+    var playerName1 = document.getElementById("playerName1").value
+    var playerName2 = document.getElementById("playerName2").value
+    console.log("you called me mr.", player_1.name)
+    console.log("here is the opponent :", player_2.name)
+    var player1Result = document.getElementById("player1").value
+    var player2Result = document.getElementById("player2").value
+    let difference = Math.abs(player1Result - player2Result)
 
 
-    // if (player1Result != 11 && player2Result != 11){
-    //     alert("The winner needs atleast 11 points to win")
-    //     return
-    // } else if (player1Result == player2Result){
-    //     alert("Both players can not get the same score")
-    //     return
-    // } else if (difference < 2){
-    //     alert("The winner has to lead by atleast 2 points")
-    //     return
-    // } else {
-    //     if (player1Result > player2Result){
-    //         player1Victory(player_1, player_2)
-    //     } else {
-    //         player2Victory(player_1, player_2)
-    //     }
-    // }
+
+    if (player1Result != 11 && player2Result != 11){
+        alert("The winner needs atleast 11 points to win")
+        return
+    } else if (player1Result == player2Result){
+        alert("Both players can not get the same score")
+        return
+    } else if (difference < 2){
+        alert("The winner has to lead by atleast 2 points")
+        return
+    } else {
+        if (player1Result > player2Result){
+            player1Victory(player_1, player_2)
+        } else {
+            player2Victory(player_1, player_2)
+        }
+    }
 }
 
 
