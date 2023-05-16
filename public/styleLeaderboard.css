@@ -108,6 +108,68 @@ tr{
 .challengePopup.show-challengePopup {
   visibility: visible;
 }
+
+/*      This code does an animation to the div element but the element does the animation when the page is refreshed 
+and not when you click the challenge button
+
+.challengePopup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    z-index: 10;
+    position: fixed;
+    background-color: #B2E4DB;
+    top: -100%; // Initial position off the top of the site
+    left: 50%;
+    width: 30em;
+    height: 18em;
+    transform: translate(-50%, 0%);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    animation-name: slideFromTop;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    visibility: hidden;
+  }
+  
+  @keyframes slideFromTop {
+    0% {
+      top: -100%;
+      visibility: visible;
+    }
+    100% {
+      top: 35%; // The ending position of the div element when sliding from top to bottom
+    }
+  }
+  
+  */
+
+
+#sendChallenge {
+    position: absolute;
+
+    color: #FFFFFF;
+    font-family: "Lexend";
+    background-color: green;
+    border-radius: 20px;
+    width: 120px;
+    height: 40px;
+    font-size: large;
+    cursor: pointer;
+    margin-top: 70px;
+    bottom: 10px;
+}
+
+#sendChallenge:hover {
+    background-color: darkgreen;
+}
+
+#sendChallenge:active {
+    transform: scale(0.95);
+}
+
 #playerName1 {
     margin: 0px auto 0px 50px;
 }
@@ -131,11 +193,13 @@ h3 {
     align-items: center;
     padding: 0px 30px;
 }
+/*
 #check {
     position: absolute;
     bottom: 10px;
     cursor: pointer;
 }
+*/
 .show-challengePopup{
     visibility: visible;
 }
