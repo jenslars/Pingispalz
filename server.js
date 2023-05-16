@@ -182,6 +182,7 @@ app.post('/joinClub', async (req, res) => {
 
 app.get('/clubLinks', async (req, res) => {
   //Function to send users club links
+  console.log("vi är i clublinks")
   const client = await pool.connect();
   try {
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
@@ -370,6 +371,7 @@ app.get('/viewProfile/:page', async (req, res) => {
 });
 
 app.get('/getViewProfile', async (req, res) => {
+  console.log("vi är i getviewprofile")
   try {
     const result = await pool.query(
       'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, contact_info, user_bio FROM users WHERE user_id = $1',

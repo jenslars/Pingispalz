@@ -124,32 +124,24 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-    // Call fetchProfileData function here
-    fetchProfileData();
-});
+        // Call fetchProfileData function here
+        fetchProfileData();
+        });
 
-// Function to fetch profile data and update HTML elements
-function fetchProfileData() {
-    fetch('/getViewProfile')
-        .then(response => response.json())
-        .then(data => {
-            // Insert profile image
-            document.getElementById('profile-image').src = data.profile_image;
-            
-            // Insert username
-            document.getElementById('username').textContent = data.username;
-            
-            // Insert contact_info
-            document.getElementById('discordname').textContent = data.contact_info;
-            
-            // Insert user_bio
-            document.getElementById('fetchedUserDescription').textContent = data.user_bio;
-        })
-        .catch(error => console.error(error));
-}
+    // Function to fetch profile data and update HTML elements
+    function fetchProfileData() {
+        fetch('/getViewProfile')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('profile-image').src = data.profile_image;
+                document.getElementById('username').textContent = data.username;
+                document.getElementById('discordname').textContent = data.contact_info;
+                document.getElementById('fetchedUserDescription').textContent = data.user_bio;
+            })
+            .catch(error => console.error(error));
+        }
 
     </script>
-
     <script>
         // Creates the div where the links to leaderboards are displayed
         const clubLinksDiv = document.getElementById('clublinks');
