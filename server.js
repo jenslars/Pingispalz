@@ -358,7 +358,7 @@ app.get('/viewProfile/:page', async (req, res) => {
 });
 
 app.get('/getViewProfile', async (req, res) => {
-  console.log("vi är i getviewprofile")
+  const client = await pool.connect();
   try {
     const result = await pool.query(
       'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, contact_info, user_bio FROM users WHERE user_id = $1',
@@ -378,9 +378,64 @@ app.get('/getViewProfile', async (req, res) => {
     console.error(err);
     res.status(500).json({ message: 'Error: Internal server error' });
   }
+  client.release();
+});
+
+app.get('/sendChallenge', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const status = "PENDING";
+    await pool.query( 
+      `INSERT into matches (challenger_id, recipient_id, server_id, status)
+      VALUES ($1, $2, $3, $4)`,
+      [loggedInUserId, globalViewProfileValue, GlobalLeaderboardValue, status ]
+    );
+    res.status(200).send('Success, challenge sent');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.get('/cancelChallenge', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `DELETE from matches WHERE challenger_id = $1 and recipient_id = $2`,
+      [loggedInUserId, globalViewProfileValue]
+    );
+    res.status(200).send('Success, challenge cancelled');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.get('/checkIfUserSentChallenge', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const result = await pool.query( 
+      `SELECT match_id from matches WHERE challenger_id = $1 and recipient_id = $2`,
+      [loggedInUserId, globalViewProfileValue]
+    );
+    const matchId = result.rows[0].match_id;
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  } finally {
+    client.release();
+  }   
 });
 
 app.get('/:page', (req, res) => {
+  //Function to fetch html document, always keep on bottom of server.js!
   const page = req.params.page;
   const filePath = path.join(__dirname, 'views', `${page}.html`);
   fs.readFile(filePath, function(error, data) {

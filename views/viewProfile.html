@@ -51,6 +51,8 @@
                             <p id="discordname" class="active"></p>
                         </div>
                     </section>
+                    <button id="challengebutton" class="active" onclick="sendChallenge()">Challenge</button>
+                    <button id="cancelchallengebutton" onclick="cancelChallenge()">Unchallenge</button>
                 </header>
                 <div id="contentsections">
                     <div id="contentleft">
@@ -126,6 +128,7 @@
         document.addEventListener('DOMContentLoaded', function() {
         // Call fetchProfileData function here
         fetchProfileData();
+        checkIfUserSentChallenge ();
         });
 
     // Function to fetch profile data and update HTML elements
@@ -140,9 +143,78 @@
             })
             .catch(error => console.error(error));
         }
-
+    
+        function checkIfUserSentChallenge() {
+            var challengebutton = document.getElementById('challengebutton');
+            var unchallengebutton = document.getElementById('cancelchallengebutton');
+            fetch('/checkIfUserSentChallenge')
+                .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Error: ' + response.status);
+                }
+                })
+                .then(data => {
+                if (data) {
+                    unchallengebutton.classList.add('active');
+                    challengebutton.classList.remove('active');
+                } else {
+                    unchallengebutton.classList.remove('active');
+                    challengebutton.classList.add('active');
+                }
+                })
+                .catch(error => {
+                console.error(error);
+                });
+            }
     </script>
     <script>
+        function sendChallenge() {
+            var challengebutton = document.getElementById('challengebutton');
+            var unchallengebutton = document.getElementById('cancelchallengebutton');
+            challengebutton.classList.remove('active');
+            unchallengebutton.classList.add('active');
+            
+            fetch('/sendChallenge')
+                .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Error: ' + response.status);
+                }
+                })
+                .then(data => {
+                console.log(data); // Success message from the server
+                })
+                .catch(error => {
+                console.error(error);
+                });
+            }
+        
+        function cancelChallenge() {
+            var challengebutton = document.getElementById('challengebutton');
+            var unchallengebutton = document.getElementById('cancelchallengebutton');
+            challengebutton.classList.add('active');
+            unchallengebutton.classList.remove('active');
+
+            fetch('/cancelChallenge')
+                .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Error: ' + response.status);
+                }
+                })
+                .then(data => {
+                console.log(data); // Success message from the server
+                })
+                .catch(error => {
+                console.error(error);
+                });
+            }
+
+
         // Creates the div where the links to leaderboards are displayed
         const clubLinksDiv = document.getElementById('clublinks');
         fetch('/clubLinks')

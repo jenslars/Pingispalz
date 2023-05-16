@@ -476,6 +476,63 @@ body{
     flex-direction: row;
 }
 
+#challengebutton.active {
+    color: #FF3366;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 20px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 50px 10px 15px;
+    background-image: url(ping-pong.png);
+    background-size: 20% ;
+    background-position: 120px 6px;
+    background-repeat: no-repeat;
+    right: 10%;
+    margin-top: 50px;
+    position: absolute;
+    display: unset;
+    transition: 0.3s;
+}
+
+#challengebutton{
+    display: none;
+}
+
+#challengebutton:hover {
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
+}
+
+#cancelchallengebutton{
+    background-color: #FF3366;
+    color: #fff;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 20px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 15px 10px 15px;
+    right: 10%;
+    margin-top: 50px;
+    position: absolute;
+    display: none;
+    width: 164px;
+    transition: 0.3s;
+}
+
+#cancelchallengebutton:hover{
+    transition: 0.3s;
+    background-color: #d32c56;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+#cancelchallengebutton.active{
+    display: unset;
+}
+
 #headercontent p{
     margin-left: 20px;
     font-size: 25px;
@@ -675,30 +732,14 @@ body{
     color: #2E3031;
 }
 
-#editUserDescriptionForm textarea{
-    width: 460px;
-    height: 140px;
-    border: none;
-    resize: none;
-    outline: none;
-    color: black;
-    font-family: 'Lexend';
-    font-weight: 100;
-    display: none;
-    visibility: hidden;
-    position: absolute;
-    margin-left: -10px;
-    font-size: 14px;
-}
-
 #userDescription p{
-    margin-left: 0px;
+    margin-left: 10px;
     margin-top: 0px;
 }
 
 #recentgames{
     background-color: #fff;
-    width: 400px;
+    width: 40%;
     height: 450px;
     margin: 20px auto 20px auto ;
     border-radius: 10px;
