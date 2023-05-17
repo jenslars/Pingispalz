@@ -65,8 +65,9 @@
                                 <div id="listedChallenges">
                                     <p id="LoggedInPlayer"> </p>
                                     <p id="PlayerWhoChallenge"> </p>
+                                    <p id="matchId"> </p>
                                     <p id="serverId"> </p>
-                                    <p id="status"> </p>
+                                    <p id="statusing"> </p>
                                 </div>
                             </div>
                         </section>
@@ -170,10 +171,12 @@
         fetch('/matchFromChallenger')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('LoggedInPlayer').textContent = data.challenger_id;
-                    document.getElementById('PlayerWhoChallenge').textContent = data.recipient_id;
-                    document.getElementById('serverId').textContent = data.server_id;
-                    document.getElementById('status').textContent = data.status;
+                    console.log(data)
+                    document.getElementById('LoggedInPlayer').innerHTML = data.challenger_id;
+                    document.getElementById('PlayerWhoChallenge').innerHTML = data.recipient_id;
+                    document.getElementById('matchId').innerHTML = data.match_id;
+                    document.getElementById('serverId').innerHTML = data.server_id;
+                    document.getElementById('statusing').innerHTML = data.status;
                 })
                 .catch(error => console.error(error));
         /* desktop navbar function */

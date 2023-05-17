@@ -471,19 +471,20 @@ app.post('/sendChallengeFromLeaderboard', async (req, res) => {
 app.get('/matchFromChallenger', async (req, res) => {
   const client = await pool.connect();
   try {
-    console.log("youre gay")
     const list = await pool.query( 
-      `SELECT challenger_id, recipient_id, server_id, status from matches 
+      `SELECT challenger_id, recipient_id, server_id, match_id, status from matches 
       WHERE challenger_id = $1`, [loggedInUserId]
     );
     const playerThatChallenge = list.rows[0].challenger_id;
     const recipientId = list.rows[0].recipient_id;
     const serverId = list.rows[0].server_id;
+    const matchId = list.rows[0].match_id;
     const statusing = list.rows[0].status;
     res.status(200).send({
       challenger_id: playerThatChallenge,
       recipient_id: recipientId,
       server_id: serverId,
+      match_id: matchId,
       status: statusing
     });
   } catch (err) {
