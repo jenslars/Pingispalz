@@ -18,7 +18,6 @@ const port = 3000;
 
 //Declares logged in user
 let loggedInUserId;
-module.exports.loggedInUserId=loggedInUserId;
 app.use(fileUpload());
 app.use(express.static('images'));
 app.use(express.static('public'));
