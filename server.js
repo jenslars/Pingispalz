@@ -18,7 +18,6 @@ const port = 3000;
 
 //Declares logged in user
 let loggedInUserId;
-
 app.use(fileUpload());
 app.use(express.static('images'));
 app.use(express.static('public'));
@@ -320,6 +319,21 @@ app.get('/leaderboard/score', async (req, res) => {
   }
   res.end();
 });
+
+app.get('/challenge/player', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const userNameForLoggedInUser = await pool.query('SELECT username FROM users WHERE user_id = $1', [loggedInUserId]);
+    const queryUser = userNameForLoggedInUser.rows[0].username;
+    res.status(200).send({ queryUser });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+});
+
 
 let GlobalLeaderboardValue;
 

@@ -304,6 +304,12 @@
                     })
                     .catch(error => console.error(error));
 
+                    challengePopup.classList.add("show-challengePopup");
+                    challengedPlayer = player;
+                    document.getElementById("playerName2").innerHTML = player;
+                    }
+
+
 
         //Popup for uploading profilepicture
         function addProfilePicturePopup() {

@@ -349,13 +349,9 @@ body{
 .sidenav a{
     margin-bottom: 40px;
     color: #fff;
-    font-size: 22px;
+    font-size: 20px;
     margin-left: 5px;   
     
-}
-.sidenav > a > p{
-    font-size: 1vw;
-    text-align: center;
 }
 
 #search{
