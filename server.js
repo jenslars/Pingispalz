@@ -448,6 +448,26 @@ app.get('/checkIfUserSentChallenge', async (req, res) => {
   }   
 });
 
+app.post('/sendChallengeFromLeaderboard', async (req, res) => {
+  const { recipientId } = req.body;
+  const client = await pool.connect();
+  try {
+    const status = "PENDING";
+    await pool.query( 
+      `INSERT into matches (challenger_id, recipient_id, server_id, status)
+      VALUES ($1, $2, $3, $4)`,
+      [loggedInUserId, recipientId, GlobalLeaderboardValue, status ]
+    );
+    res.status(200).send('Success, challenge sent');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
 app.get('/:page', (req, res) => {
   //Function to fetch html document, always keep on bottom of server.js!
   const page = req.params.page;
