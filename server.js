@@ -468,6 +468,32 @@ app.post('/sendChallengeFromLeaderboard', async (req, res) => {
   }
   res.end();
 });
+app.get('/matchFromChallenger', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    console.log("youre gay")
+    const list = await pool.query( 
+      `SELECT challenger_id, recipient_id, server_id, status from matches 
+      WHERE challenger_id = $1`, [loggedInUserId]
+    );
+    const playerThatChallenge = list.rows[0].challenger_id;
+    const recipientId = list.rows[0].recipient_id;
+    const serverId = list.rows[0].server_id;
+    const statusing = list.rows[0].status;
+    res.status(200).send({
+      challenger_id: playerThatChallenge,
+      recipient_id: recipientId,
+      server_id: serverId,
+      status: statusing
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
 
 app.get('/:page', (req, res) => {
   //Function to fetch html document, always keep on bottom of server.js!

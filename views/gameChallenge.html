@@ -59,8 +59,15 @@
                             <p>Already played?</p>
                         </section>
                         <section id="gameinvites">
+
                             <div id="gameinvitesheader">
                             <p>Game invites</p>
+                                <div id="listedChallenges">
+                                    <p id="LoggedInPlayer"> </p>
+                                    <p id="PlayerWhoChallenge"> </p>
+                                    <p id="serverId"> </p>
+                                    <p id="status"> </p>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -160,6 +167,15 @@
 
             xhr.send(JSON.stringify({ club }));
         });
+        fetch('/matchFromChallenger')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('LoggedInPlayer').textContent = data.challenger_id;
+                    document.getElementById('PlayerWhoChallenge').textContent = data.recipient_id;
+                    document.getElementById('serverId').textContent = data.server_id;
+                    document.getElementById('status').textContent = data.status;
+                })
+                .catch(error => console.error(error));
         /* desktop navbar function */
         var homeLink = document.getElementById('home');
         var searchLink = document.getElementById('search');
