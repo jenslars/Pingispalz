@@ -86,10 +86,13 @@ tr{
     box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
     transition: 0.3s;
 }
-
+/*Styling for challenge popup button on the leaderboard*/
 .challengePopup {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 30% 15% 30%;
+    grid-template-areas: 
+    "player1 versus player2"
+    "challenge challenge challenge";
     align-items: center;
     justify-content: space-evenly;
     z-index: 10;
@@ -103,32 +106,35 @@ tr{
     visibility: hidden;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.4s;
+    transition: transform 0.8s;
 }
 
 .show-challengePopup {
-
     visibility: visible;
     transform: translate(-50%, -50%) scale(1);
 }
-
+/*Styling for challenge button within challenge popup*/
 #sendChallenge {
-    position: absolute;
-    color: #FFFFFF;
-    font-family: "Lexend";
-    background-color: rgb(70, 218, 70);
-    border-radius: 20px;
-    width: 120px;
-    height: 40px;
-    font-size: large;
+    grid-area: challenge;
+    border-radius: 10px;
+    height: 50px;
     cursor: pointer;
-    margin-top: 70px;
-    bottom: 10px;
-    margin-bottom: 25px;
+    font-family: "Lexend";
+    font-size: larger;
+    color: #D9FFF8;
+    background-color:#08b93d;
+    font-weight: 800;
+    width: 130px;
+    margin: 0px auto;
+    border: currentColor 0.125em solid;
+    transition: 0.6s all ease-in-out;
 }
 
 #sendChallenge:hover {
-    background-color: rgb(16, 168, 16);
+    background-color: #725AC1;
+    transition: 0.8s all ease;
+    width: 180px;
+    text-shadow: 0 0 0.5em currentColor;
 }
 
 #sendChallenge:active {
@@ -136,32 +142,51 @@ tr{
 }
 
 #playerName1 {
-    position: absolute;
-    left: 50px;
+    grid-area: player1;
     cursor: pointer;
 }
 #playerName2 {
-    position: absolute;
-    right: 50px;
+    grid-area: player2;
     cursor: pointer;
-    
 }
-
+#playerName1:hover {
+    color: #49B6FF;
+    text-decoration: underline;
+    transition: 0.2s;
+    text-shadow: 0 0 0.5em currentColor;
+}
+#playerName2:hover {
+    color: #D7263D;
+    text-decoration: underline;
+    transition: 0.2s;
+    text-shadow: 0 0 0.5em currentColor;
+}
 #closeButton {
   position: absolute;
   top: 10px;
   left: 10px;
   cursor: pointer;
+  transition: 0.4s;
+  padding: 2px;
+}
+
+#closeButton:hover {
+    background-color: #666;
+    transform: scale(1.1);
+    border-radius: 15px;
 }
 
 h3 {
   margin: 10px 0;
+  text-align: center;
 }
 
 #versus {
+    grid-area: versus;
     position: absolute;
     align-items: center;
     padding: 0px 30px;
+    text-shadow: 0 0 0.5em #fff;
 }
 /*
 #check {
