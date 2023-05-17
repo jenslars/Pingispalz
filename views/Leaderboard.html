@@ -357,17 +357,17 @@ function updateLeaderboard(players) {
                 xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        document.getElementById("error-message").innerHTML = "Good";
-                        window.location.href = "/home";
+                        // document.getElementById("error-message").innerHTML = "Good";
+                        // window.location.href = "/home";
                     } else {
-                        document.getElementById("error-message").innerHTML = "Bad";
+                        // document.getElementById("error-message").innerHTML = "Bad";
                     }
                 } else {
-                    document.getElementById("error-message").innerHTML = "Something went wrong";
+                    // document.getElementById("error-message").innerHTML = "Something went wrong";
                 }
             };
             xhr.send(JSON.stringify({
-                recipient : challengedPlayerId
+                recipientId : challengedPlayerId
             }));
             }
         </script> 

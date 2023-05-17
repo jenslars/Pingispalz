@@ -450,6 +450,7 @@ app.get('/checkIfUserSentChallenge', async (req, res) => {
 
 app.post('/sendChallengeFromLeaderboard', async (req, res) => {
   const { recipientId } = req.body;
+  console.log("vi är i server.js nu och har idt", recipientId)
   const client = await pool.connect();
   try {
     const status = "PENDING";
