@@ -99,60 +99,24 @@ tr{
     left: 50%;
     width: 30em;
     height: 18em;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.5);
     visibility: hidden;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s;
 }
 
-.challengePopup.show-challengePopup {
-  visibility: visible;
+.show-challengePopup {
+
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
 }
-
-/*      This code does an animation to the div element but the element does the animation when the page is refreshed 
-and not when you click the challenge button
-
-.challengePopup {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    z-index: 10;
-    position: fixed;
-    background-color: #B2E4DB;
-    top: -100%; // Initial position off the top of the site
-    left: 50%;
-    width: 30em;
-    height: 18em;
-    transform: translate(-50%, 0%);
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    animation-name: slideFromTop;
-    animation-duration: 1s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
-    visibility: hidden;
-  }
-  
-  @keyframes slideFromTop {
-    0% {
-      top: -100%;
-      visibility: visible;
-    }
-    100% {
-      top: 35%; // The ending position of the div element when sliding from top to bottom
-    }
-  }
-  
-  */
-
 
 #sendChallenge {
     position: absolute;
-
     color: #FFFFFF;
     font-family: "Lexend";
-    background-color: green;
+    background-color: rgb(70, 218, 70);
     border-radius: 20px;
     width: 120px;
     height: 40px;
@@ -160,10 +124,11 @@ and not when you click the challenge button
     cursor: pointer;
     margin-top: 70px;
     bottom: 10px;
+    margin-bottom: 25px;
 }
 
 #sendChallenge:hover {
-    background-color: darkgreen;
+    background-color: rgb(16, 168, 16);
 }
 
 #sendChallenge:active {
@@ -171,10 +136,15 @@ and not when you click the challenge button
 }
 
 #playerName1 {
-    margin: 0px auto 0px 50px;
+    position: absolute;
+    left: 50px;
+    cursor: pointer;
 }
 #playerName2 {
-    margin: 0px 50px 0px auto;
+    position: absolute;
+    right: 50px;
+    cursor: pointer;
+    
 }
 
 #closeButton {
