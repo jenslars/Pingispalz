@@ -563,6 +563,16 @@ body{
 #listedChallenges p{
     padding: 3px;
     font-size: 10px;
+    margin: 0;
+    text-align: center;
+}
+#gameinvitesheader{
+    text-align: center;
+}
+#listedMatches {
+    font-size: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 /* Mobile css */

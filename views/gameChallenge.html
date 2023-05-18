@@ -59,16 +59,18 @@
                             <p>Already played?</p>
                         </section>
                         <section id="gameinvites">
-
                             <div id="gameinvitesheader">
-                            <p>Game invites</p>
-                                <div id="listedChallenges">
-                                    <p id="LoggedInPlayer"> </p>
+                                <h4>Game invites</h4>
+                            </div>
+                            <div id="listedMatches">
                                     <p id="PlayerWhoChallenge"> </p>
+                                    <p id="LoggedInPlayer"> </p>
                                     <p id="matchId"> </p>
                                     <p id="serverId"> </p>
-                                    <p id="statusing"> </p>
-                                </div>
+                                    <p id="statusing"> </p>`
+                                <button> ACCEPT </button>
+                                <button onclick="declineChallenge()"> CANCEL </button>
+                            </div>
                             </div>
                         </section>
                     </div>
@@ -176,9 +178,15 @@
                     document.getElementById('LoggedInPlayer').innerHTML = data.challenger_username;
                     document.getElementById('matchId').innerHTML = data.match_id;
                     document.getElementById('serverId').innerHTML = data.server_name;
-                    document.getElementById('statusing').innerHTML = data.status;
+                    //document.getElementById('statusing').innerHTML = data.status;
                 })
                 .catch(error => console.error(error));
+            function declineChallenge(match_id){
+                console.log("hej du luktar kiss");
+                xhr.open('POST', '/declineMatch');
+                xhr.send(JSON.stringify({
+                match_id : matchId
+            }))};
         /* desktop navbar function */
         var homeLink = document.getElementById('home');
         var searchLink = document.getElementById('search');

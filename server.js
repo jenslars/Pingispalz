@@ -493,14 +493,31 @@ app.get('/matchFromChallenger', async (req, res) => {
     const recipientPlayer = list.rows[0].recipient_username;
     const serverName = list.rows[0].server_name;
     const matchId = list.rows[0].match_id;
-    const statusing = list.rows[0].status;
+    //const statusing = list.rows[0].status;
     res.status(200).send({
       challenger_username: playerThatChallenge,
       recipient_username: recipientPlayer,
       server_name: serverName,
       match_id: matchId,
-      status: statusing
+      //status: statusing
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+app.post('/declineMatch', async (req, res) => {
+  console.log("hej!!!!");
+  const { match_id } = req.body;
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `DELETE FROM matches WHERE match_id =`, [match_id]
+    );
+    res.status(200).send('Match was declined');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error: Internal server error');
