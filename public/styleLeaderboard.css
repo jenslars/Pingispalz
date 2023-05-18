@@ -405,6 +405,13 @@ img {
     width: 10%;
 }
 
+#leaderboard > tr > td > a:hover {
+    text-decoration: underline;
+    color: darkblue;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
 .playerProfilePhoto {
     display: block;
     margin: auto;
