@@ -561,7 +561,8 @@ body{
     margin: 50px;
 }
 #listedChallenges p{
-    padding: 0px 10px;
+    padding: 3px;
+    font-size: 10px;
 }
 
 /* Mobile css */

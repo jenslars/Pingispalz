@@ -469,21 +469,35 @@ app.post('/sendChallengeFromLeaderboard', async (req, res) => {
   res.end();
 });
 app.get('/matchFromChallenger', async (req, res) => {
-  const client = await pool.connect();
+  const client = await pool.connect(); 
   try {
     const list = await pool.query( 
-      `SELECT challenger_id, recipient_id, server_id, match_id, status from matches 
-      WHERE challenger_id = $1`, [loggedInUserId]
+      `SELECT
+      m.match_id,
+      u1.username AS challenger_username,
+      u2.username AS recipient_username,
+      lb.leaderboard_name AS server_name,
+      m.status
+    FROM
+      matches m
+    JOIN
+      users u1 ON m.challenger_id = u1.user_id
+    JOIN
+      users u2 ON m.recipient_id = u2.user_id
+    JOIN
+      leaderboards lb ON m.server_id = lb.id
+    WHERE
+      m.recipient_id = $1;`, [loggedInUserId]
     );
-    const playerThatChallenge = list.rows[0].challenger_id;
-    const recipientId = list.rows[0].recipient_id;
-    const serverId = list.rows[0].server_id;
+    const playerThatChallenge = list.rows[0].challenger_username;
+    const recipientPlayer = list.rows[0].recipient_username;
+    const serverName = list.rows[0].server_name;
     const matchId = list.rows[0].match_id;
     const statusing = list.rows[0].status;
     res.status(200).send({
-      challenger_id: playerThatChallenge,
-      recipient_id: recipientId,
-      server_id: serverId,
+      challenger_username: playerThatChallenge,
+      recipient_username: recipientPlayer,
+      server_name: serverName,
       match_id: matchId,
       status: statusing
     });

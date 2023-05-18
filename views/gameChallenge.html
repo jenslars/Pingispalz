@@ -172,10 +172,10 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
-                    document.getElementById('LoggedInPlayer').innerHTML = data.challenger_id;
-                    document.getElementById('PlayerWhoChallenge').innerHTML = data.recipient_id;
+                    document.getElementById('PlayerWhoChallenge').innerHTML = data.recipient_username;
+                    document.getElementById('LoggedInPlayer').innerHTML = data.challenger_username;
                     document.getElementById('matchId').innerHTML = data.match_id;
-                    document.getElementById('serverId').innerHTML = data.server_id;
+                    document.getElementById('serverId').innerHTML = data.server_name;
                     document.getElementById('statusing').innerHTML = data.status;
                 })
                 .catch(error => console.error(error));
