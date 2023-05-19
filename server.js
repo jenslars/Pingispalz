@@ -182,7 +182,6 @@ app.post('/joinClub', async (req, res) => {
 
 app.get('/clubLinks', async (req, res) => {
   //Function to send users club links
-  console.log("vi är i clublinks")
   const client = await pool.connect();
   try {
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
@@ -433,6 +432,28 @@ app.get('/checkIfUserSentChallenge', async (req, res) => {
     client.release();
   }   
 });
+
+app.get('/matchHistory', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const matchesPlayed = await pool.query( 
+      `SELECT r.*, u.username, COALESCE(u.profile_image, 'stockuserimage.png') AS profile_image
+       FROM results AS r
+       JOIN users AS u ON (r.challenger_id = u.user_id OR r.recipient_id = u.user_id)
+       WHERE (r.challenger_id = $1 OR r.recipient_id = $1) AND r.status = 'FINISHED'`,
+      [loggedInUserId]
+    );
+    res.status(200).send({ loggedInUserId: loggedInUserId, matchesPlayed: matchesPlayed.rows });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  } finally {
+    client.release();
+  }   
+});
+
+
+
 
 app.get('/:page', (req, res) => {
   //Function to fetch html document, always keep on bottom of server.js!

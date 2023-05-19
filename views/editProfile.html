@@ -88,26 +88,6 @@
                     <section id="recentgames">
                         <h3>Recent Games</h3>
                         <div id="matchhistorylist">
-                            <div class="match">
-                                <div class="player">
-                                    <img src="headshotgyros.png" class="playeruserimage">
-                                    <p class="playername">jenslarsen</p>
-                                </div>
-                                <div class="results">
-                                    <p class="win">WIN</p>
-                                    <div class="score">
-                                        <p class="playersscore">11</p>
-                                        <p class="divider">-</p>
-                                        <p class="opponentscore">4</p>
-                                    </div>
-                                </div>
-                                <a href="/viewProfile/1" class="opponentuserlink">
-                                <div class="opponent">
-                                    <img src="mff.png" class="opponentuserimage">
-                                    <p class="opponentname">MFFfan</p>
-                                </div>
-                                </a>
-                            </div>
                         </div>
                     </section>
                 </div>
@@ -153,10 +133,10 @@
     </div>
     <script>
         document.getElementById('discordform').addEventListener('submit', function(event) {
-  event.preventDefault();
-  console.log('Form submitted!');
-  // rest of the code
-});
+            event.preventDefault();
+            console.log('Form submitted!');
+            // rest of the code
+            });
 
         //Function to toggle description form
         function toggleEditDescription() {
@@ -303,6 +283,103 @@
                         document.getElementById('descriptionFormInput').textContent = data.user_bio;
                     })
                     .catch(error => console.error(error));
+
+                    fetch('/matchHistory')
+                        .then(response => response.json())
+                        .then(data => {
+                            const loggedInUserId = data.loggedInUserId;
+                            const matchHistoryData = data.matchesPlayed;
+
+                            const matchHistoryList = document.getElementById('matchhistorylist');
+
+                            // Group matches by match_id
+                            const matchesByMatchId = new Map();
+                            matchHistoryData.forEach(match => {
+                            const matchId = match.match_id;
+                            if (matchesByMatchId.has(matchId)) {
+                                matchesByMatchId.get(matchId).push(match);
+                            } else {
+                                matchesByMatchId.set(matchId, [match]);
+                            }
+                            });
+
+                            // Create rows for each match_id
+                            matchesByMatchId.forEach(matches => {
+                            const matchContainer = document.createElement('div');
+                            matchContainer.classList.add('match');
+
+                            const playerContainer = document.createElement('div');
+                            playerContainer.classList.add('player');
+
+                            const opponentContainer = document.createElement('div');
+                            opponentContainer.classList.add('opponent');
+
+                            matches.forEach(match => {
+                                // Player
+                                if (match.challenger_id || recipient_id === loggedInUserId) {
+                                const playerImage = document.createElement('img');
+                                playerImage.src = match.profile_image || 'stockuserimage.png'; // Set the player's image source
+                                playerImage.classList.add('playeruserimage');
+                                playerContainer.appendChild(playerImage);
+
+                                const playerName = document.createElement('p');
+                                playerName.textContent = match.username; // Set the player's username
+                                playerName.classList.add('playername');
+                                playerContainer.appendChild(playerName);
+                                }
+
+                                // Opponent
+                                if (match.recipient_id || recipient_id !== loggedInUserId) {
+                                const opponentImage = document.createElement('img');
+                                opponentImage.src = match.profile_image || 'stockuserimage.png'; // Set the opponent's image source
+                                opponentImage.classList.add('opponentuserimage');
+                                opponentContainer.appendChild(opponentImage);
+
+                                const opponentName = document.createElement('p');
+                                opponentName.textContent = match.username; // Set the opponent's username
+                                opponentName.classList.add('opponentname');
+                                opponentContainer.appendChild(opponentName);
+                                }
+                            });
+
+                            matchContainer.appendChild(playerContainer);
+
+                            // Results
+                            const resultsContainer = document.createElement('div');
+                            resultsContainer.classList.add('results');
+
+                            const winText = document.createElement('p');
+                            winText.textContent = matches[0].winner === loggedInUserId ? 'Win' : 'Loss';
+                            winText.classList.add('win');
+                            resultsContainer.appendChild(winText);
+
+                            const scoreContainer = document.createElement('div');
+                            scoreContainer.classList.add('score');
+
+                            const playerScore = document.createElement('p');
+                            playerScore.textContent = matches[0].challengerpoints; // Set the player's score
+                            playerScore.classList.add('playersscore');
+                            scoreContainer.appendChild(playerScore);
+
+                            const divider = document.createElement('p');
+                            divider.textContent = '-';
+                            divider.classList.add('divider');
+                            scoreContainer.appendChild(divider);
+
+                            const opponentScore = document.createElement('p');
+                            opponentScore.textContent = matches[0].recipientpoints; // Set the opponent's score
+                            opponentScore.classList.add('opponentscore');
+                            scoreContainer.appendChild(opponentScore);
+
+                            resultsContainer.appendChild(scoreContainer);
+                            matchContainer.appendChild(resultsContainer);
+
+                            matchContainer.appendChild(opponentContainer);
+
+                            matchHistoryList.appendChild(matchContainer);
+                            });
+                        })
+                        .catch(error => console.error(error));
 
 
         //Popup for uploading profilepicture
