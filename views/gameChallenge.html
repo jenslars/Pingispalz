@@ -187,7 +187,7 @@
                         tableHtml += '<td>' + match[0] + '</td>';
                         tableHtml += '<td>' + match[1] + '</td>';
                         tableHtml += '<td>' + match[2] + '</td>';
-                        tableHtml += '<td><button> ACCEPT </button></td>';
+                        tableHtml += '<td><button onclick="acceptedChallenge(' + match[3] +')"> ACCEPT </button></td>';
                         tableHtml += '<td><button onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
                         tableHtml += '</tr>';
         });
@@ -198,8 +198,14 @@
         document.getElementById('MatchInvites').innerHTML = tableHtml;
                 })
                 .catch(error => console.error(error));
+                function acceptedChallenge(match_id) {
+                    const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/acceptedChallenge');
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify({
+                matchId: match_id
+            }))};
             function declineChallenge(match_id){
-                console.log(match_id);
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '/declineMatch');
                 xhr.setRequestHeader('Content-Type', 'application/json');
