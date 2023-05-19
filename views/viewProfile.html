@@ -225,15 +225,12 @@
                     link.href = `/leaderboards/${leaderboard.id}`; 
                     link.classList.add('club-link'); 
                     const image = document.createElement('img');
-                    image.src = `/${leaderboard.leaderboard_image}`; // Add a forward slash in front of the image source
+                    image.src = `/${leaderboard.leaderboard_image}`;
                     link.appendChild(image);
                     clubLinksDiv.appendChild(link);
                 });
             })
             .catch(error => console.error(error));
-
-
-
 
         /*Popup for adding leaderboards*/
         function leaderboardpopup() {
