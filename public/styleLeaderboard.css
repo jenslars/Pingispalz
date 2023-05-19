@@ -139,16 +139,18 @@ tr{
 }
 
 #sendChallenge:active {
-    transform: scale(0.95);
+    transform: scale(0.8);
 }
 
 #playerName1 {
     grid-area: player1;
-    cursor: pointer;
+    color: #140569;
+    text-decoration: underline;
 }
 #playerName2 {
     grid-area: player2;
-    cursor: pointer;
+    color: #710211;
+    text-decoration: underline;
 }
 #playerName1:hover {
     color: #140569;
@@ -366,6 +368,7 @@ body {
 }
 .header > h2 {
     color: black;
+    text-align: center;
 }
 
 .header > h2, .header > h3 {
