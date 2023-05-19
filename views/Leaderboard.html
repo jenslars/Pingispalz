@@ -5,23 +5,23 @@
         <title>Welcome Pingispals!</title>
         <link rel="icon" type="image/x-icon" href="images/PingisPalsSmallIcon.png">
         <link href="/styleLeaderboard.css" rel="stylesheet">
-        <link href="/navigationbar.css" rel="stylesheet">
+        <link href="/navigationSidebar.css" rel="stylesheet" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200&family=Playfair+Display&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="grid-container">
+    <div class="grid-container" id="blur">
         <nav class="sidenav">
             <div id="logo">
-                <p>Pingispals<p class="redDot">.</p>
+                <p>Pingispals<p class="redDot">.</p></p>
             </div>
-            <a id="home" href="/home"><p> Home </p></a>
-            <a id="search" href="#"><p> Search </p></a>
-            <a id="leaderboards" href="#"><p> Clubs </p></a>
-            <a id="challenges" href="#"><p> Challenge </p></a>
-            <a id="profile" href="/editprofile"><p> Profile </p></a>
+            <a id="home" href="/home">Home</a>
+            <a id="search" href="#">Search</a>
+            <a id="leaderboards" href="#" class="active">Clubs</a>
+            <a id="challenges" href="/gameChallenge">Challenges</a>
+            <a id="profile" href="/editprofile">Profile</a>
         </nav>
         <nav id="searchfield">
             <form>
@@ -29,20 +29,14 @@
             </form>
         </nav>
         <nav id="leaderboardoptions">
-            <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
-            <button type="button" id="findserver"></button>
+            <div id="leaderboardoptionsbuttons">
+                <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
+                <button type="button" id="findserver"></button>
+            </div>
+            <div id="clublinks">
+                <ul id="clublinkslist"></ul>
+            </div>
         </nav>
-        <div id="leaderboardpopup">
-            <header id="popupheader">
-            <button id="exitpopup" onclick="exitpopup()"></button>
-            <h1>Add a Club</h1>
-            </header>
-            <p>Join a club by pressing the button next to the server you would like to join.</p>
-            <footer id="popupfooter">
-            <p>Want to create you own club?</p>
-            <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
-            </footer>
-        </div>
 
         <div class="header"> 
             <h2> Malmo University </h2>
@@ -79,7 +73,6 @@
                 </thead>
                 <tbody id="leaderboard"></tbody>
             </table>
-            
         </div>
         <script>   
             /*Popup for adding leaderboards*/
