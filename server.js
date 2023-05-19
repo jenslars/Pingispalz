@@ -18,7 +18,6 @@ const port = 3000;
 
 //Declares logged in user
 let loggedInUserId;
-
 app.use(fileUpload());
 app.use(express.static('images'));
 app.use(express.static('public'));
@@ -321,6 +320,21 @@ app.get('/leaderboard/score', async (req, res) => {
   res.end();
 });
 
+app.get('/challenge/player', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const userNameForLoggedInUser = await pool.query('SELECT username FROM users WHERE user_id = $1', [loggedInUserId]);
+    const queryUser = userNameForLoggedInUser.rows[0].username;
+    res.status(200).send({ queryUser });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+});
+
+
 let GlobalLeaderboardValue;
 
 app.get('/leaderboards/:page', async (req, res) => {
@@ -432,6 +446,83 @@ app.get('/checkIfUserSentChallenge', async (req, res) => {
   } finally {
     client.release();
   }   
+});
+
+app.post('/sendChallengeFromLeaderboard', async (req, res) => {
+  const { recipientId } = req.body;
+  console.log("vi är i server.js nu och har idt", recipientId)
+  const client = await pool.connect();
+  try {
+    const status = "PENDING";
+    await pool.query( 
+      `INSERT into matches (challenger_id, recipient_id, server_id, status)
+      VALUES ($1, $2, $3, $4)`,
+      [loggedInUserId, recipientId, GlobalLeaderboardValue, status ]
+    );
+    res.status(200).send('Success, challenge sent');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+app.get('/matchFromChallenger', async (req, res) => {
+  const client = await pool.connect(); 
+  try {
+    const list = await pool.query( 
+      `SELECT
+      m.match_id,
+      u1.username AS challenger_username,
+      u2.username AS recipient_username,
+      lb.leaderboard_name AS server_name,
+      m.status
+    FROM
+      matches m
+    JOIN
+      users u1 ON m.challenger_id = u1.user_id
+    JOIN
+      users u2 ON m.recipient_id = u2.user_id
+    JOIN
+      leaderboards lb ON m.server_id = lb.id
+    WHERE
+      m.recipient_id = $1;`, [loggedInUserId]
+    );
+    let matchList = list.rows.map(row => [
+      list.rows[0].challenger_username,
+      list.rows[0].recipient_username,
+      list.rows[0].server_name,
+      list.rows[0].match_id,
+    ]);
+    //const statusing = list.rows[0].status;
+    res.status(200).send({
+      matchList: matchList
+      //status: statusing
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+app.post('/declineMatch', async (req, res) => {
+  const matchId  = req.body.matchId;
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `DELETE FROM matches WHERE match_id = $1`, [matchId]
+    );
+    res.status(200).send('Match was declined');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
 });
 
 app.get('/:page', (req, res) => {

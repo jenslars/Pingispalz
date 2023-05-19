@@ -60,7 +60,13 @@
                         </section>
                         <section id="gameinvites">
                             <div id="gameinvitesheader">
-                            <p>Game invites</p>
+                                <h4>Game invites</h4>
+                            </div>
+                            <div id="listedMatches">
+                                <table>
+                                    <tbody id="MatchInvites"></tbody>
+                                </table>
+                            </div>
                             </div>
                         </section>
                     </div>
@@ -160,6 +166,46 @@
 
             xhr.send(JSON.stringify({ club }));
         });
+        fetch('/matchFromChallenger')
+                .then(response => response.json())
+                .then(data => {
+                    let matchList = data.matchList;
+                    let tableHtml = '<table>';
+        
+                    // Create table headers
+                    tableHtml += '<tr>';
+                    tableHtml += '<th>Challenger Username</th>';
+                    tableHtml += '<th>Recipient Username</th>';
+                    tableHtml += '<th>Server Name</th>';
+                    tableHtml += '<th></th>';
+                    tableHtml += '<th></th>';
+                    tableHtml += '</tr>';
+        
+                    // Iterate over matchList and create table rows
+                    matchList.forEach(match => {
+                        tableHtml += '<tr>';
+                        tableHtml += '<td>' + match[0] + '</td>';
+                        tableHtml += '<td>' + match[1] + '</td>';
+                        tableHtml += '<td>' + match[2] + '</td>';
+                        tableHtml += '<td><button> ACCEPT </button></td>';
+                        tableHtml += '<td><button onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
+                        tableHtml += '</tr>';
+        });
+        
+        tableHtml += '</table>';
+        
+        // Set the generated HTML as the content of the 'MatchInvites' element
+        document.getElementById('MatchInvites').innerHTML = tableHtml;
+                })
+                .catch(error => console.error(error));
+            function declineChallenge(match_id){
+                console.log(match_id);
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/declineMatch');
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify({
+                matchId: match_id
+            }))};
         /* desktop navbar function */
         var homeLink = document.getElementById('home');
         var searchLink = document.getElementById('search');

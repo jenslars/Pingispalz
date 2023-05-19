@@ -12,7 +12,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200&family=Playfair+Display&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="grid">
+    <div class="grid-container">
         <nav class="sidenav">
             <div id="logo">
                 <p>Pingispals<p class="redDot">.</p>
@@ -57,6 +57,14 @@
             </div>
         </div>
         <div id="ranking"> 
+            <div class="challengePopup" id="challengePopup"> 
+
+                    <img id="closeButton"src="../exitdiscordwhite.png" onclick="closePopup()">
+                    <h3 id="playerName1" class="matchPlayers"></h3>
+                    <h2 id="versus"> Vs </h2>
+                    <h3 id="playerName2" class="matchPlayers"> </h3>
+                    <button onclick="sendChallenge()" id="sendChallenge" id="button" role="button">Challenge</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -71,6 +79,7 @@
                 </thead>
                 <tbody id="leaderboard"></tbody>
             </table>
+            
         </div>
         <script>   
             /*Popup for adding leaderboards*/
@@ -179,7 +188,7 @@
                                 <td>${player.winratio}</td>
                                 <td>${player.elo}</td>
                                 <td>${player.status}</td>
-                                <td><button>Play</button></td>
+                                <td><button class="challengebutton" onclick="openPopup('${player.username}','${player.user_id}')">Challenge</button></td>
                             `;
                             if (player.losses || player.wins) {
                                 let winLossRatio;
@@ -320,8 +329,49 @@ function updateLeaderboard(players) {
     ladder.appendChild(row);
   });
 }
+            let popup = document.getElementById("challengePopup");
+            let challengedPlayerId; 
+            function openPopup(player, playerId){
+                fetch('/challenge/player')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the HTML elements with the fetched data
+                        document.getElementById('playerName1').textContent = data.queryUser;
+                    })
+                    .catch(error => console.error(error));
 
-        </script>
+                challengePopup.classList.add("show-challengePopup");
+                challengedPlayer = player;
+                challengedPlayerId = playerId;
+                document.getElementById("playerName2").innerHTML = player;
+
+            }
+            function closePopup(){
+                challengePopup.classList.remove("show-challengePopup");
+            }
+            function sendChallenge(){
+                console.log(challengedPlayerId);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/sendChallengeFromLeaderboard", true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // document.getElementById("error-message").innerHTML = "Good";
+                        // window.location.href = "/home";
+                    } else {
+                        // document.getElementById("error-message").innerHTML = "Bad";
+                    }
+                } else {
+                    // document.getElementById("error-message").innerHTML = "Something went wrong";
+                }
+            };
+            xhr.send(JSON.stringify({
+                recipientId : challengedPlayerId
+            }));
+            }
+        </script> 
+
         
     </div>
     
