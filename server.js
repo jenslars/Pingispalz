@@ -309,7 +309,13 @@ app.get('/leaderboard/score', async (req, res) => {
     const finalfetchedLeaderboardName = fetchedLeaderboardName.rows[0].leaderboard_name;
     const tableName = `${finalfetchedLeaderboardName}#${GlobalLeaderboardValue}`;
     const result = await pool.query(`SELECT user_id, username, elo, wins, losses, status FROM "${tableName}" JOIN users ON player_id = user_id ORDER BY elo DESC`)
-    res.status(200).send(result.rows);
+    
+    const response = {
+      tableName: tableName,
+      leaderboardData: result.rows
+    }
+
+    res.status(200).send(response);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error: Internal server error');
