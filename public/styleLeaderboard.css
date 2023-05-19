@@ -139,7 +139,7 @@ tr{
 }
 
 #sendChallenge:active {
-    transform: scale(0.95);
+    transform: scale(0.8);
 }
 
 #playerName1 {
@@ -368,6 +368,7 @@ body {
 }
 .header > h2 {
     color: black;
+    text-align: center;
 }
 
 .header > h2, .header > h3 {
