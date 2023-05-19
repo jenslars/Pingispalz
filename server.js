@@ -489,16 +489,15 @@ app.get('/matchFromChallenger', async (req, res) => {
     WHERE
       m.recipient_id = $1;`, [loggedInUserId]
     );
-    const playerThatChallenge = list.rows[0].challenger_username;
-    const recipientPlayer = list.rows[0].recipient_username;
-    const serverName = list.rows[0].server_name;
-    const matchId = list.rows[0].match_id;
+    let matchList = list.rows.map(row => [
+      list.rows[0].challenger_username,
+      list.rows[0].recipient_username,
+      list.rows[0].server_name,
+      list.rows[0].match_id,
+    ]);
     //const statusing = list.rows[0].status;
     res.status(200).send({
-      challenger_username: playerThatChallenge,
-      recipient_username: recipientPlayer,
-      server_name: serverName,
-      match_id: matchId,
+      matchList: matchList
       //status: statusing
     });
   } catch (err) {
@@ -510,12 +509,11 @@ app.get('/matchFromChallenger', async (req, res) => {
   res.end();
 });
 app.post('/declineMatch', async (req, res) => {
-  console.log("hej!!!!");
-  const { match_id } = req.body;
+  const matchId  = req.body.matchId;
   const client = await pool.connect();
   try {
     await pool.query( 
-      `DELETE FROM matches WHERE match_id =`, [match_id]
+      `DELETE FROM matches WHERE match_id = $1`, [matchId]
     );
     res.status(200).send('Match was declined');
   } catch (err) {
