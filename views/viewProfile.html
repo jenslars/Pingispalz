@@ -72,27 +72,7 @@
                     </div>
                     <section id="recentgames">
                         <h3>Recent Games</h3>
-                        <div id="matchhistorylist">
-                            <div class="match">
-                                <div class="player">
-                                    <img src="" class="playeruserimage">
-                                    <p class="playername"></p>
-                                </div>
-                                <div class="results">
-                                    <p class="win">WIN</p>
-                                    <div class="score">
-                                        <p class="playersscore">11</p>
-                                        <p class="divider">-</p>
-                                        <p class="opponentscore">4</p>
-                                    </div>
-                                </div>
-                                <a href="" class="opponentuserlink">
-                                <div class="opponent">
-                                    <img src="" class="opponentuserimage">
-                                    <p class="opponentname"></p>
-                                </div>
-                                </a>
-                            </div>
+                        <div id="matchContainer">
                         </div>
                     </section>
                 </div>
@@ -171,6 +151,93 @@
             }
     </script>
     <script>
+         fetch('/matchHistoryViewProfile')
+            .then((response) => response.json())
+            .then((matches) => {
+                const matchContainer = document.getElementById('matchContainer');
+
+                matches.forEach((match) => {
+                const matchDiv = document.createElement('div');
+                matchDiv.className = 'match';
+
+                const playerDiv = document.createElement('div');
+                playerDiv.className = 'player';
+
+                const playerImage = document.createElement('img');
+                playerImage.src = `/${match.playerProfileImage || 'stockuserimage.png'}`;
+                playerImage.className = 'playeruserimage';
+
+                const playerName = document.createElement('p');
+                playerName.className = 'playername';
+                playerName.textContent = match.playerUsername;
+
+                playerDiv.appendChild(playerImage);
+                playerDiv.appendChild(playerName);
+
+                const resultsDiv = document.createElement('div');
+                resultsDiv.className = 'results';
+
+                const winText = document.createElement('p');
+                                winText.className = 'win';
+                                if (match.playerPoints < match.opponentPoints) {
+                                winText.textContent = 'WIN';
+                                } else {
+                                winText.textContent = 'LOST';
+                                winText.classList.add('lost');
+                                }
+
+                const scoreDiv = document.createElement('div');
+                scoreDiv.className = 'score';
+
+                const playerScore = document.createElement('p');
+                playerScore.className = 'playersscore';
+                playerScore.textContent = match.playerPoints;
+
+                const divider = document.createElement('p');
+                divider.className = 'divider';
+                divider.textContent = '-';
+
+                const opponentScore = document.createElement('p');
+                opponentScore.className = 'opponentscore';
+                opponentScore.textContent = match.opponentPoints;
+
+                scoreDiv.appendChild(playerScore);
+                scoreDiv.appendChild(divider);
+                scoreDiv.appendChild(opponentScore);
+
+                resultsDiv.appendChild(winText);
+                resultsDiv.appendChild(scoreDiv);
+
+                const opponentLink = document.createElement('a');
+                opponentLink.className = 'opponentuserlink';
+                opponentLink.href = '/viewProfile/' + match.opponentUserId;
+                const opponentDiv = document.createElement('div');
+                opponentDiv.className = 'opponent';
+
+                const opponentImage = document.createElement('img');
+                opponentImage.src = `/${match.opponentProfileImage || 'stockuserimage.png'}`;
+                opponentImage.className = 'opponentuserimage';
+
+                const opponentName = document.createElement('p');
+                opponentName.className = 'opponentname';
+                opponentName.textContent = match.opponentUsername;
+
+                opponentDiv.appendChild(opponentImage);
+                opponentDiv.appendChild(opponentName);
+
+                opponentLink.appendChild(opponentDiv);
+
+                matchDiv.appendChild(playerDiv);
+                matchDiv.appendChild(resultsDiv);
+                matchDiv.appendChild(opponentLink);
+
+                matchContainer.appendChild(matchDiv);
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
         function sendChallenge() {
             var challengebutton = document.getElementById('challengebutton');
             var unchallengebutton = document.getElementById('cancelchallengebutton');

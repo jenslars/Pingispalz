@@ -312,8 +312,13 @@
                             resultsDiv.className = 'results';
 
                             const winText = document.createElement('p');
-                            winText.className = 'win';
-                            winText.textContent = match.playerPoints < match.opponentPoints ? 'WIN' : 'LOST';
+                                winText.className = 'win';
+                                if (match.playerPoints < match.opponentPoints) {
+                                winText.textContent = 'WIN';
+                                } else {
+                                winText.textContent = 'LOST';
+                                winText.classList.add('lost');
+                                }
 
                             const scoreDiv = document.createElement('div');
                             scoreDiv.className = 'score';
@@ -339,6 +344,7 @@
 
                             const opponentLink = document.createElement('a');
                             opponentLink.href = '/viewProfile/' + match.opponentUserId;
+                            opponentLink.className = 'opponentuserlink';
                             const opponentDiv = document.createElement('div');
                             opponentDiv.className = 'opponent';
 
@@ -365,10 +371,6 @@
                         .catch((error) => {
                             console.error(error);
                         });
-
-
-
-
 
         //Popup for uploading profilepicture
         function addProfilePicturePopup() {

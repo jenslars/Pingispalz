@@ -354,6 +354,11 @@
     margin-top: -10px;
 }
 
+.lost{
+    color: #e22c1f;
+    margin-top: -10px;
+}
+
 .score{
     display: flex;
     flex-direction: row;
