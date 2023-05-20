@@ -551,3 +551,191 @@ body{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding-left: 60px;
 }
+
+/* Profilestatus div*/
+#navprofile{
+    position: absolute;
+    bottom: 0px;
+    background-color: #50a4a4;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+}
+
+#navprofileimage{
+    width: 45px;
+    height: 45px;
+    border-radius: 100px;
+    margin-left: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 7.5px;
+}
+
+#changestatusbutton{
+    position: relative;
+    width: 12px;
+    height: 12px;
+    border-radius: 100px;
+    border: none;
+    margin-left: -12px;
+    margin-top: 40px;
+    transition: 0.2s;
+}
+
+#changestatusbutton.online{
+    background-color: #5cff33;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-image: none;
+}
+
+#changestatusbutton.away{
+    background-color: unset;
+    background-image: url(idle.png);
+    background-repeat: no-repeat;
+    background-size: 14px;
+    width: 14px;
+    height: 14px;
+    margin-left: -14px;
+    margin-top: 37;
+}
+
+#changestatusbutton.matchready{
+    background-color: unset;
+    background-image: url(pingpongreverse.png);
+    background-repeat: no-repeat;
+    background-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-left: -14px;
+    margin-top: 37;
+}
+
+#changestatusbutton.online:hover{
+    width: 12px;
+    height: 12px;
+    transition: 0.2s;
+    background-color: #4edf2a;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+#navprofiletext{
+    display: flex;
+    flex-direction: column;
+}
+
+#navusername{
+    color: #fff;
+    margin-left: 10px;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#navstatus{
+    color: #fff;
+    position: absolute;
+    margin-top: 35px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+#statuspopupdiv{
+    height: 200px;
+    width: 120%;
+    background-color: #fff;
+    position: absolute;
+    bottom: 68px;
+    border-radius: 8px;
+    margin-left: 2.5%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    visibility: hidden;
+}
+
+#statuspopupdiv.active{
+    visibility: visible;
+}
+
+#setstatusonline{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-left: 10px;
+    border-bottom: 1px solid #a5a5a5;
+    width: 90%;
+}
+
+#setstatusonline p{
+    margin-top: 0px;
+    position: absolute;
+    margin-left: 30px;
+}
+
+#onlinedot{
+    height: 20px;
+    width: 20px;
+    background-color: #5cff33;
+    border-radius: 100px ;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#setstatusaway{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-left: 10px;
+    border-bottom: 1px solid #a5a5a5;
+    width: 90%;
+}
+
+#setstatusaway p{
+    margin-top: 0px;
+    position: absolute;
+    margin-left: 30px;
+}
+
+#awaydot{
+    height: 20px;
+    width: 20px;
+    background-image: url(idle.png);
+    background-repeat: no-repeat;
+    background-size: 20px;
+}
+
+#setstatusmatchready{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 90%;
+}
+
+#setstatusmatchready p{
+    margin-top: 0px;
+    position: absolute;
+    margin-left: 30px;
+}
+
+.hoverdiv{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 5px;
+    border-radius: 10px;
+    padding-left: 5px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.hoverdiv:hover{
+    background-color: #cecece;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+#matchdot{
+    height: 30px;
+    width: 30px;
+    background-image: url(pingpongreverse.png);
+    background-repeat: no-repeat;
+    background-size: 22px;
+}

@@ -221,6 +221,28 @@ app.get('/getLoggedInUserInfo', async (req, res) => {
   client.release();
 });
 
+app.get('/getLoggedInUserInfoForNav', async (req, res) => {
+  //Function to send the logged in users data navbar
+  const client = await pool.connect();
+  try {
+    const result = await pool.query(
+      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, status FROM users WHERE user_id = $1'
+      , [loggedInUserId]);
+      const profile_image = result.rows[0].profile_image;
+      const username = result.rows[0].username;
+      const status = result.rows[0].status;
+      res.status(200).send({ 
+        profile_image: profile_image,
+        username: username,
+        status: status,
+      });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
+});
+
 app.post('/uploadprofilepicture', async (req, res) => {
   const client = await pool.connect();
   const imageFile = req.files.image;
@@ -684,6 +706,60 @@ app.post('/logout', async (req, res) => {
       WHERE user_id = $1`, [loggedInUserId]
     );
     loggedInUserId = undefined
+    res.status(200).send('User logged out succesfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.post('/setstatusonline', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `UPDATE users
+      SET status = 'Online'
+      WHERE user_id = $1`, [loggedInUserId]
+    );
+    res.status(200).send('User logged out succesfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.post('/setstatusaway', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `UPDATE users
+      SET status = 'Away'
+      WHERE user_id = $1`, [loggedInUserId]
+    );
+    res.status(200).send('User logged out succesfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.post('/setstatusmatchready', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `UPDATE users
+      SET status = 'Match ready'
+      WHERE user_id = $1`, [loggedInUserId]
+    );
     res.status(200).send('User logged out succesfully');
   } catch (err) {
     console.error(err);
