@@ -369,6 +369,7 @@ body{
     width: 30%;
     text-decoration: none;
     border-radius: 15px;
+    transition: 1s;
 }
 
 #search.active{
@@ -379,6 +380,17 @@ body{
     background-size: 31px 31px ;
     width: 60%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#search:hover{
+    background-image: url(searchred.png);
+    color: #FF3366;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 31px 31px ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding-left: 60px;
 }
 
 #home.active{
@@ -400,6 +412,18 @@ body{
     width: 30%;
     text-decoration: none;
     border-radius: 15px;
+    transition: 1s;
+}
+
+#home:hover{
+    background-image: url(homered.png);
+    color: #FF3366;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 31px 31px ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding-left: 60px;
 }
 
 #leaderboards{
@@ -411,6 +435,7 @@ body{
     width: 30%;
     text-decoration: none;
     border-radius: 15px;
+    transition: 1s;
 }
 
 #leaderboards.active{
@@ -423,6 +448,17 @@ body{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+#leaderboards:hover{
+    background-image: url(podiumred.png);
+    color: #FF3366;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 31px 31px ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding-left: 60px;
+}
+
 #challenges{
     background-image: url(pingpong2.png);
     background-position: 10px 8px;
@@ -432,6 +468,7 @@ body{
     width: 30%;
     text-decoration: none;
     border-radius: 15px;
+    transition: 1s;
 }
 
 #challenges.active{
@@ -444,6 +481,19 @@ body{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+
+
+#challenges:hover{
+    background-image: url(pingpongred.png);
+    color: #FF3366;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 31px 31px ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding-left: 60px;
+}
+
 #profile{
     background-image: url(profile.png);
     background-position: 10px 8px;
@@ -453,6 +503,7 @@ body{
     width: 30%;
     text-decoration: none;
     border-radius: 15px;
+    transition: 1s;
 }
 
 #profile.active{
@@ -463,4 +514,40 @@ body{
     background-size: 31px 31px ;
     width: 60%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#profile:hover{
+    background-image: url(profilered.png);
+    color: #FF3366;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 31px 31px ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding-left: 60px;
+}
+
+#logout{
+    background-image: url(logout.png);
+    background-position: center left 10%;
+    background-repeat: no-repeat;
+    background-size: 31px 31px ;
+    padding: 10px 5px 10px 50px;
+    width: 40%;
+    text-decoration: none;
+    border-radius: 15px;
+    position: absolute;
+    bottom: 50px;
+    transition: 1s;
+}
+
+#logout:hover{
+    background-image: url(logoutred.png);
+    color: #FF3366;
+    background-color: #fff;
+    transition: 1s;
+    background-size: 31px 31px ;
+    width: 60%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding-left: 60px;
 }

@@ -596,10 +596,6 @@ app.get('/matchHistory2', async (req, res) => {
   }
 });
 
-
-
-
-
 app.post('/sendChallengeFromLeaderboard', async (req, res) => {
   const { recipientId } = req.body;
   console.log("vi är i server.js nu och har idt", recipientId)
@@ -620,6 +616,7 @@ app.post('/sendChallengeFromLeaderboard', async (req, res) => {
   }
   res.end();
 });
+
 app.get('/matchFromChallenger', async (req, res) => {
   const client = await pool.connect(); 
   try {
@@ -660,6 +657,7 @@ app.get('/matchFromChallenger', async (req, res) => {
   }
   res.end();
 });
+
 app.post('/declineMatch', async (req, res) => {
   const matchId  = req.body.matchId;
   const client = await pool.connect();
@@ -668,6 +666,25 @@ app.post('/declineMatch', async (req, res) => {
       `DELETE FROM matches WHERE match_id = $1`, [matchId]
     );
     res.status(200).send('Match was declined');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.post('/logout', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `UPDATE users
+      SET status = 'Offline'
+      WHERE user_id = $1`, [loggedInUserId]
+    );
+    loggedInUserId = undefined
+    res.status(200).send('User logged out succesfully');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error: Internal server error');

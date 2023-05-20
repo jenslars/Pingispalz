@@ -20,6 +20,7 @@
             <a id="leaderboards" href="#">Clubs</a>
             <a id="challenges" href="/gameChallenge">Challenges</a>
             <a id="profile" href="/editProfile">Profile</a>
+            <a id="logout" href="/logout">Logout</a>
         </nav>
         <nav id="searchfield">
             <form>
@@ -67,6 +68,24 @@
         </div>
     </div>
     <script>
+        document.getElementById("logout").addEventListener("click", async (event) => {
+            event.preventDefault(); // Prevent the default link behavior
+
+            try {
+            const response = await fetch("/logout", {
+                method: "POST",
+            });
+
+            if (response.ok) {
+                window.location.href = "/index.html"; // Redirect to success page
+            } else {
+                console.error("Error: " + response.status);
+            }
+            } catch (err) {
+            console.error("Error: " + err);
+            }
+        });
+
           // Get the div where the links are displayed
           const clubLinksDiv = document.getElementById('clublinks');
             fetch('/clubLinks')
@@ -122,6 +141,7 @@
 
             xhr.send(JSON.stringify({ club }));
         });
+
         /* desktop navbar function */
         var homeLink = document.getElementById('home');
         var searchLink = document.getElementById('search');
