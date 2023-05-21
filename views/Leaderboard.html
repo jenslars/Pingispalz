@@ -1,27 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-        <title>Welcome Pingispals!</title>
-        <link rel="icon" type="image/x-icon" href="images/PingisPalsSmallIcon.png">
-        <link href="/styleLeaderboard.css" rel="stylesheet">
-        <link href="/navigationSidebar.css" rel="stylesheet" type="text/css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Leaderboards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/navigationSidebar.css" rel="stylesheet" type="text/css">
+    <link href="/styleLeaderboard.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
     <div class="grid-container" id="blur">
         <nav class="sidenav">
             <div id="logo">
                 <p>Pingispals<p class="redDot">.</p></p>
             </div>
-            <a id="home" href="/home">Home</a>
+            <a id="home" href="#" >Home</a>
             <a id="search" href="#">Search</a>
             <a id="leaderboards" href="#" class="active">Clubs</a>
             <a id="challenges" href="/gameChallenge">Challenges</a>
-            <a id="profile" href="/editprofile">Profile</a>
+            <a id="profile" href="/editProfile">Profile</a>
+            <a id="logout" href="/logout">Logout</a>
+            <div id="statuspopupdiv">
+                <div id="setstatusonline" role="button" onclick="setstatusonline()">
+                    <div class="hoverdiv">
+                        <div id="onlinedot"></div>
+                        <p>Online</p>
+                    </div>
+                </div>
+                <div id="setstatusaway" role="button" onclick="setstatusaway()">
+                    <div class="hoverdiv">
+                        <div id="awaydot"></div>
+                        <p>Away</p>
+                    </div>
+                </div>
+                <div id="setstatusmatchready" role="button" onclick="setstatusmatchready()">
+                    <div class="hoverdiv">
+                        <div id="matchdot"></div>
+                        <p>Match ready</p>
+                    </div>
+                </div>
+            </div>
+            <div id="navprofile">
+                <img id="navprofileimage" src="">
+                <button id="changestatusbutton" onclick="changestatuspopup()"></button>
+                <div id="navprofiletext">
+                    <p id="navusername"></p>
+                    <p id="navstatus"></p>
+                </div>
+            </div>
         </nav>
         <nav id="searchfield">
             <form>

@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Navigation bar</title>
+    <title>Editing Profile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="editProfilestyle.css" rel="stylesheet" type="text/css">
     <link href="navigationSidebar.css" rel="stylesheet" type="text/css">
+    <link href="editProfilestyle.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div class="grid-container" id="blur">
@@ -20,7 +20,36 @@
             <a id="search" href="#">Search</a>
             <a id="leaderboards" href="#">Clubs</a>
             <a id="challenges" href="/gameChallenge">Challenges</a>
-            <a id="profile" href="/editProfile" class="active">Profile</a>
+            <a id="profile" href="#" class="active">Profile</a>
+            <a id="logout" href="/logout">Logout</a>
+            <div id="statuspopupdiv">
+                <div id="setstatusonline" role="button" onclick="setstatusonline()">
+                    <div class="hoverdiv">
+                        <div id="onlinedot"></div>
+                        <p>Online</p>
+                    </div>
+                </div>
+                <div id="setstatusaway" role="button" onclick="setstatusaway()">
+                    <div class="hoverdiv">
+                        <div id="awaydot"></div>
+                        <p>Away</p>
+                    </div>
+                </div>
+                <div id="setstatusmatchready" role="button" onclick="setstatusmatchready()">
+                    <div class="hoverdiv">
+                        <div id="matchdot"></div>
+                        <p>Match ready</p>
+                    </div>
+                </div>
+            </div>
+            <div id="navprofile">
+                <img id="navprofileimage" src="">
+                <button id="changestatusbutton" onclick="changestatuspopup()"></button>
+                <div id="navprofiletext">
+                    <p id="navusername"></p>
+                    <p id="navstatus"></p>
+                </div>
+            </div>
         </nav>
         <nav id="searchfield">
             <form>
@@ -132,362 +161,7 @@
             <button type="submit" onclick="addProfilePicture()" id="submitProfileImageButton">Submit</button>
         </div>
     </div>
-    <script>
-        document.getElementById('discordform').addEventListener('submit', function(event) {
-            event.preventDefault();
-            console.log('Form submitted!');
-            // rest of the code
-            });
-
-        //Function to toggle description form
-        function toggleEditDescription() {
-            var fetchedUserDescriptionToggle = document.getElementById('fetchedUserDescription');
-            var editButtonToggle = document.getElementById('editButton');
-            var editUserDescriptionFormToggle = document.getElementById('editUserDescriptionForm');
-            var formbuttonsToggle = document.getElementById('formbuttons');
-            editUserDescriptionFormToggle.classList.add('active');
-            formbuttonsToggle.classList.add('active');
-            editButtonToggle.classList.remove('active');
-            fetchedUserDescriptionToggle.classList.remove('active');
-        }
-        //Function to detoggle description form
-        function exitDescriptionForm(){
-            var fetchedUserDescriptionToggle = document.getElementById('fetchedUserDescription');
-            var editButtonToggle = document.getElementById('editButton');
-            var editUserDescriptionFormToggle = document.getElementById('editUserDescriptionForm');
-            var formbuttonsToggle = document.getElementById('formbuttons');
-            editUserDescriptionFormToggle.classList.remove('active');
-            formbuttonsToggle.classList.remove('active');
-            editButtonToggle.classList.add('active');
-            fetchedUserDescriptionToggle.classList.add('active');
-        }
-
-        //Sends description form to backend
-        document.getElementById('editUserDescriptionForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const user_description = document.getElementById('descriptionFormInput').value;
-
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/uploadUserDescriptionForm');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-            document.getElementById('Userbiostatus').innerHTML = 'success';
-            window.location.reload();
-            } else {
-            document.getElementById('Userbiostatus').innerHTML = 'Error';
-            }
-        };
-
-        xhr.onerror = function() {
-            document.getElementById('Userbiostatus').innerHTML = 'Unable to update user bio';
-        };
-
-        xhr.send(JSON.stringify({ user_description }));
-        });
-
-        //Sends discorddetails form to backend
-        document.getElementById('discordform').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const contact_info = document.getElementById('discordforminput').value;
-            
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/uploaddiscordform');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                document.getElementById('discordFormError').innerHTML = 'success';
-                location.reload(true);
-            } else {
-                document.getElementById('discordFormError').innerHTML = 'Error';
-            }
-            };
-
-        xhr.onerror = function() {
-            document.getElementById('discordFormError').innerHTML = 'Unable to update Discord info';
-        };
-
-        xhr.send(JSON.stringify({ contact_info }));
-        });
-
-        //Function to detoggle discordform
-        function exitDiscordForm() {
-            var discordformToggle = document.getElementById('discordform');
-            var editdiscordToggle = document.getElementById('editdiscord');
-            var discordnameToggle = document.getElementById('discordname');
-            discordformToggle.classList.remove('active');
-            editdiscordToggle.classList.add('active');
-            discordnameToggle.classList.add('active');
-        }
-        
-        //Function to toggle discordform
-        function toggleEditDiscord() {
-            var discordformToggle = document.getElementById('discordform');
-            var editdiscordToggle = document.getElementById('editdiscord');
-            var discordnameToggle = document.getElementById('discordname');
-            discordformToggle.classList.add('active');
-            editdiscordToggle.classList.remove('active');
-            discordnameToggle.classList.remove('active');
-        }
-
-        //Function to send profile picture to backend
-        function addProfilePicture() {
-            const formData = new FormData();
-            const fileInput = document.getElementById("file-upload");
-            formData.append("image", fileInput.files[0]);
-
-            fetch("/uploadprofilepicture", {
-                method: "POST",
-                body: formData,
-            })
-            .then(response => {
-            console.log(response);
-            if (response.status === 200) {
-                console.log("Upload successful");
-                window.location.reload();
-            } else {
-                console.log("Upload failed");
-            }
-            })
-
-        .catch(error => {
-            console.log(error);
-        });
-        }
-
-
-          // Creates the div where the links to leaderboards are displayed
-          const clubLinksDiv = document.getElementById('clublinks');
-            fetch('/clubLinks')
-                .then(response => response.json())
-                .then(leaderboardsData => {
-                    leaderboardsData.forEach((leaderboard) => {
-                        const link = document.createElement('a');
-                        link.href = `/leaderboards/${leaderboard.id}`; 
-                        link.classList.add('club-link'); 
-                        const image = document.createElement('img');
-                        image.src = leaderboard.leaderboard_image;
-                        link.appendChild(image);
-                        clubLinksDiv.appendChild(link);
-                    });
-                })
-                .catch(error => console.error(error));
-            
-                // Fetch user profile data from the server
-                fetch('/getLoggedInUserInfo')
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('profile-image').src = data.profile_image;
-                        document.getElementById('username').textContent = data.username;
-                        document.getElementById('discordname').textContent = data.contact_info;
-                        document.getElementById('fetchedUserDescription').textContent = data.user_bio;
-                        document.getElementById('descriptionFormInput').textContent = data.user_bio;
-                    });
-
-
-                    fetch('/matchHistory')
-                        .then((response) => response.json())
-                        .then((matches) => {
-                            const matchContainer = document.getElementById('matchContainer');
-
-                            matches.forEach((match) => {
-                            const matchDiv = document.createElement('div');
-                            matchDiv.className = 'match';
-
-                            const playerDiv = document.createElement('div');
-                            playerDiv.className = 'player';
-
-                            const playerImage = document.createElement('img');
-                            playerImage.src = match.playerProfileImage || 'stockuserimage.png';
-                            playerImage.className = 'playeruserimage';
-
-                            const playerName = document.createElement('p');
-                            playerName.className = 'playername';
-                            playerName.textContent = match.playerUsername;
-
-                            playerDiv.appendChild(playerImage);
-                            playerDiv.appendChild(playerName);
-
-                            const resultsDiv = document.createElement('div');
-                            resultsDiv.className = 'results';
-
-                            const winText = document.createElement('p');
-                                winText.className = 'win';
-                                if (match.playerPoints < match.opponentPoints) {
-                                winText.textContent = 'WIN';
-                                } else {
-                                winText.textContent = 'LOST';
-                                winText.classList.add('lost');
-                                }
-
-                            const scoreDiv = document.createElement('div');
-                            scoreDiv.className = 'score';
-
-                            const playerScore = document.createElement('p');
-                            playerScore.className = 'playersscore';
-                            playerScore.textContent = match.playerPoints;
-
-                            const divider = document.createElement('p');
-                            divider.className = 'divider';
-                            divider.textContent = '-';
-
-                            const opponentScore = document.createElement('p');
-                            opponentScore.className = 'opponentscore';
-                            opponentScore.textContent = match.opponentPoints;
-
-                            scoreDiv.appendChild(playerScore);
-                            scoreDiv.appendChild(divider);
-                            scoreDiv.appendChild(opponentScore);
-
-                            resultsDiv.appendChild(winText);
-                            resultsDiv.appendChild(scoreDiv);
-
-                            const opponentLink = document.createElement('a');
-                            opponentLink.href = '/viewProfile/' + match.opponentUserId;
-                            opponentLink.className = 'opponentuserlink';
-                            const opponentDiv = document.createElement('div');
-                            opponentDiv.className = 'opponent';
-
-                            const opponentImage = document.createElement('img');
-                            opponentImage.src = match.opponentProfileImage || 'stockuserimage.png';
-                            opponentImage.className = 'opponentuserimage';
-
-                            const opponentName = document.createElement('p');
-                            opponentName.className = 'opponentname';
-                            opponentName.textContent = match.opponentUsername;
-
-                            opponentDiv.appendChild(opponentImage);
-                            opponentDiv.appendChild(opponentName);
-
-                            opponentLink.appendChild(opponentDiv);
-
-                            matchDiv.appendChild(playerDiv);
-                            matchDiv.appendChild(resultsDiv);
-                            matchDiv.appendChild(opponentLink);
-
-                            matchContainer.appendChild(matchDiv);
-                            });
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-
-        //Popup for uploading profilepicture
-        function addProfilePicturePopup() {
-            var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup')
-            var gridcontainerLink = document.getElementById('blur');
-            addProfilePicturePopupDiv.classList.add('active');
-            gridcontainerLink.classList.add('active');
-            }
-
-        function exitAddProfilePicturePopup() {
-            var addProfilePicturePopupDiv = document.getElementById('addProfilePicturePopup');
-            var gridcontainerLink = document.getElementById('blur');
-            addProfilePicturePopupDiv.classList.remove('active');
-            gridcontainerLink.classList.remove('active');
-            }
-
-
-        /*Popup for adding leaderboards*/
-        function leaderboardpopup() {
-            var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
-            var gridcontainerLink = document.getElementById('blur');
-            leaderboardpopupDiv.classList.add('active');
-            gridcontainerLink.classList.add('active');
-            }
-
-        function exitpopup() {
-            var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
-            var gridcontainerLink = document.getElementById('blur');
-            leaderboardpopupDiv.classList.remove('active');
-            gridcontainerLink.classList.remove('active');   
-            }
-
-        /* Sends Join a Club form to backend */
-        document.getElementById('join-club-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const club = document.getElementById('join-club-input').value;
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/joinClub');
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    document.getElementById('join-club-success').innerHTML = 'Successfully joined the club';
-                    window.location.reload();
-                } else {
-                    document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
-                }
-            };
-
-            xhr.onerror = function() {
-                document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
-            };
-
-            xhr.send(JSON.stringify({ club }));
-        });
-        /* desktop navbar function */
-        var homeLink = document.getElementById('home');
-        var searchLink = document.getElementById('search');
-        var leaderboardsLink = document.getElementById('leaderboards');
-        var challengesLink = document.getElementById('challenges');
-        var profileLink = document.getElementById('profile');
-        var searchfieldLink = document.getElementById('searchfield');
-        var leaderboardoptionsLink = document.getElementById('leaderboardoptions');
-
-        homeLink.addEventListener('click', function() {
-        homeLink.classList.add('active');
-
-        searchLink.classList.remove('active');
-        searchfieldLink.classList.remove('active');
-        leaderboardsLink.classList.remove('active');
-        leaderboardoptionsLink.classList.remove('active');
-        challengesLink.classList.remove('active');
-        profileLink.classList.remove('active');
-        });
-
-        searchLink.addEventListener('click', function() {
-        searchLink.classList.add('active');
-        searchfieldLink.classList.add('active');
-        
-        homeLink.classList.remove('active');
-        leaderboardsLink.classList.remove('active');
-        leaderboardoptionsLink.classList.remove('active');
-        challengesLink.classList.remove('active');
-        profileLink.classList.remove('active');
-        });
-
-        leaderboardsLink.addEventListener('click', function() {
-        leaderboardsLink.classList.add('active');
-        leaderboardoptionsLink.classList.add('active');
-
-        homeLink.classList.remove('active');
-        searchLink.classList.remove('active');
-        searchfieldLink.classList.remove('active');
-        challengesLink.classList.remove('active');
-        profileLink.classList.remove('active');
-        });
-
-        challengesLink.addEventListener('click', function() {
-        challengesLink.classList.add('active');
-        
-        homeLink.classList.remove('active');
-        searchLink.classList.remove('active');
-        searchfieldLink.classList.remove('active');
-        leaderboardsLink.classList.remove('active');
-        leaderboardoptionsLink.classList.remove('active');
-        profileLink.classList.remove('active');
-        });
-
-        profileLink.addEventListener('click', function() {
-        profileLink.classList.add('active');
-        homeLink.classList.remove('active');
-        searchLink.classList.remove('active');
-        searchfieldLink.classList.remove('active');
-        leaderboardsLink.classList.remove('active');
-        leaderboardoptionsLink.classList.remove('active');
-        challengesLink.classList.remove('active');
-        });
-    </script>
+    <script src="navbarScript.js"></script>
+    <script src="editProfileScript.js"></script>
   </body>
 </html>

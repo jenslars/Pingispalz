@@ -13,19 +13,28 @@ const pool = new Pool({
     port: "5432",
 });
 
+app.use(fileUpload());
+
 const hostname = '127.0.0.1';
 const port = 3000;
 
+http.createServer(app).listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
 //Declares logged in user
 let loggedInUserId;
-app.use(fileUpload());
+
+//Express routes
 app.use(express.static('images'));
 app.use(express.static('public'));
 app.use(express.static('views'));
 app.use(express.static('organisation_images'));
 app.use(express.static('profile_images'));
+app.use(express.static('scripts'));
+app.use(express.json());
 
-
+//Sends user to starting page
 app.get('/', (req, res) => {
   fs.readFile('views/index.html', function(error, data) {
     if (error) {
@@ -38,12 +47,6 @@ app.get('/', (req, res) => {
     res.end();
   });
 });
-
-http.createServer(app).listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
-
-app.use(express.json());
 
 app.post('/register', async (req, res) => {
   //function to register account
@@ -76,8 +79,6 @@ app.post('/login', async (req, res) => {
   try {
     const result = await pool.query('SELECT login($1, $2)', [email, password]);
     userId = await pool.query('SELECT user_id from users WHERE email = $1', [email]);
-    
-
     loggedInUserId = userId.rows[0].user_id;
     const isValidLogin = result.rows[0].login;
     if (isValidLogin) {
@@ -157,6 +158,7 @@ app.post('/createOrg', async (req, res) => {
 
 
 app.post('/joinClub', async (req, res) => {
+  //Function to join club
   const { club } = req.body;
   const client = await pool.connect();
   try {
@@ -222,7 +224,7 @@ app.get('/getLoggedInUserInfo', async (req, res) => {
 });
 
 app.get('/getLoggedInUserInfoForNav', async (req, res) => {
-  //Function to send the logged in users data navbar
+  //Function to send the logged in users data to navbar
   const client = await pool.connect();
   try {
     const result = await pool.query(
@@ -244,14 +246,13 @@ app.get('/getLoggedInUserInfoForNav', async (req, res) => {
 });
 
 app.post('/uploadprofilepicture', async (req, res) => {
+  //Function to upload profile picture in editProfile
   const client = await pool.connect();
   const imageFile = req.files.image;
   try {
     await client.query('BEGIN');
-
     const timestamp = new Date().getTime();
     const filename = `${timestamp}_${imageFile.name}`;
-
     const savePath = path.join(__dirname, 'profile_images', filename);
     await imageFile.mv(savePath);
 
@@ -273,6 +274,7 @@ app.post('/uploadprofilepicture', async (req, res) => {
 });
 
 app.post('/uploaddiscordform', async (req, res) => {
+  //Function to upload contact info in editProfile
   const { contact_info } = req.body;
   const client = await pool.connect();
   try {
@@ -290,6 +292,7 @@ app.post('/uploaddiscordform', async (req, res) => {
 });
 
 app.post('/uploadUserDescriptionForm', async (req, res) => {
+  //Function to upload bio in editProfile
   const { user_description } = req.body;
   const client = await pool.connect();
   try {
@@ -306,8 +309,6 @@ app.post('/uploadUserDescriptionForm', async (req, res) => {
   client.release();
 });
 
-
-
 app.get('/leaderboard', (req, res) => {
   const page = req.params.page;
   fs.readFile('Leaderboard.html', function(error, data) {
@@ -323,8 +324,8 @@ app.get('/leaderboard', (req, res) => {
   });
 })
 
-
 app.get('/leaderboard/score', async (req, res) => {
+  //Sends data to leaderboard
   const client = await pool.connect();
   try {
     const fetchedLeaderboardName = await pool.query('SELECT leaderboard_name FROM leaderboards WHERE id = $1', [GlobalLeaderboardValue]);
@@ -348,6 +349,7 @@ app.get('/leaderboard/score', async (req, res) => {
 });
 
 app.get('/challenge/player', async (req, res) => {
+  //Function to fetch username for logged in user
   const client = await pool.connect();
   try {
     const userNameForLoggedInUser = await pool.query('SELECT username FROM users WHERE user_id = $1', [loggedInUserId]);
@@ -361,7 +363,7 @@ app.get('/challenge/player', async (req, res) => {
   }
 });
 
-
+//Declares global leaderboard id
 let GlobalLeaderboardValue;
 
 app.get('/leaderboards/:page', async (req, res) => {
@@ -380,9 +382,11 @@ app.get('/leaderboards/:page', async (req, res) => {
   });
 });
 
+//Declares global profile user id  
 let globalViewProfileValue;
 
 app.get('/viewProfile/:page', async (req, res) => {
+  //Dynamic link for viewProfile
   globalViewProfileValue = req.params.page;
   fs.readFile('views/viewProfile.html', function(error, data) {
     if (error) {
@@ -399,6 +403,7 @@ app.get('/viewProfile/:page', async (req, res) => {
 });
 
 app.get('/getViewProfile', async (req, res) => {
+  //Fetches data for a users profile
   const client = await pool.connect();
   try {
     const result = await pool.query(
@@ -423,6 +428,7 @@ app.get('/getViewProfile', async (req, res) => {
 });
 
 app.get('/sendChallenge', async (req, res) => {
+  //Sends challenge through viewProfile
   const client = await pool.connect();
   try {
     const status = "PENDING";
@@ -442,6 +448,7 @@ app.get('/sendChallenge', async (req, res) => {
 });
 
 app.get('/cancelChallenge', async (req, res) => {
+  //Cancels challenge through viewProfile
   const client = await pool.connect();
   try {
     await pool.query( 
@@ -459,6 +466,7 @@ app.get('/cancelChallenge', async (req, res) => {
 });
 
 app.get('/checkIfUserSentChallenge', async (req, res) => {
+  //Checks if user has already been challenges through viewProfile
   const client = await pool.connect();
   try {
     const result = await pool.query( 
@@ -476,6 +484,7 @@ app.get('/checkIfUserSentChallenge', async (req, res) => {
 });
 
 app.get('/matchHistory', async (req, res) => {
+  //Fetches logged in users match history
   const client = await pool.connect();
   try {
     const matchesPlayed = await pool.query(
@@ -532,6 +541,7 @@ app.get('/matchHistory', async (req, res) => {
 });
 
 app.get('/matchHistoryViewProfile', async (req, res) => {
+  //Fetches users match history
   const client = await pool.connect();
   try {
     const matchesPlayed = await pool.query(
@@ -587,38 +597,8 @@ app.get('/matchHistoryViewProfile', async (req, res) => {
   }
 });
 
-
-
-
-app.get('/matchHistory2', async (req, res) => {
-  const client = await pool.connect();
-  try {
-    const matchesPlayed = await pool.query(
-      `SELECT r.*, u.username AS challenger_username, u2.username AS opponent_username,
-      u.user_id AS challenger_id, u2.user_id AS opponent_id,
-      COALESCE(u.profile_image, 'stockuserimage.png') AS challenger_profile_image,
-      COALESCE(u2.profile_image, 'stockuserimage.png') AS opponent_profile_image
-      FROM results AS r
-      JOIN users AS u ON (r.challenger_id = u.user_id)
-      JOIN users AS u2 ON (r.recipient_id = u2.user_id)
-      WHERE (r.challenger_id = $1 OR r.recipient_id = $1) AND r.status = 'FINISHED'`,
-      [loggedInUserId]
-    );
-
-    console.log(matchesPlayed.rows);
-    res.status(200).send({
-      loggedInUserId: loggedInUserId,
-      matchesPlayed: matchesPlayed.rows,
-    });
-  } catch (err) {
-    console.error(err);
-    res.sendStatus(500);
-  } finally {
-    client.release();
-  }
-});
-
 app.post('/sendChallengeFromLeaderboard', async (req, res) => {
+  //Sends challenge through leaderboard
   const { recipientId } = req.body;
   console.log("vi är i server.js nu och har idt", recipientId)
   const client = await pool.connect();
@@ -640,6 +620,7 @@ app.post('/sendChallengeFromLeaderboard', async (req, res) => {
 });
 
 app.get('/matchFromChallenger', async (req, res) => {
+  //Fetches game invite
   const client = await pool.connect(); 
   try {
     const list = await pool.query( 
@@ -681,6 +662,7 @@ app.get('/matchFromChallenger', async (req, res) => {
 });
 
 app.post('/declineMatch', async (req, res) => {
+  //Declines match invite
   const matchId  = req.body.matchId;
   const client = await pool.connect();
   try {
@@ -698,6 +680,7 @@ app.post('/declineMatch', async (req, res) => {
 });
 
 app.post('/logout', async (req, res) => {
+  //Logs out logged in user
   const client = await pool.connect();
   try {
     await pool.query( 
@@ -717,6 +700,7 @@ app.post('/logout', async (req, res) => {
 });
 
 app.post('/setstatusonline', async (req, res) => {
+  //Sets logged in user status online
   const client = await pool.connect();
   try {
     await pool.query( 
@@ -735,6 +719,7 @@ app.post('/setstatusonline', async (req, res) => {
 });
 
 app.post('/setstatusaway', async (req, res) => {
+  //Sets logged in user status away
   const client = await pool.connect();
   try {
     await pool.query( 
@@ -753,6 +738,7 @@ app.post('/setstatusaway', async (req, res) => {
 });
 
 app.post('/setstatusmatchready', async (req, res) => {
+  //Sets logged in user status match ready
   const client = await pool.connect();
   try {
     await pool.query( 

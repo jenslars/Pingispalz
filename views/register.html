@@ -45,54 +45,6 @@
             <p>Already a member? <a href="/login.html" class="loginfooter">Log in</a> </p>
         </div>
     </div>
-        <script>
-            function register() {
-                var email = document.getElementById("email").value;
-                var username = document.getElementById("username").value;
-                var password = document.getElementById("password").value;
-                var confirmPassword = document.getElementById("confirm-password").value;
-
-                // Checks that passwords match
-                if (password !== confirmPassword) {
-                    document.getElementById("error-message").innerHTML = "Passwords do not match";
-                    return;
-                }
-
-                 // Checks that email is an email
-                 var emailvalidate = /\S+@\S+\.\S+/;
-                if (!emailvalidate.test(email)) {
-                    document.getElementById("error-message").innerHTML = "Invalid email address";
-                    return;
-                }
-
-                // Makes sure password contains 8 charachters
-                if (password.length < 8) {
-                    document.getElementById("error-message").innerHTML = "Password must be atleast 8 characters long";
-                    return;
-                }
-
-                // Sends form to server.js
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/register", true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            document.getElementById("error-message").innerHTML = "Registration successful";
-                            window.location.href = "/home";
-                        } else if (xhr.status === 400) {
-                            document.getElementById("error-message").innerHTML = "Email already in use";
-                        } else {
-                            document.getElementById("error-message").innerHTML = "Registration failed";
-                        }
-                    }
-                };
-                xhr.send(JSON.stringify({
-                    email: email,
-                    username: username,
-                    password: password
-                }));
-                }
-        </script>
+    <script src="registerScript.js"></script>
   </body>
 </html>
