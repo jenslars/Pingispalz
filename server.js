@@ -6,10 +6,10 @@ const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const { Pool } = require('pg');
 const pool = new Pool({
-    user: 'an7066',
+    user: 'an6476',
     host: 'pgserver.mau.se',
     database: 'pingispals',
-    password: 'csodbjar',
+    password: 'wavkkblp',
     port: "5432",
 });
 
@@ -580,10 +580,6 @@ app.get('/matchHistory2', async (req, res) => {
   }
 });
 
-
-
-
-
 app.post('/sendChallengeFromLeaderboard', async (req, res) => {
   const { recipientId } = req.body;
   console.log("vi är i server.js nu och har idt", recipientId)
@@ -631,9 +627,10 @@ app.get('/matchFromChallenger', async (req, res) => {
       list.rows[0].server_name,
       list.rows[0].match_id,
     ]);
-    //const statusing = list.rows[0].status;
+    let inviteSent = true;
     res.status(200).send({
-      matchList: matchList
+      matchList: matchList,
+      inviteSent: true
       //status: statusing
     });
   } catch (err) {

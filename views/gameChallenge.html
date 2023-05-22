@@ -169,14 +169,15 @@
         fetch('/matchFromChallenger')
                 .then(response => response.json())
                 .then(data => {
+                    let inviteSent;
                     let matchList = data.matchList;
                     let tableHtml = '<table>';
-        
+                    
                     // Create table headers
                     tableHtml += '<tr>';
-                    tableHtml += '<th>Challenger Username</th>';
-                    tableHtml += '<th>Recipient Username</th>';
-                    tableHtml += '<th>Server Name</th>';
+                    tableHtml += '<th>Opponent</th>';
+                    tableHtml += '<th>You</th>';
+                    tableHtml += '<th>Leaderboard</th>';
                     tableHtml += '<th></th>';
                     tableHtml += '<th></th>';
                     tableHtml += '</tr>';
@@ -187,15 +188,15 @@
                         tableHtml += '<td>' + match[0] + '</td>';
                         tableHtml += '<td>' + match[1] + '</td>';
                         tableHtml += '<td>' + match[2] + '</td>';
-                        tableHtml += '<td><button onclick="acceptedChallenge(' + match[3] + ')"> ACCEPT </button></td>';
-                        tableHtml += '<td><button onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
+                        tableHtml += '<td><button id="acceptButton" onclick="acceptedChallenge(' + match[3] + ')"> ACCEPT </button></td>';
+                        tableHtml += '<td><button id="declineButton" onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
                         tableHtml += '</tr>';
         });
         
-        tableHtml += '</table>';
+        tableHtml += '</table>'; 
         
         // Set the generated HTML as the content of the 'MatchInvites' element
-        document.getElementById('MatchInvites').innerHTML = tableHtml;
+        document.getElementById('MatchInvites').innerHTML = tableHtml; 
                 })
                 .catch(error => console.error(error));
             function acceptedChallenge(match_id){
@@ -212,6 +213,8 @@
                 xhr.send(JSON.stringify({
                 matchId: match_id
             }))};
+
+            
         /* desktop navbar function */
         var homeLink = document.getElementById('home');
         var searchLink = document.getElementById('search');
