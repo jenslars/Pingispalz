@@ -604,17 +604,29 @@ body{
 #declineButton:hover {background-color: #c00202}
 
 #acceptButton:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+    background-color: #3e8e41;
+    box-shadow: 0 0px #666;
+    transform: translateY(1px);
 }
 #declineButton:active {
     background-color: #9b0303;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    box-shadow: 0 0px #666;
+    transform: translateY(1px);
 }
 td {
     text-align: center;
+}
+#opponentImage {
+    width: 45px;
+    border-radius: 10px;
+    box-shadow: 10 10px #666;
+}
+table{
+    width: 100%;
+}
+#noInvites{
+    text-align: center;
+    color: rgb(121, 121, 121);
 }
 
 /* Mobile css */

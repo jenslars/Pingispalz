@@ -6,10 +6,10 @@ const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const { Pool } = require('pg');
 const pool = new Pool({
-    user: 'an6476',
+    user: 'an7066',
     host: 'pgserver.mau.se',
     database: 'pingispals',
-    password: 'wavkkblp',
+    password: 'csodbjar',
     port: "5432",
 });
 
@@ -609,7 +609,9 @@ app.get('/matchFromChallenger', async (req, res) => {
       u1.username AS challenger_username,
       u2.username AS recipient_username,
       lb.leaderboard_name AS server_name,
+      u1.profile_image AS challenger_profile_image,
       m.status
+      
     FROM
       matches m
     JOIN
@@ -626,6 +628,7 @@ app.get('/matchFromChallenger', async (req, res) => {
       list.rows[0].recipient_username,
       list.rows[0].server_name,
       list.rows[0].match_id,
+      list.rows[0].challenger_profile_image
     ]);
     let inviteSent = true;
     res.status(200).send({

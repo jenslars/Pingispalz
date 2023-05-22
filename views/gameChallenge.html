@@ -172,11 +172,14 @@
                     let inviteSent;
                     let matchList = data.matchList;
                     let tableHtml = '<table>';
+                    if (matchList.length === 0) {
+                        tableHtml = '<h3 id="noInvites"> ...No invites yet </h3>'
+                    } else {
                     
                     // Create table headers
                     tableHtml += '<tr>';
+                    tableHtml += '<th></th>';
                     tableHtml += '<th>Opponent</th>';
-                    tableHtml += '<th>You</th>';
                     tableHtml += '<th>Leaderboard</th>';
                     tableHtml += '<th></th>';
                     tableHtml += '<th></th>';
@@ -185,8 +188,8 @@
                     // Iterate over matchList and create table rows
                     matchList.forEach(match => {
                         tableHtml += '<tr>';
+                        tableHtml += '<td><img src="'+ match[4] +'" id="opponentImage"> </td>';
                         tableHtml += '<td>' + match[0] + '</td>';
-                        tableHtml += '<td>' + match[1] + '</td>';
                         tableHtml += '<td>' + match[2] + '</td>';
                         tableHtml += '<td><button id="acceptButton" onclick="acceptedChallenge(' + match[3] + ')"> ACCEPT </button></td>';
                         tableHtml += '<td><button id="declineButton" onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
@@ -194,7 +197,7 @@
         });
         
         tableHtml += '</table>'; 
-        
+    }
         // Set the generated HTML as the content of the 'MatchInvites' element
         document.getElementById('MatchInvites').innerHTML = tableHtml; 
                 })
