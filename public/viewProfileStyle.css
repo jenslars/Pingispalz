@@ -421,6 +421,11 @@ input[type="file"] {
     align-items: center;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+
 #uploadimage{
     display: flex;
     flex-direction: column;

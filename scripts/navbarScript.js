@@ -16,8 +16,7 @@ document.getElementById("logout").addEventListener("click", async (event) => {
     });
 
     if (response.ok) {
-        getUserInfoForNav()
-        changestatuspopup()
+        window.location.href = "/";
     } else {
         console.error("Error: " + response.status);
     }
