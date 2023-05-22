@@ -325,18 +325,35 @@ app.get('/leaderboard', (req, res) => {
 })
 
 app.get('/leaderboard/score', async (req, res) => {
-  //Sends data to leaderboard
   const client = await pool.connect();
   try {
     const fetchedLeaderboardName = await pool.query('SELECT leaderboard_name FROM leaderboards WHERE id = $1', [GlobalLeaderboardValue]);
-    const finalfetchedLeaderboardName = fetchedLeaderboardName.rows[0].leaderboard_name;
-    const tableName = `${finalfetchedLeaderboardName}#${GlobalLeaderboardValue}`;
-    const result = await pool.query(`SELECT user_id, username, elo, wins, losses, status FROM "${tableName}" JOIN users ON player_id = user_id ORDER BY elo DESC`)
-    
+    const finalFetchedLeaderboardName = fetchedLeaderboardName.rows[0].leaderboard_name;
+    const tableName = `${finalFetchedLeaderboardName}#${GlobalLeaderboardValue}`;
+
+    const pendingMatches = await pool.query(`
+      SELECT *
+      FROM matches
+      WHERE challenger_id = $1
+        AND status = 'PENDING'
+        AND recipient_id IN (
+          SELECT player_id
+          FROM "${tableName}"
+        )
+    `, [loggedInUserId]);
+
+    const leaderboardData = await pool.query(`
+      SELECT user_id, username, elo, wins, losses, status
+      FROM "${tableName}"
+      JOIN users ON player_id = user_id
+      ORDER BY elo DESC
+    `);
+
     const response = {
       tableName: tableName,
-      leaderboardData: result.rows
-    }
+      pendingMatches: pendingMatches.rows,
+      leaderboardData: leaderboardData.rows
+    };
 
     res.status(200).send(response);
   } catch (err) {
@@ -345,7 +362,6 @@ app.get('/leaderboard/score', async (req, res) => {
   } finally {
     client.release();
   }
-  res.end();
 });
 
 app.get('/challenge/player', async (req, res) => {
@@ -454,6 +470,25 @@ app.get('/cancelChallenge', async (req, res) => {
     await pool.query( 
       `DELETE from matches WHERE challenger_id = $1 and recipient_id = $2`,
       [loggedInUserId, globalViewProfileValue]
+    );
+    res.status(200).send('Success, challenge cancelled');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+
+app.get('/cancelChallengeFromLeaderboard', async (req, res) => {
+  //Cancels challenge through viewProfile
+  const client = await pool.connect();
+  const { recipientId } = req.body;
+  try {
+    await pool.query( 
+      `DELETE from matches WHERE challenger_id = $1 and recipient_id = $2`,
+      [loggedInUserId, recipientId ]
     );
     res.status(200).send('Success, challenge cancelled');
   } catch (err) {
@@ -600,7 +635,6 @@ app.get('/matchHistoryViewProfile', async (req, res) => {
 app.post('/sendChallengeFromLeaderboard', async (req, res) => {
   //Sends challenge through leaderboard
   const { recipientId } = req.body;
-  console.log("vi är i server.js nu och har idt", recipientId)
   const client = await pool.connect();
   try {
     const status = "PENDING";

@@ -1,50 +1,70 @@
 let playerData;
 //Laddar in användare från databas in i leaderboarden
+
 function testLoadLeaderboard() {
     fetch('/leaderboard/score')
-    .then(response => response.json())
-    .then(data => {
-
+      .then(response => response.json())
+      .then(data => {
         const tableName = data.tableName;
         document.getElementById('leaderboardName').innerHTML = tableName;
-
+  
         playerData = data.leaderboardData;
         assignPlacements(playerData);
-        console.log("vi är här")
         const ladder = document.getElementById('leaderboard');
         ladder.innerHTML = '';
-        console.log(playerData)
+  
         playerData.forEach(player => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${player.placement}</td>
-                <td><a href="/viewProfile/${player.user_id}">${player.username}</a></td>
-                <td>${player.wins}</td>
-                <td>${player.winratio}</td>
-                <td>${player.elo}</td>
-                <td>${player.status}</td>
-                <td><button class="challengebutton" onclick="openPopup('${player.username}','${player.user_id}')">Challenge</button></td>
-            `;
-            if (player.losses || player.wins) {
-                let winLossRatio;
-                if (player.losses) {
-                    winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
-                } else {
-                    winLossRatio = "100%";
-                }
-                row.children[3].textContent = winLossRatio;
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${player.placement}</td>
+            <td><a href="/viewProfile/${player.user_id}">${player.username}</a></td>
+            <td>${player.wins}</td>
+            <td>${player.winratio}</td>
+            <td>${player.elo}</td>
+            <td>${player.status}</td>
+            <td><button id="challengebutton" onclick="openPopup('${player.username}','${player.user_id}')">Challenge</button></td>
+            <td><button id="cancelchallengebutton" onclick="cancelChallenge('${player.user_id}')">Unchallenge</button></td>
+          `;
+  
+          if (player.losses || player.wins) {
+            let winLossRatio;
+            if (player.losses) {
+              winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
+            } else {
+              winLossRatio = "100%";
             }
-            else {
-                row.children[3].textContent = "n/a";
-            }
-            ladder.appendChild(row);
+            row.children[3].textContent = winLossRatio;
+          } else {
+            row.children[3].textContent = "n/a";
+          }
+  
+          // Check if the player has a pending match
+          const hasPendingMatch = data.pendingMatches.some(match =>
+            match.recipient_id === player.user_id && match.status === "PENDING"
+          );
+  
+          if (hasPendingMatch) {
+            row.children[7].children[0].classList.add("active");
+            row.children[6].children[0].classList.remove("active");
+          } else {
+            row.children[7].children[0].classList.remove("active");
+            row.children[6].children[0].classList.add("active");
+          }
+  
+          ladder.appendChild(row);
         });
+  
         topPlayers(playerData);
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error('Error:', error);
-    });
-}
+      });
+  }
+  
+  
+  
+  
+
 testLoadLeaderboard()
 //Visar upp top 3 spelare i leaderboarden
 function topPlayers(playerData) {
@@ -187,10 +207,8 @@ function sendChallenge(){
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                // document.getElementById("error-message").innerHTML = "Good";
-                // window.location.href = "/home";
+                window.location.reload();
             } else {
-                // document.getElementById("error-message").innerHTML = "Bad";
             }
         } else {
             // document.getElementById("error-message").innerHTML = "Something went wrong";
@@ -201,4 +219,42 @@ function sendChallenge(){
     }));
 }
 
+function cancelChallenge() {
+    var challengebutton = document.getElementById('challengebutton');
+    var unchallengebutton = document.getElementById('cancelchallengebutton');
+    challengebutton.classList.add('active');
+    unchallengebutton.classList.remove('active');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/cancelChallengeFromLeaderboard", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                testLoadLeaderboard()
+            } else {
+            }
+        } else {
+            // document.getElementById("error-message").innerHTML = "Something went wrong";
+        }
+    };
+    xhr.send(JSON.stringify({
+        recipientId : challengedPlayerId
+    }));
+
+    fetch('/cancelChallengeFromLeaderboard')
+        .then(response => {
+        if (response.ok) {
+            return response.text();
+        } else {
+            throw new Error('Error: ' + response.status);
+        }
+        })
+        .then(data => {
+        console.log(data); // Success message from the server
+        })
+        .catch(error => {
+        console.error(error);
+        });
+    }
 
