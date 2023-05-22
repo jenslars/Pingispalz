@@ -16,6 +16,10 @@ const pool = new Pool({
 const hostname = '127.0.0.1';
 const port = 3000;
 
+http.createServer(app).listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
 //Declares logged in user
 let loggedInUserId;
 app.use(fileUpload());
@@ -39,9 +43,6 @@ app.get('/', (req, res) => {
   });
 });
 
-http.createServer(app).listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
 
 app.use(express.json());
 
@@ -181,7 +182,6 @@ app.post('/joinClub', async (req, res) => {
 
 app.get('/clubLinks', async (req, res) => {
   //Function to send users club links
-  console.log("vi är i clublinks")
   const client = await pool.connect();
   try {
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
@@ -214,6 +214,28 @@ app.get('/getLoggedInUserInfo', async (req, res) => {
         username: username,
         contact_info: contact_info,
         user_bio: user_bio
+      });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Error: Internal server error' });
+  }
+  client.release();
+});
+
+app.get('/getLoggedInUserInfoForNav', async (req, res) => {
+  //Function to send the logged in users data to navbar
+  const client = await pool.connect();
+  try {
+    const result = await pool.query(
+      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, status FROM users WHERE user_id = $1'
+      , [loggedInUserId]);
+      const profile_image = result.rows[0].profile_image;
+      const username = result.rows[0].username;
+      const status = result.rows[0].status;
+      res.status(200).send({ 
+        profile_image: profile_image,
+        username: username,
+        status: status,
       });
   } catch (err) {
     console.error(err);
@@ -430,6 +452,29 @@ app.get('/cancelChallenge', async (req, res) => {
   }
   res.end();
 });
+app.get('/acceptedChallenge', async (req, res) => {
+  const matchId  = req.body.matchId;
+  console.log("wahts up dawg!");
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `INSERT into results (challenger_id, recipient_id, server_id, match_id)
+      VALUES ($1, $2, $3, $4)`,
+      [loggedInUserId, globalViewProfileValue, GlobalLeaderboardValue, matchId ]
+    );
+    await pool.query( 
+      `DELETE from matches WHERE challenger_id = $1`,
+      [matchId]
+    );
+    res.status(200).send('Success, challenge Accepted');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
 
 app.get('/checkIfUserSentChallenge', async (req, res) => {
   const client = await pool.connect();
@@ -447,6 +492,97 @@ app.get('/checkIfUserSentChallenge', async (req, res) => {
     client.release();
   }   
 });
+
+app.get('/matchHistory', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const matchesPlayed = await pool.query(
+      `SELECT 
+         r.match_id, 
+         r.recipientpoints, 
+         r.winner, 
+         r.challengerpoints, 
+         r.status, 
+         r.loser, 
+         r.recipient_id, 
+         r.challenger_id,
+         ur.user_id AS recipient_user_id,
+         ur.username AS recipient_username,
+         ur.profile_image AS recipient_profile_image,
+         uc.user_id AS challenger_user_id,
+         uc.username AS challenger_username,
+         uc.profile_image AS challenger_profile_image
+       FROM 
+         results AS r
+       INNER JOIN 
+         users AS ur ON r.recipient_id = ur.user_id
+       INNER JOIN 
+         users AS uc ON r.challenger_id = uc.user_id
+       WHERE 
+         (r.challenger_id = $1 OR r.recipient_id = $1) 
+         AND r.status = 'FINISHED'`,
+      [loggedInUserId]
+    );
+
+    const matchData = matchesPlayed.rows.map((match) => {
+      const player = match.recipient_id === loggedInUserId ? 'recipient' : 'challenger';
+      const opponent = player === 'recipient' ? 'challenger' : 'recipient';
+
+      return {
+        matchId: match.match_id,
+        playerUsername: match[player + '_username'],
+        playerProfileImage: match[player + '_profile_image'],
+        opponentUsername: match[opponent + '_username'],
+        opponentProfileImage: match[opponent + '_profile_image'],
+        playerPoints: match[player + 'points'],
+        opponentPoints: match[opponent + 'points'],
+        opponentUserId: match[opponent + '_user_id'],
+      };
+    });
+
+    res.status(200).send(matchData);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  } finally {
+    client.release();
+  }
+});
+
+
+
+
+app.get('/matchHistory2', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const matchesPlayed = await pool.query(
+      `SELECT r.*, u.username AS challenger_username, u2.username AS opponent_username,
+      u.user_id AS challenger_id, u2.user_id AS opponent_id,
+      COALESCE(u.profile_image, 'stockuserimage.png') AS challenger_profile_image,
+      COALESCE(u2.profile_image, 'stockuserimage.png') AS opponent_profile_image
+      FROM results AS r
+      JOIN users AS u ON (r.challenger_id = u.user_id)
+      JOIN users AS u2 ON (r.recipient_id = u2.user_id)
+      WHERE (r.challenger_id = $1 OR r.recipient_id = $1) AND r.status = 'FINISHED'`,
+      [loggedInUserId]
+    );
+
+    console.log(matchesPlayed.rows);
+    res.status(200).send({
+      loggedInUserId: loggedInUserId,
+      matchesPlayed: matchesPlayed.rows,
+    });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  } finally {
+    client.release();
+  }
+});
+
+
+
+
 
 app.post('/sendChallengeFromLeaderboard', async (req, res) => {
   const { recipientId } = req.body;
@@ -508,7 +644,9 @@ app.get('/matchFromChallenger', async (req, res) => {
   }
   res.end();
 });
+
 app.post('/declineMatch', async (req, res) => {
+  console.log("the match is declined");
   const matchId  = req.body.matchId;
   const client = await pool.connect();
   try {
@@ -516,6 +654,34 @@ app.post('/declineMatch', async (req, res) => {
       `DELETE FROM matches WHERE match_id = $1`, [matchId]
     );
     res.status(200).send('Match was declined');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
+app.post('/acceptedChallenge', async (req, res) => {
+  const matchId  = req.body.matchId;
+  console.log("Challenge Accepted!");
+  const client = await pool.connect();
+  try {
+    const status = "PENDING";
+    await pool.query( 
+      `WITH moved_rows AS (
+        DELETE FROM matches
+        WHERE match_id = $1
+        RETURNING recipient_id, challenger_id, server_id, match_id, status
+      )
+      INSERT INTO results (recipient_id, challenger_id, server_id, match_id, status)
+      SELECT recipient_id, challenger_id, server_id, match_id, status
+      FROM moved_rows;
+    `,
+      [matchId], [status]
+    );
+
+    res.status(200).send('Success, challenge Accepted');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error: Internal server error');
