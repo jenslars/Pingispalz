@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="org.css" type="text/css">
-    <link href="navigationBar.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="org.css">
+    <link rel="stylesheet" type="text/css" href="navigationSidebar.css">
     <title>create an org</title>
 </head>
 <body>
@@ -17,11 +17,41 @@
             <div id="logo">
                 <p>Pingispals<p class="redDot">.</p></p>
             </div>
-            <a id="home" href="#">Home</a>
+            <a id="home" href="#" class="active">Home</a>
             <a id="search" href="#">Search</a>
-            <a id="leaderboards" href="#" class="active">Clubs</a>
-            <a id="challenges" href="#">Challenges</a>
-            <a id="profile" href="#">Profile</a>
+            <a id="leaderboards" href="#">Clubs</a>
+            <a id="challenges" href="/gameChallenge">Challenges</a>
+            <a id="profile" href="/editProfile">Profile</a>
+            <div class="flex-container"></div>
+            <a id="logout" href="/logout">Logout</a>
+            <div id="statuspopupdiv">
+                <div id="setstatusonline" role="button" onclick="setstatusonline()">
+                    <div class="hoverdiv">
+                        <div id="onlinedot"></div>
+                        <p>Online</p>
+                    </div>
+                </div>
+                <div id="setstatusaway" role="button" onclick="setstatusaway()">
+                    <div class="hoverdiv">
+                        <div id="awaydot"></div>
+                        <p>Away</p>
+                    </div>
+                </div>
+                <div id="setstatusmatchready" role="button" onclick="setstatusmatchready()">
+                    <div class="hoverdiv">
+                        <div id="matchdot"></div>
+                        <p>Match ready</p>
+                    </div>
+                </div>
+            </div>
+            <div id="navprofile">
+                <img id="navprofileimage" src="">
+                <button id="changestatusbutton" onclick="changestatuspopup()"></button>
+                <div id="navprofiletext">
+                    <p id="navusername"></p>
+                    <p id="navstatus"></p>
+                </div>
+            </div>
         </nav>
         <nav id="searchfield">
             <form>
@@ -37,22 +67,23 @@
                 <ul id="clublinkslist"></ul>
             </div>
         </nav>
-        <section>
-            <h1 id="itemCenter">Create New Club</h1>
-            <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
-                <label for="tableName"> Club Name:
-                    <input id="tableName" name="tableName" type="text" placeholder="Club name" maxlength="25" required>
-                </label><br>
-                <label for="tableDescription"> Club Description: <br>
-                    <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Describe your club" maxlength="255"></textarea>
-                </label><br>
-                <label for="image"> Image for club:
-                    <input type="file" name="image" id="image" required>
-                </label>
-                <button type="submit">Create Club</button>
-                <p id="error-message"></p>
-            </form>                
-        </section>
+        <div id="content">
+            <main>
+                <header>
+                    <h1 id="itemCenter">Create New Club</h1>
+                </header>
+                <section>
+                    <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
+                        <input id="tableName" name="tableName" type="text" placeholder="Club name" maxlength="25" required>
+                        <input type="file" name="image" id="image" required>
+                        <label for="image"><img id="uploadImage" src="add-image-white.png"></img>&nbsp; Club image</label>
+                        <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Description text..." maxlength="255"></textarea>
+                        <button type="submit">Create Club</button>
+                        <p id="error-message"></p>
+                    </form>                
+                </section>
+            </main>
+        </div>
         <div id="leaderboardpopup">
             <button id="exitpopup" onclick="exitpopup()"></button>
             <h1>Join a Club</h1>
@@ -72,11 +103,11 @@
                     <h2>Don't know a clubs name?</h2>
                     <p>Check out the current Clubs in Club Discovery</p>
                 </div>
-                <img src="right-arrowblack.png" id="rightarrowblack">
-            </div>
+                    <img src="right-arrowblack.png" id="rightarrowblack">
+                </div>
             <footer id="popupfooter">
-            <p>Want to create you own club?</p>
-            <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
+                <p>Want to create you own club?</p>
+                <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
             </footer>
         </div>
     </div>

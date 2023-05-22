@@ -470,6 +470,9 @@ h2{
     * {
       box-sizing: border-box;
     }
+    .grid-container{
+        display: block;
+    }
     .sidenav {
         background-color: #66cccc;
         overflow: hidden;
