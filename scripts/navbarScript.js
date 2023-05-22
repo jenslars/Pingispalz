@@ -36,7 +36,7 @@ function getUserInfoForNav() {
     fetch('/getLoggedInUserInfoForNav')
     .then(response => response.json())
     .then(data => {
-        document.getElementById('navprofileimage').src = data.profile_image;
+        document.getElementById('navprofileimage').src = `/${data.profile_image}`;
         document.getElementById('navusername').textContent = data.username;
         document.getElementById('navstatus').textContent = data.status;
 
