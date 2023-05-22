@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: 15% 85%;
     grid-template-rows: 1fr;
-    height: 100vh;
+    height: 100%;
   }
 
 #blur.active > *:not(#leaderboardpopup) {
@@ -536,8 +536,9 @@ body{
     width: 40%;
     text-decoration: none;
     border-radius: 15px;
-    position: absolute;
-    bottom: 50px;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 60px;
     transition: 1s;
 }
 
@@ -554,8 +555,9 @@ body{
 
 /* Profilestatus div*/
 #navprofile{
-    position: absolute;
-    bottom: 0px;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
     background-color: #50a4a4;
     width: 100%;
     display: flex;
