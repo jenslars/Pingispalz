@@ -65,25 +65,26 @@ function testLoadLeaderboard() {
   }
 //Displayes the top 3 players in the leaderboard
 function topPlayers(playerData) {
+    console.log(playerData[2].profile_image)
     const top1 = playerData.find(player => player.placement === "1");
     const top2 = playerData.find(player => player.placement === "2");
     const top3 = playerData.find(player => player.placement === "3");
 
     const top1Div = `
         <img class="crown" src="/Crown.png">
-        <img class="playerProfilePhoto" src="/mightyloaf.png">
+        <img class="playerProfilePhoto" src="/${top1.profile_image}">
         <p>${top1.username}</p>
         <p>#${top1.placement}</p>
     `;
 
     const top2Div = `
-        <img class="playerProfilePhoto" src="/akwardcat.jpg">
+        <img class="playerProfilePhoto" src="/${top2.profile_image}">
         <p>${top2.username}</p>
         <p>#${top2.placement}</p>
     `;
 
     const top3Div = `
-        <img class="playerProfilePhoto" src="/akwardcat.jpg">
+        <img class="playerProfilePhoto" src="/${top3.profile_image}">
         <p>${top3.username}</p>
         <p>#${top3.placement}</p>
     `;
@@ -141,7 +142,7 @@ winRateHeader.addEventListener("click", function() {
 })
 
 //Updates leaderboard with new placements
-function updateLeaderboard(playerData, data) {
+function updateLeaderboard(playerData) {
   const ladder = document.getElementById('leaderboard');
   ladder.innerHTML = '';
 

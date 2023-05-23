@@ -365,12 +365,12 @@ app.get('/leaderboard/score', async (req, res) => {
     `, [loggedInUserId]);
 
     const leaderboardData = await pool.query(`
-      SELECT user_id, username, elo, wins, losses, status
+      SELECT user_id, username, elo, wins, losses, status, profile_image
       FROM "${tableName}"
       JOIN users ON player_id = user_id
       ORDER BY elo DESC
     `);
-
+    console.log(leaderboardData)
     const response = {
       tableName: tableName,
       pendingMatches: pendingMatches.rows,
