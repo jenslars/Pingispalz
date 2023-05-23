@@ -131,6 +131,187 @@
             </footer>
         </div>
     </div>
+    <script>
+          // Creates the div where the links to leaderboards are displayed
+          const clubLinksDiv = document.getElementById('clublinks');
+            fetch('/clubLinks')
+                .then(response => response.json())
+                .then(leaderboardsData => {
+                    leaderboardsData.forEach((leaderboard) => {
+                        const link = document.createElement('a');
+                        link.href = `/leaderboards/${leaderboard.id}`; 
+                        link.classList.add('club-link'); 
+                        const image = document.createElement('img');
+                        image.src = leaderboard.leaderboard_image;
+                        link.appendChild(image);
+                        clubLinksDiv.appendChild(link);
+                    });
+                })
+                .catch(error => console.error(error));
+            
+                // Fetch user profile data from the server
+                fetch('/getLoggedInUserInfo')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('profile-image').src = data.profile_image;
+                        document.getElementById('username').textContent = data.username;
+                    })
+                    .catch(error => console.error(error));
+
+
+        /*Popup for adding leaderboards*/
+        function leaderboardpopup() {
+            var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+            var gridcontainerLink = document.getElementById('blur');
+            leaderboardpopupDiv.classList.add('active');
+            gridcontainerLink.classList.add('active');
+            }
+
+        function exitpopup() {
+            var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+            var gridcontainerLink = document.getElementById('blur');
+            leaderboardpopupDiv.classList.remove('active');
+            gridcontainerLink.classList.remove('active');   
+            }
+
+        /* Sends Join a Club form to backend */
+        document.getElementById('join-club-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const club = document.getElementById('join-club-input').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/joinClub');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('join-club-success').innerHTML = 'Successfully joined the club';
+                    window.location.reload();
+                } else {
+                    document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+                }
+            };
+
+            xhr.onerror = function() {
+                document.getElementById('join-club-error').innerHTML = 'Unable to join the club';
+            };
+
+            xhr.send(JSON.stringify({ club }));
+        });
+        fetch('/matchFromChallenger')
+                .then(response => response.json())
+                .then(data => {
+                    let inviteSent;
+                    let matchList = data.matchList;
+                    let tableHtml = '<table>';
+                    if (matchList.length === 0) {
+                        tableHtml = '<h3 id="noInvites"> ...No invites yet </h3>'
+                    } else {
+                    
+                    // Create table headers
+                    tableHtml += '<tr>';
+                    tableHtml += '<th></th>';
+                    tableHtml += '<th>Opponent</th>';
+                    tableHtml += '<th>Leaderboard</th>';
+                    tableHtml += '<th></th>';
+                    tableHtml += '<th></th>';
+                    tableHtml += '</tr>';
+        
+                    // Iterate over matchList and create table rows
+                    matchList.forEach(match => {
+                        tableHtml += '<tr>';
+                        tableHtml += '<td><img src="'+ match[4] +'" id="opponentImage"> </td>';
+                        tableHtml += '<td>' + match[0] + '</td>';
+                        tableHtml += '<td>' + match[2] + '</td>';
+                        tableHtml += '<td><button id="acceptButton" onclick="acceptedChallenge(' + match[3] + ')"> ACCEPT </button></td>';
+                        tableHtml += '<td><button id="declineButton" onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
+                        tableHtml += '</tr>';
+        });
+        
+        tableHtml += '</table>'; 
+    }
+        // Set the generated HTML as the content of the 'MatchInvites' element
+        document.getElementById('MatchInvites').innerHTML = tableHtml; 
+                })
+                .catch(error => console.error(error));
+            function acceptedChallenge(match_id){
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST','/acceptedChallenge');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+            matchId: match_id
+            }))};
+            function declineChallenge(match_id){
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/declineMatch');
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify({
+                matchId: match_id
+            }))};
+
+            
+        /* desktop navbar function */
+        var homeLink = document.getElementById('home');
+        var searchLink = document.getElementById('search');
+        var leaderboardsLink = document.getElementById('leaderboards');
+        var challengesLink = document.getElementById('challenges');
+        var profileLink = document.getElementById('profile');
+        var searchfieldLink = document.getElementById('searchfield');
+        var leaderboardoptionsLink = document.getElementById('leaderboardoptions');
+
+        homeLink.addEventListener('click', function() {
+        homeLink.classList.add('active');
+
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        searchLink.addEventListener('click', function() {
+        searchLink.classList.add('active');
+        searchfieldLink.classList.add('active');
+        
+        homeLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        leaderboardsLink.addEventListener('click', function() {
+        leaderboardsLink.classList.add('active');
+        leaderboardoptionsLink.classList.add('active');
+
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        challengesLink.addEventListener('click', function() {
+        challengesLink.classList.add('active');
+        
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        profileLink.classList.remove('active');
+        });
+
+        profileLink.addEventListener('click', function() {
+        profileLink.classList.add('active');
+        homeLink.classList.remove('active');
+        searchLink.classList.remove('active');
+        searchfieldLink.classList.remove('active');
+        leaderboardsLink.classList.remove('active');
+        leaderboardoptionsLink.classList.remove('active');
+        challengesLink.classList.remove('active');
+        });
+    </script>
     <script src="gameChallengeScript.js"></script>
     <script src="navbarScript.js"></script>
   </body>
