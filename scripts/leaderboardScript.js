@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', function() {
+    testLoadLeaderboard()
+    });
+
 let playerData;
 //Laddar in användare från databas in i leaderboarden
 
@@ -61,11 +65,6 @@ function testLoadLeaderboard() {
       });
   }
   
-  
-  
-  
-
-testLoadLeaderboard()
 //Visar upp top 3 spelare i leaderboarden
 function topPlayers(playerData) {
     const top1 = playerData.find(player => player.placement === "1");
@@ -219,12 +218,8 @@ function sendChallenge(){
     }));
 }
 
-function cancelChallenge() {
-    var challengebutton = document.getElementById('challengebutton');
-    var unchallengebutton = document.getElementById('cancelchallengebutton');
-    challengebutton.classList.add('active');
-    unchallengebutton.classList.remove('active');
-
+function cancelChallenge(playerId) {
+    console.log(playerId)
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/cancelChallengeFromLeaderboard", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -239,22 +234,7 @@ function cancelChallenge() {
         }
     };
     xhr.send(JSON.stringify({
-        recipientId : challengedPlayerId
+        recipientId : playerId
     }));
-
-    fetch('/cancelChallengeFromLeaderboard')
-        .then(response => {
-        if (response.ok) {
-            return response.text();
-        } else {
-            throw new Error('Error: ' + response.status);
-        }
-        })
-        .then(data => {
-        console.log(data); // Success message from the server
-        })
-        .catch(error => {
-        console.error(error);
-        });
-    }
+}
 

@@ -124,7 +124,7 @@ function fetchClubLinks() {
                 link.href = `/leaderboards/${leaderboard.id}`; 
                 link.classList.add('club-link'); 
                 const image = document.createElement('img');
-                image.src = leaderboard.leaderboard_image;
+                image.src = `/${leaderboard.leaderboard_image}`;
                 link.appendChild(image);
                 clubLinksDiv.appendChild(link);
             });

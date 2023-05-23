@@ -66,41 +66,68 @@
                 <ul id="clublinkslist"></ul>
             </div>
         </nav>
-
-        <div class="header"> 
-            <h2 id="leaderboardName"> Malmo University </h2>
-            <h3> Leaderboard </h3>
-            <div id="topPlayers">
-                <div id="top2"> 
-                    </div>
-                <div id="top1"> 
-                    </div>
-                <div id="top3"> 
-                    </div>
+        <div id="content">
+            <div class="header"> 
+                <h2 id="leaderboardName"> Malmo University </h2>
+                <h3> Leaderboard </h3>
+                <div id="topPlayers">
+                    <div id="top2"> 
+                        </div>
+                    <div id="top1"> 
+                        </div>
+                    <div id="top3"> 
+                        </div>
+                </div>
+            </div>
+            <div id="ranking"> 
+                <div class="challengePopup" id="challengePopup"> 
+                    <img id="closeButton"src="../exitdiscordwhite.png" onclick="closePopup()">
+                    <h3 id="playerName1" class="matchPlayers"></h3>
+                    <h2 id="versus"> Vs </h2>
+                    <h3 id="playerName2" class="matchPlayers"> </h3>
+                    <button onclick="sendChallenge()" id="sendChallenge" id="button" role="button">Challenge</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="placement"> Placement </th>
+                            <th id="username"> Username </th>
+                            <th id="wins"> Wins </th>
+                            <th id="winRatio"> WinRate </th>
+                            <th id="elo"> Elo </th>
+                            <th id="status"> Status </th>
+                            <th id="play"> Play </th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard"></tbody>
+                </table>
             </div>
         </div>
-        <div id="ranking"> 
-            <div class="challengePopup" id="challengePopup"> 
-                <img id="closeButton"src="../exitdiscordwhite.png" onclick="closePopup()">
-                <h3 id="playerName1" class="matchPlayers"></h3>
-                <h2 id="versus"> Vs </h2>
-                <h3 id="playerName2" class="matchPlayers"> </h3>
-                <button onclick="sendChallenge()" id="sendChallenge" id="button" role="button">Challenge</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th id="placement"> Placement </th>
-                        <th id="username"> Username </th>
-                        <th id="wins"> Wins </th>
-                        <th id="winRatio"> WinRate </th>
-                        <th id="elo"> Elo </th>
-                        <th id="status"> Status </th>
-                        <th id="play"> Play </th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard"></tbody>
-            </table>
+        <div id="leaderboardpopup">
+            <button id="exitpopup" onclick="exitpopup()"></button>
+            <h1>Join a Club</h1>
+            <p>Enter a clubs name below to join their leaderboard.</p>
+            <form id="join-club-form">
+                <label>Club name</label>
+                <div id="joinformfield">
+                    <input type="text" id="join-club-input" placeholder="club#123" required>
+                    <button type="submit" id="join-club-button">Join Club</button>
+                </div>
+                <div id="join-club-success"></div>
+                <div id="join-club-error"></div>
+            </form>
+            <div id="findclub" role="button" onclick="window.location.href='/findclub'">
+                <img src="/compasswhite.png" id="compasswhite">
+                <div id="findclubtext">
+                    <h2>Don't know a clubs name?</h2>
+                    <p>Check out the current Clubs in Club Discovery</p>
+                </div>
+                    <img src="/right-arrowblack.png" id="rightarrowblack">
+                </div>
+            <footer id="popupfooter">
+                <p>Want to create you own club?</p>
+                <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
+            </footer>
         </div>
     </div>
     <script src="/leaderboardScript.js"></script>

@@ -481,7 +481,7 @@ app.get('/cancelChallenge', async (req, res) => {
   res.end();
 });
 
-app.get('/cancelChallengeFromLeaderboard', async (req, res) => {
+app.post('/cancelChallengeFromLeaderboard', async (req, res) => {
   //Cancels challenge through viewProfile
   const client = await pool.connect();
   const { recipientId } = req.body;
