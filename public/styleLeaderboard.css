@@ -20,22 +20,7 @@ body {
 #ladder { 
     grid-area: ladder; 
 }
-input {
-    height: 40px;
-    border: 1px solid black;
-    background-color: #fff;
-    text-decoration: none;
-    border-radius: 10px;
-    font-family: 'Lexend', sans-serif;
-    font-size: 15px;
-    box-shadow: 0 0 5px #666;
-    transition: all 0.5s;
-    width: 6vw;
-}
 
-input:focus {
-    width: 8vw;
-}
 
 /* img {
     width: 25px;
@@ -395,13 +380,15 @@ body {
 .player { 
     grid-area: top;
 }
+
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 6fr;
+  grid-template-columns: 15% 6fr;
   grid-template-areas:
     'menu header header header header header '
     'menu ladder ladder ladder ladder ladder';
 }
+
 .header > h2 {
     color: black;
     text-align: center;
@@ -415,22 +402,6 @@ body {
     justify-content: center;
     display: inline;
     padding: 100px;
-}
-input {
-    height: 40px;
-    border: 1px solid black;
-    background-color: #fff;
-    text-decoration: none;
-    border-radius: 10px;
-    font-family: 'Lexend', sans-serif;
-    font-size: 15px;
-    box-shadow: 0 0 5px #666;
-    transition: all 0.5s;
-    width: 6vw;
-}
-
-input:focus {
-    width: 8vw;
 }
 
 img {

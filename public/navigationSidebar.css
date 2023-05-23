@@ -146,6 +146,8 @@
     display: flex;
     flex-direction: column;
     position: sticky;
+    top: 0;
+    height: 100vh;
 }
 
 #searchfield{
@@ -328,6 +330,10 @@
 #content {
     grid-column: 2;
     background-color: #fff;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: scroll;
 }
 
 #content.active {
@@ -339,7 +345,6 @@ html{
     font-family: 'Lexend';
     font-style: normal;
     background-color: #66cccc;
-    overflow: hidden;
 }
 
 body{
@@ -541,8 +546,6 @@ body{
     width: 40%;
     text-decoration: none;
     border-radius: 15px;
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
     bottom: 60px;
     transition: 1s;
 }
@@ -560,8 +563,6 @@ body{
 
 /* Profilestatus div*/
 #navprofile{
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
     bottom: 0;
     background-color: #50a4a4;
     width: 100%;
