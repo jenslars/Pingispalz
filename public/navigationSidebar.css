@@ -228,7 +228,7 @@
     background-color: white;
     background-size: 60%;
     background-repeat: no-repeat;
-    background-position: 9px 9px;
+    background-position: center center;
     border-radius: 100px;
     border: none;
     margin-left: 20%;
@@ -308,7 +308,7 @@
     background-color: white;
     background-size: 60%;
     background-repeat: no-repeat;
-    background-position: 9px 9px;
+    background-position: center center;
     border-radius: 100px;
     border: none;
     margin-left: 20%;
