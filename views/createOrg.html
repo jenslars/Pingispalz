@@ -17,9 +17,9 @@
             <div id="logo">
                 <p>Pingispals<p class="redDot">.</p></p>
             </div>
-            <a id="home" href="#" class="active">Home</a>
+            <a id="home" href="/home">Home</a>
             <a id="search" href="#">Search</a>
-            <a id="leaderboards" href="#">Clubs</a>
+            <a id="leaderboards" href="#" class="active">Clubs</a>
             <a id="challenges" href="/gameChallenge">Challenges</a>
             <a id="profile" href="/editProfile">Profile</a>
             <div class="flex-container"></div>
@@ -75,10 +75,14 @@
                 <section>
                     <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
                         <input id="tableName" name="tableName" type="text" placeholder="Club name" maxlength="25" required>
-                        <input type="file" name="image" id="image" required>
+                        <input type="file" name="image" id="image" required />
                         <label for="image"><img id="uploadImage" src="add-image-white.png"></img>&nbsp; Club image</label>
-                        <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Description text..." maxlength="255"></textarea>
-                        <button type="submit">Create Club</button>
+                        <span>
+                            <strong>Chosen file:</strong>
+                            <span id="fileName">None</span>
+                        </span>
+                        <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Description text..." maxlength="255" required></textarea>
+                        <button type="submit" id="submitButton">Create Club</button>
                         <p id="error-message"></p>
                     </form>                
                 </section>
