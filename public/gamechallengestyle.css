@@ -50,16 +50,102 @@
     flex-direction: row;
 }
 
+/*Matches div*/
 #matches{
     background-color: #fff;
     width: 500px;
     height: 600px;
-    margin: 20px 50px 30px 50px;
+    margin: 50px 50px 30px 50px;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
 }
+
+#matchesheader p{
+    font-size: 25px;
+    font-weight: 500;
+}
+
+#matchesheader{
+    margin: -30px auto 10px auto;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 0px 50px 0px 50px;
+}
+
+.pendingmatch{
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #93b8b8;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.matchactions{
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.registerresult{
+    background-color: #66cccc;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 15px 10px 15px;
+    transition: 0.3s;
+    color: #fff;
+    width: 134px;
+    margin-bottom: 5px;
+}
+.cancelmatch{
+    background-color: #FF3366;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 15px 10px 15px;
+    transition: 0.3s;
+    color: #fff;
+    width: 134px;
+}
+
+.matchleaderboard{
+    grid-column: 2 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.leaderboardimg{
+    width: 70px;
+    height: 70px;
+    border-radius: 100px;
+}
+
+.matchopponent{
+    display: flex;
+    flex-direction: column;
+    grid-column: 3 / span 1;
+    margin: auto;
+    width: 33.33%;
+}
+
+.matchopponentimg{
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+}
+
+.matchopponentname
 
 #contentright{
     display: flex;
