@@ -141,51 +141,48 @@ winRateHeader.addEventListener("click", function() {
 })
 
 //Updates leaderboard with new placements
-function updateLeaderboard(playerData) {
-    const ladder = document.getElementById('leaderboard');
-    ladder.innerHTML = '';
+function updateLeaderboard(playerData, data) {
+  const ladder = document.getElementById('leaderboard');
+  ladder.innerHTML = '';
 
-    playerData.forEach(player => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${player.placement}</td>
-        <td><a href="/viewProfile/${player.user_id}">${player.username}</a></td>
-        <td>${player.wins}</td>
-        <td>${player.winratio}</td>
-        <td>${player.elo}</td>
-        <td>${player.status}</td>
-        <td><button id="challengebutton" onclick="openPopup('${player.username}','${player.user_id}')">Challenge</button></td>
-        <td><button id="cancelchallengebutton" onclick="cancelChallenge('${player.user_id}')">Unchallenge</button></td>
-      `;
+  playerData.forEach(player => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${player.placement}</td>
+      <td><a href="/viewProfile/${player.user_id}">${player.username}</a></td>
+      <td>${player.wins}</td>
+      <td>${player.winratio}</td>
+      <td>${player.elo}</td>
+      <td>${player.status}</td>
+      <td><button id="challengebutton" onclick="openPopup('${player.username}','${player.user_id}')">Challenge</button></td>
+      <td><button id="cancelchallengebutton" onclick="cancelChallenge('${player.user_id}')">Unchallenge</button></td>
+    `;
 
-      if (player.losses || player.wins) {
-        let winLossRatio;
-        if (player.losses) {
-          winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
-        } else {
-          winLossRatio = "100%";
-        }
-        row.children[3].textContent = winLossRatio;
+    if (player.losses || player.wins) {
+      let winLossRatio;
+      if (player.losses) {
+        winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
       } else {
-        row.children[3].textContent = "n/a";
+        winLossRatio = "100%";
       }
+      row.children[3].textContent = winLossRatio;
+    } else {
+      row.children[3].textContent = "n/a";
+    }
+    const hasPendingMatch = data.pendingMatches.some(match =>
+      match.recipient_id === player.user_id && match.status === "PENDING"
+    );
 
-      // Check if the player has a pending match
-      const hasPendingMatch = data.pendingMatches.some(match =>
-        match.recipient_id === player.user_id && match.status === "PENDING"
-      );
-
-      if (hasPendingMatch) {
-        row.children[7].children[0].classList.add("active");
-        row.children[6].children[0].classList.remove("active");
-      } else {
-        row.children[7].children[0].classList.remove("active");
-        row.children[6].children[0].classList.add("active");
-      }
-
-      ladder.appendChild(row);
-    });
-    topPlayers(playerData);
+    if (hasPendingMatch) {
+      row.children[7].children[0].classList.add("active");
+      row.children[6].children[0].classList.remove("active");
+    } else {
+      row.children[7].children[0].classList.remove("active");
+      row.children[6].children[0].classList.add("active");
+    }
+    ladder.appendChild(row);
+  });
+  topPlayers(playerData);
 }
 
 let popup = document.getElementById("challengePopup");
