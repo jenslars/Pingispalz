@@ -3,8 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 let playerData;
-//Laddar in användare från databas in i leaderboarden
-
+//Takes the fetched data from the database and displays it in a leaderboard
 function testLoadLeaderboard() {
     fetch('/leaderboard/score')
       .then(response => response.json())
@@ -64,8 +63,7 @@ function testLoadLeaderboard() {
         console.error('Error:', error);
       });
   }
-  
-//Visar upp top 3 spelare i leaderboarden
+//Displayes the top 3 players in the leaderboard
 function topPlayers(playerData) {
     const top1 = playerData.find(player => player.placement === "1");
     const top2 = playerData.find(player => player.placement === "2");
@@ -111,24 +109,24 @@ function assignPlacements(playerData) {
 
 // sorts players in the leaderboard by wins
 const winsHeader = document.getElementById('wins');
-function sortPlayersByWins(players) {
-    players.sort((a, b) => b.wins - a.wins);
-    updateLeaderboard(players);
+function sortPlayersByWins(playerData) {
+    playerData.sort((a, b) => b.wins - a.wins);
+    updateLeaderboard(playerData);
 }
 
 winsHeader.addEventListener("click", function() {
-    sortPlayersByWins(players);
+    sortPlayersByWins(playerData);
 })
 
 //sorts players in the leaderboard by placement
 const placement = document.getElementById('placement');
-function sortPlayersByPlacement(players) {
-    players.sort((a, b) => a.placement - b.placement);
-    updateLeaderboard(players);
+function sortPlayersByPlacement(playerData) {
+    playerData.sort((a, b) => a.placement - b.placement);
+    updateLeaderboard(playerData);
 }
 
 placement.addEventListener("click", function() {
-    sortPlayersByPlacement(players);    
+    sortPlayersByPlacement(playerData);    
 })
 
 //sorts players in the leaderboard by winrate funkar inte
@@ -143,35 +141,51 @@ winRateHeader.addEventListener("click", function() {
 })
 
 //Updates leaderboard with new placements
-function updateLeaderboard(players) {
+function updateLeaderboard(playerData) {
     const ladder = document.getElementById('leaderboard');
     ladder.innerHTML = '';
-    players.forEach(player => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
+
+    playerData.forEach(player => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
         <td>${player.placement}</td>
-        <td><a href="/player/${player.user_id}">${player.username}</a></td>
+        <td><a href="/viewProfile/${player.user_id}">${player.username}</a></td>
         <td>${player.wins}</td>
         <td>${player.winratio}</td>
         <td>${player.elo}</td>
         <td>${player.status}</td>
-        <td><button>Play</button></td>
-        `;
-        if (player.losses || player.wins) {
-            let winLossRatio;
-            if (player.losses) {
-                winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
-            } else {
-                winLossRatio = "100%";
-            }
-            row.children[3].textContent = winLossRatio;
+        <td><button id="challengebutton" onclick="openPopup('${player.username}','${player.user_id}')">Challenge</button></td>
+        <td><button id="cancelchallengebutton" onclick="cancelChallenge('${player.user_id}')">Unchallenge</button></td>
+      `;
 
+      if (player.losses || player.wins) {
+        let winLossRatio;
+        if (player.losses) {
+          winLossRatio = ((player.wins / (player.wins + player.losses)) * 100).toFixed(0) + "%";
+        } else {
+          winLossRatio = "100%";
         }
-        else {
-            row.children[3].textContent = "n/a";
-        }
-        ladder.appendChild(row);
+        row.children[3].textContent = winLossRatio;
+      } else {
+        row.children[3].textContent = "n/a";
+      }
+
+      // Check if the player has a pending match
+      const hasPendingMatch = data.pendingMatches.some(match =>
+        match.recipient_id === player.user_id && match.status === "PENDING"
+      );
+
+      if (hasPendingMatch) {
+        row.children[7].children[0].classList.add("active");
+        row.children[6].children[0].classList.remove("active");
+      } else {
+        row.children[7].children[0].classList.remove("active");
+        row.children[6].children[0].classList.add("active");
+      }
+
+      ladder.appendChild(row);
     });
+    topPlayers(playerData);
 }
 
 let popup = document.getElementById("challengePopup");
