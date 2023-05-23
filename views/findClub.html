@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="findClubStyle.css">
+    <link rel="stylesheet" type="text/css" href="navigationSidebar.css">
+    <title>Find club</title>
+</head>
+<body>
+    <div class="grid-container" id="blur">
+        <nav class="sidenav">
+            <div id="logo">
+                <p>Pingispals<p class="redDot">.</p></p>
+            </div>
+            <a id="home" href="/home">Home</a>
+            <a id="search" href="#">Search</a>
+            <a id="leaderboards" href="#" class="active">Clubs</a>
+            <a id="challenges" href="/gameChallenge">Challenges</a>
+            <a id="profile" href="/editProfile">Profile</a>
+            <div class="flex-container"></div>
+            <a id="logout" href="/logout">Logout</a>
+            <div id="statuspopupdiv">
+                <div id="setstatusonline" role="button" onclick="setstatusonline()">
+                    <div class="hoverdiv">
+                        <div id="onlinedot"></div>
+                        <p>Online</p>
+                    </div>
+                </div>
+                <div id="setstatusaway" role="button" onclick="setstatusaway()">
+                    <div class="hoverdiv">
+                        <div id="awaydot"></div>
+                        <p>Away</p>
+                    </div>
+                </div>
+                <div id="setstatusmatchready" role="button" onclick="setstatusmatchready()">
+                    <div class="hoverdiv">
+                        <div id="matchdot"></div>
+                        <p>Match ready</p>
+                    </div>
+                </div>
+            </div>
+            <div id="navprofile">
+                <img id="navprofileimage" src="">
+                <button id="changestatusbutton" onclick="changestatuspopup()"></button>
+                <div id="navprofiletext">
+                    <p id="navusername"></p>
+                    <p id="navstatus"></p>
+                </div>
+            </div>
+        </nav>
+        <nav id="searchfield">
+            <form>
+                <input type="text" placeholder="Search">
+            </form>
+        </nav>
+        <nav id="leaderboardoptions">
+            <div id="leaderboardoptionsbuttons">
+                <button type="button" id="addserver" onclick="leaderboardpopup()"></button>
+                <button type="button" id="findserver"></button>
+            </div>
+            <div id="clublinks">
+                <ul id="clublinkslist"></ul>
+            </div>
+        </nav>
+        <div id="content">
+            <main>
+                <header>
+                    <h1 id="itemCenter">Find club</h1>
+                </header>
+                <section>
+                     <table>
+                        <tr>
+                            <th><a>Club image</a></th>
+                            <th><a>Club name</a></th>
+                            <th><a>Owner</a></th>
+                            <th><a>Description</a></th>
+                            <th></th>
+                        </tr>
+                        <tbody id="clubs"></tbody>
+                     </table>           
+                </section>
+            </main>
+        </div>
+        <div id="leaderboardpopup">
+            <button id="exitpopup" onclick="exitpopup()"></button>
+            <h1>Join a Club</h1>
+            <p>Enter a clubs name below to join their leaderboard.</p>
+            <form id="join-club-form">
+                <label>Club name</label>
+                <div id="joinformfield">
+                    <input type="text" id="join-club-input" placeholder="club#123" required>
+                    <button type="submit" id="join-club-button">Join Club</button>
+                </div>
+                <div id="join-club-success"></div>
+                <div id="join-club-error"></div>
+            </form>
+            <div id="findclub" role="button" onclick="window.location.href='/findclub'">
+                <img src="compasswhite.png" id="compasswhite">
+                <div id="findclubtext">
+                    <h2>Don't know a clubs name?</h2>
+                    <p>Check out the current Clubs in Club Discovery</p>
+                </div>
+                    <img src="right-arrowblack.png" id="rightarrowblack">
+                </div>
+            <footer id="popupfooter">
+                <p>Want to create you own club?</p>
+                <button id="createorg-btn" onclick="window.location.href='/createOrg'">Create your own Club</button>
+            </footer>
+        </div>
+    </div>
+    <script src="findClubScript.js"></script>
+    <script src="navbarScript.js"></script>
+</body>
+</html>

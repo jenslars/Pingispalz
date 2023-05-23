@@ -116,22 +116,6 @@ input#image + label:hover {
     outline: none !important;
 }
 
-ul {
-    margin-top: 15px;
-    list-style: none;
-    padding-left: 0px;
-}
-
-ul li {
-    margin-bottom: 15px;
-}
-
-ul li a {
-    font-size: 20px;
-    text-decoration: none;
-    color: #000000;
-}
-
 main {
     background: linear-gradient(180deg, rgba(102, 204, 204, 0.63) 0%, rgba(102, 204, 204, 0.0) 100%);
 }
