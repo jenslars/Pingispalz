@@ -270,6 +270,83 @@
     width: 100px; 
 }
 
+/*Register result popup*/
+#blur.active2 > *:not(#registerResultPopup) {
+    filter: blur(2px);
+    transition: 1s;
+    }
+
+#registerResultPopup{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
+    border-radius: 10px;
+    display: none;
+}
+
+#registerResultPopup.active{
+    display: unset;
+}
+
+#registerResultPopup h1{
+    text-align: center;
+}
+
+#registerResultForm input{
+    border: none; 
+    background-color: #dbdbdb;
+    font-family: 'Lexend';
+    padding: 10px 20% 10px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+#registerResultForm input:focus{
+    outline: none; 
+}
+
+.exitpopup {
+    background-image: url(returnarrowblack.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.submitformbutton{
+    background-color: #66cccc;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px; 
+}
+
+#matchIdInput{
+    display: none;
+}
+
+#opponentPlayerIdInput{
+    display: none;
+}
+
+.submitformbutton:hover{
+    background-color: #54a8a8;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
+}
+
 #contentright{
     display: flex;
     flex-direction: column;

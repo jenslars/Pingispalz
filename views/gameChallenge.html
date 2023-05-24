@@ -91,7 +91,6 @@
                             <p id="labelactions">Actions</p>
                         </div>
                         <div id="fetchedmatches">
-                            
                         </div>
                     </section>
                     <div id="contentright">
@@ -111,6 +110,21 @@
                         </section>
                     </div>
                 </div>
+                <div id="registerResultPopup">
+                    <button class="exitpopup" onclick="exitregisterResultPopup()"></button>
+                    <h1>Register result</h1>
+                    <form id="registerResultForm">
+                        <p>Your score</p>
+                        <input type="text" id="yourScoreInput" class="registerResultInput">
+                        <p>Their score</p>
+                        <input type="text" id="theirScoreInput" class="registerResultInput">
+                        <input type="hidden" id="matchIdInput">
+                        <input type="hidden" id="opponentPlayerIdInput">
+                        <p id="fail"></p>
+                        <p id="success"></p>
+                        <button class="submitformbutton" type="submit">Submit</button>
+                        </form>
+                  </div>
             </main>
         </div>
         <div id="leaderboardpopup">

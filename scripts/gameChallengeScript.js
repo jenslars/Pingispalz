@@ -185,6 +185,7 @@ function fetchMatches() {
             const registerButton = document.createElement('button')
             registerButton.className = 'registerresult'
             registerButton.textContent = 'Register result'
+            registerButton.setAttribute("onclick", `registerResultPopup('${match.opponentUserId}', '${match.matchId}')`);
             const cancelButton = document.createElement('button')
             cancelButton.className = 'contestresult'
             cancelButton.textContent = 'Contest result'
@@ -216,12 +217,51 @@ function fetchMatches() {
 
             matchContainer.appendChild(matchDiv);
 
-    
-            matchContainer.appendChild(matchDiv);
+  
+          matchContainer.appendChild(matchDiv);
         });
       })
       .catch((error) => {
         console.error(error);
       });
   }
-  
+
+function registerResultPopup(OpponentPlayerId, MatchId) {
+    var registerResultPopupDiv = document.getElementById('registerResultPopup');
+    var gridcontainerLink = document.getElementById('blur');
+    registerResultPopupDiv.classList.add('active');
+
+    matchIdInput.value = MatchId
+    opponentPlayerIdInput.value = OpponentPlayerId
+    }
+
+document.getElementById('registerResultForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const yourScore = document.getElementById('yourScoreInput').value;
+    const theirScore = document.getElementById('theirScoreInput').value;
+    const matchId = document.getElementById('matchIdInput').value;
+    const opponentPlayerId = document.getElementById('opponentPlayerIdInput').value;
+    console.log(opponentPlayerId)
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/registerResult');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+        document.getElementById('success').innerHTML = 'Successfully registered the result';
+        window.location.reload();
+        } else {
+        document.getElementById('fail').innerHTML = 'Unable to register the result';
+        }
+    };
+    xhr.onerror = function() {
+        document.getElementById('fail').innerHTML = 'Unable to register the result';
+    };
+    xhr.send(JSON.stringify({
+        yourScore: yourScore,
+        theirScore: theirScore,
+        matchId: matchId,
+        opponentPlayerId: opponentPlayerId
+    }));
+    });
+      

@@ -134,18 +134,18 @@ function fetchClubLinks() {
 
 //Popup for adding leaderboards
 function leaderboardpopup() {
-var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
-var gridcontainerLink = document.getElementById('blur');
-leaderboardpopupDiv.classList.add('active');
-gridcontainerLink.classList.add('active');
+    var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+    var gridcontainerLink = document.getElementById('blur');
+    leaderboardpopupDiv.classList.add('active');
+    gridcontainerLink.classList.add('active');
 }
 
 //Exits popup for adding leaderboards
 function exitpopup() {
-var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
-var gridcontainerLink = document.getElementById('blur');
-leaderboardpopupDiv.classList.remove('active');
-gridcontainerLink.classList.remove('active');   
+    var leaderboardpopupDiv = document.getElementById('leaderboardpopup');
+    var gridcontainerLink = document.getElementById('blur');
+    leaderboardpopupDiv.classList.remove('active');
+    gridcontainerLink.classList.remove('active');   
 }
 
 //Sends Join a Club form to backend
