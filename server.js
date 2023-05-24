@@ -331,7 +331,7 @@ app.post('/uploadUserDescriptionForm', async (req, res) => {
   client.release();
 });
 
-app.get('/findClub', async (req, res) => {
+app.post('/findClub', async (req, res) => {
   const client = await pool.connect();
   try {
     const results = await pool.query('SELECT * FROM leaderboards')
@@ -342,17 +342,6 @@ app.get('/findClub', async (req, res) => {
   } finally {
     client.release();
   }
-  fs.readFile('findClub.html', function(error, data) {
-    if (error) {
-      res.writeHead(404);
-      res.write('Error: File Not Found');
-    }
-    else {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-    }
-     res.end();
-  })
 })
 
 app.get('/leaderboard', (req, res) => {
