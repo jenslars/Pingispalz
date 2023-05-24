@@ -1099,7 +1099,24 @@ app.post('/registerResult', async (req, res) => {
   client.release();
 });
 
-
+app.post('/confirmResult', async (req, res) => {
+  const { matchId } = req.body;
+  const client = await pool.connect();
+  try {
+    await pool.query( 
+      `UPDATE results
+      SET status = 'FINISHED'
+      WHERE match_id = $1`, [matchId]
+    );
+    res.status(200).send('Result confirmed');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+});
 
 app.get('/:page', (req, res) => {
   //Function to fetch html document, always keep on bottom of server.js!

@@ -202,6 +202,7 @@ function fetchMatches() {
             const confirmButton = document.createElement('button')
             confirmButton.className = 'confirmresult'
             confirmButton.textContent = 'Confirm result'
+            confirmButton.setAttribute("onclick", `confirmResult('${match.matchId}')`);
             const contestButton = document.createElement('button')
             contestButton.className = 'contestresult'
             contestButton.textContent = 'Contest result'
@@ -213,7 +214,7 @@ function fetchMatches() {
             matchDiv.appendChild(playerDiv);
             matchDiv.appendChild(statusDiv);
             matchDiv.appendChild(opponentLink);
-            matchDiv.appendChild(actionsDiv); // Append actionsDiv to matchDiv
+            matchDiv.appendChild(actionsDiv);
 
             matchContainer.appendChild(matchDiv);
 
@@ -225,6 +226,25 @@ function fetchMatches() {
         console.error(error);
       });
   }
+
+function confirmResult(matchId){
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/confirmResult", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                window.location.reload();
+            } else {
+            }
+        } else {
+            // document.getElementById("error-message").innerHTML = "Something went wrong";
+        }
+    };
+    xhr.send(JSON.stringify({
+        matchId : matchId
+    }));
+}
 
 function registerResultPopup(OpponentPlayerId, MatchId) {
     var registerResultPopupDiv = document.getElementById('registerResultPopup');
