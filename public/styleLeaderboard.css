@@ -237,6 +237,7 @@ tr:nth-child(even) {
 #top1, #top2, #top3 {
     border-radius: 20px;
     transition: all .2s ease-in-out;
+    box-shadow: 0 0 5px #666;
 }
 #top1:hover, #top2:hover, #top3:hover {
     transform: scale(1.1);
