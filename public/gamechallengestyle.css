@@ -104,7 +104,9 @@
     margin-bottom: 5px;
 }
 
-.pendingmatch{
+
+
+.match{
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid #93b8b8;

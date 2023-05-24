@@ -582,63 +582,6 @@ app.get('/checkIfUserSentChallenge', async (req, res) => {
   }   
 });
 
-app.get('/matchHistory', async (req, res) => {
-  //Fetches logged in users match history
-  const client = await pool.connect();
-  try {
-    const matchesPlayed = await pool.query(
-      `SELECT 
-         r.match_id, 
-         r.recipientpoints, 
-         r.winner, 
-         r.challengerpoints, 
-         r.status, 
-         r.loser, 
-         r.recipient_id, 
-         r.challenger_id,
-         ur.user_id AS recipient_user_id,
-         ur.username AS recipient_username,
-         ur.profile_image AS recipient_profile_image,
-         uc.user_id AS challenger_user_id,
-         uc.username AS challenger_username,
-         uc.profile_image AS challenger_profile_image
-       FROM 
-         results AS r
-       INNER JOIN 
-         users AS ur ON r.recipient_id = ur.user_id
-       INNER JOIN 
-         users AS uc ON r.challenger_id = uc.user_id
-       WHERE 
-         (r.challenger_id = $1 OR r.recipient_id = $1) 
-         AND r.status = 'FINISHED'`,
-      [loggedInUserId]
-    );
-
-    const matchData = matchesPlayed.rows.map((match) => {
-      const player = match.recipient_id === loggedInUserId ? 'recipient' : 'challenger';
-      const opponent = player === 'recipient' ? 'challenger' : 'recipient';
-
-      return {
-        matchId: match.match_id,
-        playerUsername: match[player + '_username'],
-        playerProfileImage: match[player + '_profile_image'],
-        opponentUsername: match[opponent + '_username'],
-        opponentProfileImage: match[opponent + '_profile_image'],
-        playerPoints: match[player + 'points'],
-        opponentPoints: match[opponent + 'points'],
-        opponentUserId: match[opponent + '_user_id'],
-      };
-    });
-
-    res.status(200).send(matchData);
-  } catch (err) {
-    console.error(err);
-    res.sendStatus(500);
-  } finally {
-    client.release();
-  }
-});
-
 app.get('/matchHistoryViewProfile', async (req, res) => {
   //Fetches users match history
   const client = await pool.connect();
@@ -962,6 +905,130 @@ app.post('/setstatusmatchready', async (req, res) => {
   }
   res.end();
 });
+
+app.get('/fetchMatches', async (req, res) => {
+  // Fetches the latest 5 matches for the logged-in user
+  const client = await pool.connect();
+  try {
+    const matchesFetched = await pool.query(
+      `SELECT 
+         r.match_id, 
+         r.recipientpoints, 
+         r.winner, 
+         r.challengerpoints, 
+         r.status, 
+         r.loser, 
+         r.recipient_id, 
+         r.challenger_id,
+         ur.user_id AS recipient_user_id,
+         ur.username AS recipient_username,
+         ur.profile_image AS recipient_profile_image,
+         uc.user_id AS challenger_user_id,
+         uc.username AS challenger_username,
+         uc.profile_image AS challenger_profile_image,
+         lb.leaderboard_name
+       FROM 
+         results AS r
+       INNER JOIN 
+         users AS ur ON r.recipient_id = ur.user_id
+       INNER JOIN 
+         users AS uc ON r.challenger_id = uc.user_id
+       INNER JOIN
+         leaderboards AS lb ON r.server_id = lb.id
+       WHERE 
+         (r.challenger_id = $1 OR r.recipient_id = $1)
+       ORDER BY
+         r.match_id DESC
+       LIMIT 5`, // Select only the latest 5 matches
+      [loggedInUserId]
+    );
+
+    const matchData = matchesFetched.rows.map((match) => {
+      const player = match.recipient_id === loggedInUserId ? 'recipient' : 'challenger';
+      const opponent = player === 'recipient' ? 'challenger' : 'recipient';
+
+      return {
+        matchId: match.match_id,
+        playerUsername: match[player + '_username'],
+        playerProfileImage: match[player + '_profile_image'],
+        opponentUsername: match[opponent + '_username'],
+        opponentProfileImage: match[opponent + '_profile_image'],
+        playerPoints: match[player + 'points'],
+        opponentPoints: match[opponent + 'points'],
+        opponentUserId: match[opponent + '_user_id'],
+        leaderboardName: match.leaderboard_name,
+      };
+    });
+
+    res.status(200).send(matchData);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  } finally {
+    client.release();
+  }
+});
+
+
+
+app.get('/matchHistory', async (req, res) => {
+  //Fetches logged in users match history
+  const client = await pool.connect();
+  try {
+    const matchesPlayed = await pool.query(
+      `SELECT 
+         r.match_id, 
+         r.recipientpoints, 
+         r.winner, 
+         r.challengerpoints, 
+         r.status, 
+         r.loser, 
+         r.recipient_id, 
+         r.challenger_id,
+         ur.user_id AS recipient_user_id,
+         ur.username AS recipient_username,
+         ur.profile_image AS recipient_profile_image,
+         uc.user_id AS challenger_user_id,
+         uc.username AS challenger_username,
+         uc.profile_image AS challenger_profile_image
+       FROM 
+         results AS r
+       INNER JOIN 
+         users AS ur ON r.recipient_id = ur.user_id
+       INNER JOIN 
+         users AS uc ON r.challenger_id = uc.user_id
+       WHERE 
+         (r.challenger_id = $1 OR r.recipient_id = $1) 
+         AND r.status = 'FINISHED'`,
+      [loggedInUserId]
+    );
+
+    const matchData = matchesPlayed.rows.map((match) => {
+      const player = match.recipient_id === loggedInUserId ? 'recipient' : 'challenger';
+      const opponent = player === 'recipient' ? 'challenger' : 'recipient';
+
+      return {
+        matchId: match.match_id,
+        playerUsername: match[player + '_username'],
+        playerProfileImage: match[player + '_profile_image'],
+        opponentUsername: match[opponent + '_username'],
+        opponentProfileImage: match[opponent + '_profile_image'],
+        playerPoints: match[player + 'points'],
+        opponentPoints: match[opponent + 'points'],
+        opponentUserId: match[opponent + '_user_id'],
+      };
+    });
+
+    res.status(200).send(matchData);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  } finally {
+    client.release();
+  }
+});
+
+
 
 app.get('/:page', (req, res) => {
   //Function to fetch html document, always keep on bottom of server.js!
