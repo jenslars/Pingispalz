@@ -374,7 +374,9 @@ app.get('/leaderboard/score', async (req, res) => {
     const response = {
       tableName: tableName,
       pendingMatches: pendingMatches.rows,
-      leaderboardData: leaderboardData.rows
+      leaderboardData: leaderboardData.rows,
+      loggedInUserId: loggedInUserId
+
     };
 
     res.status(200).send(response);

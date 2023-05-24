@@ -11,7 +11,6 @@ function testLoadLeaderboard() {
         const LoggedInUser = data.loggedInUserId;
         const tableName = data.tableName;
         document.getElementById('leaderboardName').innerHTML = tableName;
-  
         playerData = data.leaderboardData;
         assignPlacements(playerData);
         const ladder = document.getElementById('leaderboard');
@@ -62,8 +61,6 @@ function testLoadLeaderboard() {
             row.children[6].children[0].classList.remove("active");
           }
 
-          
-  
           ladder.appendChild(row);
         });
   
@@ -141,20 +138,19 @@ placement.addEventListener("click", function() {
 
 //sorts players in the leaderboard by winrate funkar inte
 const winRateHeader = document.getElementById('winRatio')
-function sortPlayersByWinrate(players) {
-    players.sort((a, b) => b.winratio - a.winratio);
-    updateLeaderboard(players);
+function sortPlayersByWinrate(playerData) {
+    playerData.sort((a, b) => b.winratio - a.winratio);
+    updateLeaderboard(playerData);
 }
 
 winRateHeader.addEventListener("click", function() {
-    sortPlayersByWinrate(players);
+    sortPlayersByWinrate(playerData);
 })
 
 //Updates leaderboard with new placements
-function updateLeaderboard(playerData) {
+function updateLeaderboard(playerData, data) {
   const ladder = document.getElementById('leaderboard');
   ladder.innerHTML = '';
-
   playerData.forEach(player => {
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -166,6 +162,7 @@ function updateLeaderboard(playerData) {
       <td>${player.status}</td>
       <td><button id="challengebutton" onclick="openPopup('${player.username}','${player.user_id}')">Challenge</button></td>
       <td><button id="cancelchallengebutton" onclick="cancelChallenge('${player.user_id}')">Unchallenge</button></td>
+      <td><button id="loggedinuserbutton">You</button></td>
     `;
 
     if (player.losses || player.wins) {
@@ -179,20 +176,21 @@ function updateLeaderboard(playerData) {
     } else {
       row.children[3].textContent = "n/a";
     }
-    const hasPendingMatch = data.pendingMatches.some(match =>
-      match.recipient_id === player.user_id && match.status === "PENDING"
-    );
+    // const hasPendingMatch = data.pendingMatches.some(match =>
+    //   match.recipient_id === player.user_id && match.status === "PENDING"
+    // );
 
-    if (hasPendingMatch) {
-      row.children[7].children[0].classList.add("active");
-      row.children[6].children[0].classList.remove("active");
-    } else {
-      row.children[7].children[0].classList.remove("active");
-      row.children[6].children[0].classList.add("active");
-    }
+    // if (hasPendingMatch) {
+    //   row.children[7].children[0].classList.add("active");
+    //   row.children[6].children[0].classList.remove("active");
+    // } else {
+    //   row.children[7].children[0].classList.remove("active");
+    //   row.children[6].children[0].classList.add("active");
+    // }
     ladder.appendChild(row);
   });
   topPlayers(playerData);
+  console.log(playerData);
 }
 
 let popup = document.getElementById("challengePopup");
