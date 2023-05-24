@@ -334,9 +334,13 @@ app.post('/uploadUserDescriptionForm', async (req, res) => {
 app.post('/findClub', async (req, res) => {
   const client = await pool.connect();
   try {
-    const results = await pool.query('SELECT * FROM leaderboards')
+    const results = await pool.query(`
+    SELECT *, username
+    FROM leaderboards
+    JOIN users ON owner = user_id
+  `)
     res.status(200).send(results.rows)
-  }catch (err) {
+  } catch (err) {
     console.error(err);
     res.status(500).send('Error: Internal server error');
   } finally {
