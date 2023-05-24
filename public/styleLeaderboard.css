@@ -21,10 +21,9 @@ body {
     grid-area: ladder; 
 }
 
-
-/* img {
-    width: 25px;
-} */
+a {
+    text-decoration: none;
+}
 
 /*Leaderboard styling */
 .crown {
@@ -49,7 +48,7 @@ td {
 tr{
     width: 100%;
 }
-
+/* styling for Challenge button in leaderboard*/
 #challengebutton {
     color: #FF3366;
     font-family: 'Lexend';
@@ -449,6 +448,7 @@ tr:nth-child(even) {
 #top1:hover, #top2:hover, #top3:hover {
     transform: scale(1.1);
 }
+
 .theUser {
     background-color: #fd4242;
     color: #fff;
