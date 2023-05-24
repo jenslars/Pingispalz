@@ -96,7 +96,6 @@ function fetchMatches() {
   
           const statusDiv = document.createElement('div');
           statusDiv.className = 'matchstatus';
-  
           if (match.status === 'PENDING') {
             const matchleaderboard = document.createElement('p');
             matchleaderboard.className = 'matchleaderboard';
@@ -147,7 +146,7 @@ function fetchMatches() {
   
             const matchcurrentstatus = document.createElement('p');
             matchcurrentstatus.className = 'matchleaderboard';
-            matchcurrentstatus.textContent = 'Pending';
+            matchcurrentstatus.textContent = 'To be confirmed';
   
             statusDiv.appendChild(matchleaderboard);
             statusDiv.appendChild(matchcurrentstatus);
@@ -176,14 +175,49 @@ function fetchMatches() {
           matchDiv.appendChild(playerDiv);
           matchDiv.appendChild(statusDiv);
           matchDiv.appendChild(opponentLink);
-  
-          const matchactions = document.createElement('div');
-          matchactions.className = 'matchactions';
-  
-          const matchstatusDiv = document.createElement('div');
-          matchstatusDiv.className = 'matchstatus';
-  
-          matchContainer.appendChild(matchDiv);
+
+          const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'matchactions';
+
+            console.log(match.status)
+            if (match.status === 'PENDING') {
+            console.log("ifsatsen")
+            const registerButton = document.createElement('button')
+            registerButton.className = 'registerresult'
+            registerButton.textContent = 'Register result'
+            const cancelButton = document.createElement('button')
+            cancelButton.className = 'contestresult'
+            cancelButton.textContent = 'Contest result'
+
+            actionsDiv.appendChild(registerButton);
+            actionsDiv.appendChild(cancelButton);
+            } else if (match.status === 'FINISHED') {
+            const rematchButton = document.createElement('button')
+            rematchButton.className = 'rematch'
+            rematchButton.textContent = 'Rematch'
+
+            actionsDiv.appendChild(rematchButton);
+            } else if (match.status === 'TOBECONFIRMED') {
+            const confirmButton = document.createElement('button')
+            confirmButton.className = 'confirmresult'
+            confirmButton.textContent = 'Confirm result'
+            const contestButton = document.createElement('button')
+            contestButton.className = 'contestresult'
+            contestButton.textContent = 'Contest result'
+
+            actionsDiv.appendChild(confirmButton);
+            actionsDiv.appendChild(contestButton);
+            }
+
+            matchDiv.appendChild(playerDiv);
+            matchDiv.appendChild(statusDiv);
+            matchDiv.appendChild(opponentLink);
+            matchDiv.appendChild(actionsDiv); // Append actionsDiv to matchDiv
+
+            matchContainer.appendChild(matchDiv);
+
+    
+            matchContainer.appendChild(matchDiv);
         });
       })
       .catch((error) => {
