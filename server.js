@@ -158,18 +158,38 @@ app.post('/createOrg', async (req, res) => {
 
 
 app.post('/joinClub', async (req, res) => {
-  //Function to join club
+  // Function to join club
   const { club } = req.body;
   const client = await pool.connect();
+
   try {
-    const leaderboardId = await pool.query(`SELECT server_id FROM "${club}" ORDER BY server_id ASC LIMIT 1 OFFSET 0`);
+    // Check if the user is already a member of the club
+    const existingMembership = await pool.query(`
+      SELECT *
+      FROM "${club}"
+      WHERE player_id = $1
+    `, [loggedInUserId]);
+
+    if (existingMembership.rows.length > 0) {
+      res.status(400).send({ message: 'Already a member of the club' });
+      return;
+    }
+
+    const leaderboardId = await pool.query(`
+      SELECT server_id
+      FROM "${club}"
+      ORDER BY server_id ASC
+      LIMIT 1 OFFSET 0
+    `);
     const selectedLeadboardId = leaderboardId.rows[0].server_id;
+
     await pool.query(`
-      INSERT into "${club}" (server_id, player_id, elo, wins, losses, is_admin)
+      INSERT INTO "${club}" (server_id, player_id, elo, wins, losses, is_admin)
       VALUES ($1, $2, $3, $4, $5, $6)
     `, [selectedLeadboardId, loggedInUserId, 1000, 0, 0, false]);
+
     await pool.query(`
-      INSERT into users_in_leaderboards (user_id, leaderboard_id)
+      INSERT INTO users_in_leaderboards (user_id, leaderboard_id)
       VALUES ($1, $2)
     `, [loggedInUserId, selectedLeadboardId]);
 
@@ -178,6 +198,7 @@ app.post('/joinClub', async (req, res) => {
     console.error(err);
     res.status(500).send({ message: 'Unable to join the club' });
   }
+
   client.release();
 });
 
@@ -374,7 +395,8 @@ app.get('/leaderboard/score', async (req, res) => {
     const response = {
       tableName: tableName,
       pendingMatches: pendingMatches.rows,
-      leaderboardData: leaderboardData.rows
+      leaderboardData: leaderboardData.rows,
+      loggedInUserId: loggedInUserId
     };
 
     res.status(200).send(response);

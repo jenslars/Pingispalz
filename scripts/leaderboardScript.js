@@ -8,6 +8,7 @@ function testLoadLeaderboard() {
     fetch('/leaderboard/score')
       .then(response => response.json())
       .then(data => {
+        const LoggedInUser = data.loggedInUserId;
         const tableName = data.tableName;
         document.getElementById('leaderboardName').innerHTML = tableName;
   
@@ -27,8 +28,8 @@ function testLoadLeaderboard() {
             <td>${player.status}</td>
             <td><button id="challengebutton" onclick="openPopup('${player.username}','${player.user_id}')">Challenge</button></td>
             <td><button id="cancelchallengebutton" onclick="cancelChallenge('${player.user_id}')">Unchallenge</button></td>
+            <td><button id="loggedinuserbutton">You</button></td>
           `;
-  
           if (player.losses || player.wins) {
             let winLossRatio;
             if (player.losses) {
@@ -53,6 +54,15 @@ function testLoadLeaderboard() {
             row.children[7].children[0].classList.remove("active");
             row.children[6].children[0].classList.add("active");
           }
+
+           if (LoggedInUser === player.user_id){
+            console.log(LoggedInUser, player.user_id);
+            row.children[8].children[0].classList.add("theUser");
+            row.children[7].children[0].classList.remove("active");
+            row.children[6].children[0].classList.remove("active");
+          }
+
+          
   
           ladder.appendChild(row);
         });
@@ -65,7 +75,6 @@ function testLoadLeaderboard() {
   }
 //Displayes the top 3 players in the leaderboard
 function topPlayers(playerData) {
-    console.log(playerData[2].profile_image)
     const top1 = playerData.find(player => player.placement === "1");
     const top2 = playerData.find(player => player.placement === "2");
     const top3 = playerData.find(player => player.placement === "3");
