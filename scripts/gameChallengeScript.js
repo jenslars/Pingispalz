@@ -52,11 +52,13 @@ fetch('/matchFromChallenger')
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
             matchId: match_id
-            }))};
+            }))
+            window.location.reload();};
             function declineChallenge(match_id){
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '/declineMatch');
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.send(JSON.stringify({
                 matchId: match_id
-            }))};
+            }))
+            window.location.reload();};

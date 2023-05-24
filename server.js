@@ -786,7 +786,6 @@ app.post('/acceptedChallenge', async (req, res) => {
   console.log("Challenge Accepted!");
   const client = await pool.connect();
   try {
-    const status = "PENDING";
     await pool.query( 
       `WITH moved_rows AS (
         DELETE FROM matches
@@ -797,7 +796,7 @@ app.post('/acceptedChallenge', async (req, res) => {
       SELECT recipient_id, challenger_id, server_id, match_id, status
       FROM moved_rows;
     `,
-      [matchId], [status]
+      [matchId]
     ); 
 
     res.status(200).send('Success, challenge Accepted');
