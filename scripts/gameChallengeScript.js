@@ -13,7 +13,6 @@ fetch('/getLoggedInUserInfo')
 fetch('/matchFromChallenger')
                 .then(response => response.json())
                 .then(data => {
-                    let inviteSent;
                     let matchList = data.matchList;
                     let tableHtml = '<table>';
                     if (matchList.length === 0) {
@@ -47,18 +46,20 @@ fetch('/matchFromChallenger')
                 })
                 .catch(error => console.error(error));
             function acceptedChallenge(match_id){
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST','/acceptedChallenge');
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify({
-            matchId: match_id
-            }))
-            window.location.reload();};
+              // This sends data to the server that the users wants to accept the match
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST','/acceptedChallenge');
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify({
+                matchId: match_id}))
+                window.location.reload();
+            };
             function declineChallenge(match_id){
+                // This sends data to the server that the users wants to decline the match
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '/declineMatch');
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.send(JSON.stringify({
-                matchId: match_id
-            }))
-            window.location.reload();};
+                matchId: match_id}))
+                window.location.reload();
+            };
