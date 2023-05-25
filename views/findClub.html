@@ -7,9 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="org.css">
+    <link rel="stylesheet" type="text/css" href="findClubStyle.css">
     <link rel="stylesheet" type="text/css" href="navigationSidebar.css">
-    <title>create an org</title>
+    <title>Find club</title>
 </head>
 <body>
     <div class="grid-container" id="blur">
@@ -72,21 +72,23 @@
         <div id="content">
             <main>
                 <header>
-                    <h1 id="itemCenter">Create New Club</h1>
+                    <h1 id="itemCenter">Find club</h1>
                 </header>
                 <section>
-                    <form id="createOrgForm" action="/createOrg" method="post" enctype="multipart/form-data">
-                        <input id="tableName" name="tableName" type="text" placeholder="Club name" maxlength="25" required>
-                        <input type="file" name="image" id="image" required />
-                        <label for="image"><img id="uploadImage" src="add-image-white.png"></img>&nbsp; Club image</label>
-                        <span>
-                            <strong>Chosen file:</strong>
-                            <span id="fileName">None</span>
-                        </span>
-                        <textarea name="tableDescription" id="tableDescription" cols="33" rows="10" placeholder="Description text..." maxlength="255" required></textarea>
-                        <button type="submit" id="submitButton">Create Club</button>
-                        <p id="error-message"></p>
-                    </form>                
+                    <div id="join-club-success"></div>
+                    <div id="join-club-error"></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><a>Club image</a></th>
+                                <th><a>Club name</a></th>
+                                <th><a>Owner</a></th>
+                                <th><a>Description</a></th>
+                                <th><!--Space--></th>
+                            </tr>
+                        </thead>
+                        <tbody id="clubs"></tbody>
+                    </table>           
                 </section>
             </main>
         </div>
@@ -117,7 +119,7 @@
             </footer>
         </div>
     </div>
-    <script src="createOrgScripts.js"></script>
+    <script src="findClubScript.js"></script>
     <script src="navbarScript.js"></script>
 </body>
 </html>
