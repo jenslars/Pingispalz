@@ -291,6 +291,12 @@ tr:nth-child(even) {
     transition: 0.2s all ease;  
     cursor: pointer;
 }
+#winRatio:hover {
+    color: #fff;
+    text-decoration: underline;
+    transition: 0.2s all ease;  
+    cursor: pointer;
+}
 #wins:hover {
     color: #fff;
     text-decoration: underline;
