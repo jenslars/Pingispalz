@@ -922,6 +922,7 @@ app.get('/fetchMatches', async (req, res) => {
          r.loser, 
          r.recipient_id, 
          r.challenger_id,
+         r.to_confirm,
          ur.user_id AS recipient_user_id,
          ur.username AS recipient_username,
          ur.profile_image AS recipient_profile_image,
@@ -960,6 +961,7 @@ app.get('/fetchMatches', async (req, res) => {
         opponentUserId: match[opponent + '_user_id'],
         leaderboardName: match.leaderboard_name,
         status: match.status,
+        to_confirm: match.to_confirm
       };
     });
 
@@ -1017,6 +1019,7 @@ app.get('/matchHistory', async (req, res) => {
         playerPoints: match[player + 'points'],
         opponentPoints: match[opponent + 'points'],
         opponentUserId: match[opponent + '_user_id'],
+        loggedInUserId: match.loggedInUserId
       };
     });
 
@@ -1095,7 +1098,6 @@ app.post('/registerResult', async (req, res) => {
     console.error(err);
     res.status(500).send({ message: 'Unable to register the result' });
   }
-
   client.release();
 });
 
@@ -1117,6 +1119,8 @@ app.post('/confirmResult', async (req, res) => {
   }
   res.end();
 });
+
+
 
 app.get('/:page', (req, res) => {
   //Function to fetch html document, always keep on bottom of server.js!

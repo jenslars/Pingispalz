@@ -71,161 +71,171 @@ function declineChallenge(match_id){
 };
 
 function fetchMatches() {
-    fetch('/fetchMatches')
-      .then((response) => response.json())
-      .then((matches) => {
-        const matchContainer = document.getElementById('fetchedmatches');
-  
-        matches.forEach((match) => {
-          const matchDiv = document.createElement('div');
-          matchDiv.className = 'match';
-  
-          const playerDiv = document.createElement('div');
-          playerDiv.className = 'matchloggedinuser';
-  
-          const playerImage = document.createElement('img');
-          playerImage.src = match.playerProfileImage || 'stockuserimage.png';
-          playerImage.className = 'matchloggedinuserimg';
-  
-          const playerName = document.createElement('p');
-          playerName.className = 'matchloggedinusername';
-          playerName.textContent = match.playerUsername;
-  
-          playerDiv.appendChild(playerImage);
-          playerDiv.appendChild(playerName);
-  
-          const statusDiv = document.createElement('div');
-          statusDiv.className = 'matchstatus';
-          if (match.status === 'PENDING') {
-            const matchleaderboard = document.createElement('p');
-            matchleaderboard.className = 'matchleaderboard';
-            matchleaderboard.textContent = match.leaderboard_name;
-  
-            const matchcurrentstatus = document.createElement('p');
-            matchcurrentstatus.className = 'matchleaderboard';
-            matchcurrentstatus.textContent = 'Pending';
-  
-            statusDiv.appendChild(matchleaderboard);
-            statusDiv.appendChild(matchcurrentstatus);
-          } else if (match.status === 'FINISHED') {
-            const winText = document.createElement('p');
-            winText.className = 'won';
-  
-            if (match.playerPoints < match.opponentPoints) {
-              winText.textContent = 'WIN';
-            } else {
-              winText.textContent = 'LOST';
-              winText.classList.add('lost');
-            }
-  
-            const scoreDiv = document.createElement('div');
-            scoreDiv.className = 'matchresults';
-  
-            const playerScore = document.createElement('p');
-            playerScore.className = 'loggedinuserresult';
-            playerScore.textContent = match.playerPoints;
-  
-            const divider = document.createElement('p');
-            divider.className = 'divider';
-            divider.textContent = '-';
-  
-            const opponentScore = document.createElement('p');
-            opponentScore.className = 'opponentresult';
-            opponentScore.textContent = match.opponentPoints;
-  
-            scoreDiv.appendChild(playerScore);
-            scoreDiv.appendChild(divider);
-            scoreDiv.appendChild(opponentScore);
-  
-            statusDiv.appendChild(winText);
-            statusDiv.appendChild(scoreDiv);
-          } else if (match.status === 'TOBECONFIRMED') {
-            const matchleaderboard = document.createElement('p');
-            matchleaderboard.className = 'matchleaderboard';
-            matchleaderboard.textContent = match.leaderboard_name;
-  
-            const matchcurrentstatus = document.createElement('p');
-            matchcurrentstatus.className = 'matchleaderboard';
-            matchcurrentstatus.textContent = 'To be confirmed';
-  
-            statusDiv.appendChild(matchleaderboard);
-            statusDiv.appendChild(matchcurrentstatus);
+  fetch('/fetchMatches')
+    .then((response) => response.json())
+    .then((matches) => {
+      const matchContainer = document.getElementById('fetchedmatches');
+
+      matches.forEach((match) => {
+        const matchDiv = document.createElement('div');
+        matchDiv.className = 'match';
+
+        const playerDiv = document.createElement('div');
+        playerDiv.className = 'matchloggedinuser';
+
+        const playerImage = document.createElement('img');
+        playerImage.src = match.playerProfileImage || 'stockuserimage.png';
+        playerImage.className = 'matchloggedinuserimg';
+
+        const playerName = document.createElement('p');
+        playerName.className = 'matchloggedinusername';
+        playerName.textContent = match.playerUsername;
+
+        playerDiv.appendChild(playerImage);
+        playerDiv.appendChild(playerName);
+
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'matchstatus';
+        if (match.status === 'PENDING') {
+          const matchleaderboard = document.createElement('p');
+          matchleaderboard.className = 'matchleaderboard';
+          matchleaderboard.textContent = match.leaderboard_name;
+
+          const matchcurrentstatus = document.createElement('p');
+          matchcurrentstatus.className = 'matchleaderboard';
+          matchcurrentstatus.textContent = 'Pending';
+
+          statusDiv.appendChild(matchleaderboard);
+          statusDiv.appendChild(matchcurrentstatus);
+        } else if (match.status === 'FINISHED') {
+          const winText = document.createElement('p');
+          winText.className = 'won';
+
+          if (match.playerPoints < match.opponentPoints) {
+            winText.textContent = 'WIN';
+          } else {
+            winText.textContent = 'LOST';
+            winText.classList.add('lost');
           }
-  
-          const opponentLink = document.createElement('a');
-          opponentLink.href = '/viewProfile/' + match.opponentUserId;
-          opponentLink.className = 'opponentuserlink';
-  
-          const opponentDiv = document.createElement('div');
-          opponentDiv.className = 'matchopponent';
-  
-          const opponentImage = document.createElement('img');
-          opponentImage.src = match.opponentProfileImage || 'stockuserimage.png';
-          opponentImage.className = 'matchopponentimg';
-  
-          const opponentName = document.createElement('p');
-          opponentName.className = 'matchopponentname';
-          opponentName.textContent = match.opponentUsername;
-  
-          opponentDiv.appendChild(opponentImage);
-          opponentDiv.appendChild(opponentName);
-  
-          opponentLink.appendChild(opponentDiv);
-  
-          matchDiv.appendChild(playerDiv);
-          matchDiv.appendChild(statusDiv);
-          matchDiv.appendChild(opponentLink);
 
-          const actionsDiv = document.createElement('div');
-            actionsDiv.className = 'matchactions';
+          const scoreDiv = document.createElement('div');
+          scoreDiv.className = 'matchresults';
 
-            console.log(match.status)
-            if (match.status === 'PENDING') {
-            console.log("ifsatsen")
-            const registerButton = document.createElement('button')
-            registerButton.className = 'registerresult'
-            registerButton.textContent = 'Register result'
-            registerButton.setAttribute("onclick", `registerResultPopup('${match.opponentUserId}', '${match.matchId}')`);
-            const cancelButton = document.createElement('button')
-            cancelButton.className = 'contestresult'
-            cancelButton.textContent = 'Contest result'
+          const playerScore = document.createElement('p');
+          playerScore.className = 'loggedinuserresult';
+          playerScore.textContent = match.playerPoints;
 
-            actionsDiv.appendChild(registerButton);
-            actionsDiv.appendChild(cancelButton);
-            } else if (match.status === 'FINISHED') {
-            const rematchButton = document.createElement('button')
-            rematchButton.className = 'rematch'
-            rematchButton.textContent = 'Rematch'
+          const divider = document.createElement('p');
+          divider.className = 'divider';
+          divider.textContent = '-';
 
-            actionsDiv.appendChild(rematchButton);
-            } else if (match.status === 'TOBECONFIRMED') {
-            const confirmButton = document.createElement('button')
-            confirmButton.className = 'confirmresult'
-            confirmButton.textContent = 'Confirm result'
-            confirmButton.setAttribute("onclick", `confirmResult('${match.matchId}')`);
-            const contestButton = document.createElement('button')
-            contestButton.className = 'contestresult'
-            contestButton.textContent = 'Contest result'
+          const opponentScore = document.createElement('p');
+          opponentScore.className = 'opponentresult';
+          opponentScore.textContent = match.opponentPoints;
 
-            actionsDiv.appendChild(confirmButton);
-            actionsDiv.appendChild(contestButton);
-            }
+          scoreDiv.appendChild(playerScore);
+          scoreDiv.appendChild(divider);
+          scoreDiv.appendChild(opponentScore);
 
-            matchDiv.appendChild(playerDiv);
-            matchDiv.appendChild(statusDiv);
-            matchDiv.appendChild(opponentLink);
-            matchDiv.appendChild(actionsDiv);
+          statusDiv.appendChild(winText);
+          statusDiv.appendChild(scoreDiv);
+        } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != match.loggedInUserId) {
+          const matchleaderboard = document.createElement('p');
+          matchleaderboard.className = 'matchleaderboard';
+          matchleaderboard.textContent = 'test';
 
-            matchContainer.appendChild(matchDiv);
+          const matchcurrentstatus = document.createElement('p');
+          matchcurrentstatus.className = 'matchleaderboard';
+          matchcurrentstatus.textContent = 'waiting for confirmation';
 
-  
-          matchContainer.appendChild(matchDiv);
-        });
-      })
-      .catch((error) => {
-        console.error(error);
+          statusDiv.appendChild(matchleaderboard);
+          statusDiv.appendChild(matchcurrentstatus);
+
+        } else if (match.status === 'TOBECONFIRMED') {
+          const matchleaderboard = document.createElement('p');
+          matchleaderboard.className = 'matchleaderboard';
+          matchleaderboard.textContent = match.leaderboard_name;
+
+          const matchcurrentstatus = document.createElement('p');
+          matchcurrentstatus.className = 'matchleaderboard';
+          matchcurrentstatus.textContent = 'To be confirmed';
+
+          statusDiv.appendChild(matchleaderboard);
+          statusDiv.appendChild(matchcurrentstatus);
+        }
+
+        const opponentLink = document.createElement('a');
+        opponentLink.href = '/viewProfile/' + match.opponentUserId;
+        opponentLink.className = 'opponentuserlink';
+
+        const opponentDiv = document.createElement('div');
+        opponentDiv.className = 'matchopponent';
+
+        const opponentImage = document.createElement('img');
+        opponentImage.src = match.opponentProfileImage || 'stockuserimage.png';
+        opponentImage.className = 'matchopponentimg';
+
+        const opponentName = document.createElement('p');
+        opponentName.className = 'matchopponentname';
+        opponentName.textContent = match.opponentUsername;
+
+        opponentDiv.appendChild(opponentImage);
+        opponentDiv.appendChild(opponentName);
+
+        opponentLink.appendChild(opponentDiv);
+
+        matchDiv.appendChild(playerDiv);
+        matchDiv.appendChild(statusDiv);
+        matchDiv.appendChild(opponentLink);
+
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'matchactions';
+
+        console.log(match.status);
+        if (match.status === 'PENDING') {
+          console.log("ifsatsen");
+          const registerButton = document.createElement('button');
+          registerButton.className = 'registerresult';
+          registerButton.textContent = 'Register result';
+          registerButton.setAttribute("onclick", `registerResultPopup('${match.opponentUserId}', '${match.matchId}')`);
+          const cancelButton = document.createElement('button');
+          cancelButton.className = 'contestresult';
+          cancelButton.textContent = 'Contest result';
+
+          actionsDiv.appendChild(registerButton);
+          actionsDiv.appendChild(cancelButton);
+        } else if (match.status === 'FINISHED') {
+          const rematchButton = document.createElement('button');
+          rematchButton.className = 'rematch';
+          rematchButton.textContent = 'Rematch';
+
+          actionsDiv.appendChild(rematchButton);
+        } else if (match.status === 'TOBECONFIRMED') {
+          const confirmButton = document.createElement('button');
+          confirmButton.className = 'confirmresult';
+          confirmButton.textContent = 'Confirm result';
+          confirmButton.setAttribute("onclick", `confirmResult('${match.matchId}')`);
+          const contestButton = document.createElement('button');
+          contestButton.className = 'contestresult';
+          contestButton.textContent = 'Contest result';
+
+          actionsDiv.appendChild(confirmButton);
+          actionsDiv.appendChild(contestButton);
+        }
+
+        matchDiv.appendChild(playerDiv);
+        matchDiv.appendChild(statusDiv);
+        matchDiv.appendChild(opponentLink);
+        matchDiv.appendChild(actionsDiv);
+
+        matchContainer.appendChild(matchDiv);
       });
-  }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 
 function confirmResult(matchId){
     var xhr = new XMLHttpRequest();
