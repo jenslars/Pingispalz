@@ -37,8 +37,6 @@ function getResults(){
     }
 }
 
-
-
 function player1Victory(player_1, player_2){
     const highest = Math.max(player_1.elo, player_2.elo);
     const lowest = Math.min(player_1.elo, player_2.elo);
