@@ -75,8 +75,9 @@ function fetchMatches() {
     .then((response) => response.json())
     .then((matches) => {
       const matchContainer = document.getElementById('fetchedmatches');
-
+      
       matches.forEach((match) => {
+        console.log(match.leaderboard_name)
         const matchDiv = document.createElement('div');
         matchDiv.className = 'match';
 
@@ -142,26 +143,76 @@ function fetchMatches() {
         } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != match.loggedInUserId) {
           const matchleaderboard = document.createElement('p');
           matchleaderboard.className = 'matchleaderboard';
-          matchleaderboard.textContent = 'test';
+          matchleaderboard.textContent = match.leaderboard_name;
 
-          const matchcurrentstatus = document.createElement('p');
-          matchcurrentstatus.className = 'matchleaderboard';
-          matchcurrentstatus.textContent = 'waiting for confirmation';
+          const winText = document.createElement('p');
+          winText.className = 'won';
 
-          statusDiv.appendChild(matchleaderboard);
-          statusDiv.appendChild(matchcurrentstatus);
+          if (match.playerPoints < match.opponentPoints) {
+            winText.textContent = 'WIN';
+          } else {
+            winText.textContent = 'LOST';
+            winText.classList.add('lost');
+          }
+
+          const scoreDiv = document.createElement('div');
+          scoreDiv.className = 'matchresults';
+
+          const playerScore = document.createElement('p');
+          playerScore.className = 'loggedinuserresult';
+          playerScore.textContent = match.playerPoints;
+
+          const divider = document.createElement('p');
+          divider.className = 'divider';
+          divider.textContent = '-';
+
+          const opponentScore = document.createElement('p');
+          opponentScore.className = 'opponentresult';
+          opponentScore.textContent = match.opponentPoints;
+
+          scoreDiv.appendChild(playerScore);
+          scoreDiv.appendChild(divider);
+          scoreDiv.appendChild(opponentScore);
+
+          statusDiv.appendChild(winText);
+          statusDiv.appendChild(scoreDiv);
 
         } else if (match.status === 'TOBECONFIRMED') {
           const matchleaderboard = document.createElement('p');
           matchleaderboard.className = 'matchleaderboard';
           matchleaderboard.textContent = match.leaderboard_name;
 
-          const matchcurrentstatus = document.createElement('p');
-          matchcurrentstatus.className = 'matchleaderboard';
-          matchcurrentstatus.textContent = 'To be confirmed';
+          const winText = document.createElement('p');
+          winText.className = 'won';
 
-          statusDiv.appendChild(matchleaderboard);
-          statusDiv.appendChild(matchcurrentstatus);
+          if (match.playerPoints < match.opponentPoints) {
+            winText.textContent = 'WIN';
+          } else {
+            winText.textContent = 'LOST';
+            winText.classList.add('lost');
+          }
+
+          const scoreDiv = document.createElement('div');
+          scoreDiv.className = 'matchresults';
+
+          const playerScore = document.createElement('p');
+          playerScore.className = 'loggedinuserresult';
+          playerScore.textContent = match.playerPoints;
+
+          const divider = document.createElement('p');
+          divider.className = 'divider';
+          divider.textContent = '-';
+
+          const opponentScore = document.createElement('p');
+          opponentScore.className = 'opponentresult';
+          opponentScore.textContent = match.opponentPoints;
+
+          scoreDiv.appendChild(playerScore);
+          scoreDiv.appendChild(divider);
+          scoreDiv.appendChild(opponentScore);
+
+          statusDiv.appendChild(winText);
+          statusDiv.appendChild(scoreDiv);
         }
 
         const opponentLink = document.createElement('a');
@@ -191,9 +242,7 @@ function fetchMatches() {
         const actionsDiv = document.createElement('div');
         actionsDiv.className = 'matchactions';
 
-        console.log(match.status);
         if (match.status === 'PENDING') {
-          console.log("ifsatsen");
           const registerButton = document.createElement('button');
           registerButton.className = 'registerresult';
           registerButton.textContent = 'Register result';
@@ -210,7 +259,13 @@ function fetchMatches() {
           rematchButton.textContent = 'Rematch';
 
           actionsDiv.appendChild(rematchButton);
-        } else if (match.status === 'TOBECONFIRMED') {
+        } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != match.loggedInUserId) {
+          const rematchButton = document.createElement('button');
+          rematchButton.className = 'toBeConfirmed';
+          rematchButton.textContent = 'Waiting for confirmation';
+
+          actionsDiv.appendChild(rematchButton);
+          } else if (match.status === 'TOBECONFIRMED') {
           const confirmButton = document.createElement('button');
           confirmButton.className = 'confirmresult';
           confirmButton.textContent = 'Confirm result';

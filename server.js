@@ -961,7 +961,8 @@ app.get('/fetchMatches', async (req, res) => {
         opponentUserId: match[opponent + '_user_id'],
         leaderboardName: match.leaderboard_name,
         status: match.status,
-        to_confirm: match.to_confirm
+        to_confirm: match.to_confirm,
+        loggedInUserId
       };
     });
 
@@ -1019,7 +1020,6 @@ app.get('/matchHistory', async (req, res) => {
         playerPoints: match[player + 'points'],
         opponentPoints: match[opponent + 'points'],
         opponentUserId: match[opponent + '_user_id'],
-        loggedInUserId: match.loggedInUserId
       };
     });
 
