@@ -88,6 +88,7 @@
     background-color: #54a8a8;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transition: 0.3s;
+    cursor: pointer;
 }
 
 #leaderboardpopup p{
@@ -125,6 +126,7 @@
     background-color: #54a8a8;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transition: 0.3s;
+    cursor: pointer;
 }
 
 #exitpopup {
@@ -134,6 +136,10 @@
     border: none;
     padding: 20px;
     background-color: #fff;
+}
+
+#exitpopup:hover {
+    cursor: pointer
 }
 
 .flex-container {
@@ -240,6 +246,7 @@
     background-image: url(addwhite.png);
     transition: 0.4s;
     border-radius: 14px;
+    cursor: pointer;
 }
 
 #findclub{
@@ -253,6 +260,10 @@
 #findclubtext{
     display: flex;
     flex-direction: column;
+}
+
+#findclub:hover {
+    cursor: pointer;
 }
 
 #findclubtext h2{
@@ -320,6 +331,7 @@
     background-image: url(compasswhite.png);
     transition: 0.4s;
     border-radius: 14px;
+    cursor: pointer;
 }
 
 #searchfield.active input{
@@ -589,6 +601,10 @@ body{
     margin-left: -12px;
     margin-top: 40px;
     transition: 0.2s;
+}
+
+#changestatusbutton:hover {
+    cursor: pointer;
 }
 
 #changestatusbutton.online{

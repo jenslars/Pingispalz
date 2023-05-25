@@ -331,6 +331,23 @@ app.post('/uploadUserDescriptionForm', async (req, res) => {
   client.release();
 });
 
+app.post('/findClub', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const results = await pool.query(`
+    SELECT *, username
+    FROM leaderboards
+    JOIN users ON owner = user_id
+  `)
+    res.status(200).send(results.rows)
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+})
+
 app.get('/leaderboard', (req, res) => {
   const page = req.params.page;
   fs.readFile('Leaderboard.html', function(error, data) {

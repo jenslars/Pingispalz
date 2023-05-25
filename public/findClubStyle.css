@@ -1,0 +1,89 @@
+body {
+    font-family: 'Lexend', sans-serif;
+    margin:0;
+}
+
+#itemCenter {
+    margin: 0;
+    color: #fff;
+    padding-top: 75px;
+    text-align: center;
+    font-size: 2rem;
+    width: 100%;
+}
+
+main {
+    background: linear-gradient(180deg, rgba(102, 204, 204, 0.63) 0%, rgba(102, 204, 204, 0.0) 100%);
+    width: 100%;
+}
+
+table {
+    background-color: #fff;
+    width: 100%;
+    border-spacing: 0px;
+    border-radius: 10px;
+}
+
+.clubImage {
+    width: 75px;
+
+}
+
+tr:nth-child(odd){
+    background-color: #f2f2f2
+}
+
+th {
+    background-color: #66CCCC;
+    color: #FFF;
+    height: 60px;
+}
+
+table, th, td {
+    /* border: 2px solid #000; */
+    text-align: center;
+}
+
+table td {
+    height: 80px;
+    min-width: 150px;
+}
+
+table td button {
+    padding: 15px;
+    margin: 15px;
+    background-color: #66CCCC;
+    color: #FFF;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Lexend', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+table td button:hover {
+    background-color: #54a8a8;
+    border-radius: 5px;
+    font-family: 'Lexend', sans-serif;
+    cursor: pointer;
+}
+
+header {
+    grid-column: 1/5;
+    grid-row: 1/ 3;
+    width: 100%;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 200px;
+}
+
+section {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 780px) {
+    /* mobile version */
+}
