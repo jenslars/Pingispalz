@@ -692,28 +692,26 @@ app.get('/matchFromChallenger', async (req, res) => {
       u1.profile_image AS challenger_profile_image,
       m.status
       
-    FROM
-      matches m
-    JOIN
-      users u1 ON m.challenger_id = u1.user_id
-    JOIN
-      users u2 ON m.recipient_id = u2.user_id
-    JOIN
-      leaderboards lb ON m.server_id = lb.id
-    WHERE
-      m.recipient_id = $1;`, [loggedInUserId]
+      FROM
+        matches m
+      JOIN
+        users u1 ON m.challenger_id = u1.user_id
+      JOIN
+        users u2 ON m.recipient_id = u2.user_id
+      JOIN
+        leaderboards lb ON m.server_id = lb.id
+      WHERE
+        m.recipient_id = $1;`, [loggedInUserId]
     );
     let matchList = list.rows.map(row => [
-      list.rows[0].challenger_username,
-      list.rows[0].recipient_username,
-      list.rows[0].server_name,
-      list.rows[0].match_id,
-      list.rows[0].challenger_profile_image
+      row.challenger_username,
+      row.recipient_username,
+      row.server_name,
+      row.match_id,
+      row.challenger_profile_image
     ]);
-    let inviteSent = true;
     res.status(200).send({
       matchList: matchList,
-      inviteSent: true
       //status: statusing
     });
   } catch (err) {
