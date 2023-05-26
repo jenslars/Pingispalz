@@ -807,7 +807,6 @@ app.get('/fetchMatches', async (req, res) => {
     const matchData = matchesFetched.rows.map((match) => {
       const player = match.recipient_id === loggedInUserId ? 'recipient' : 'challenger';
       const opponent = player === 'recipient' ? 'challenger' : 'recipient';
-
       return {
         matchId: match.match_id,
         playerUsername: match[player + '_username'],
@@ -820,11 +819,16 @@ app.get('/fetchMatches', async (req, res) => {
         leaderboardName: match.leaderboard_name,
         status: match.status,
         to_confirm: match.to_confirm,
-        loggedInUserId
+        winner: match.winner // Add the winner property
       };
     });
 
-    res.status(200).send(matchData);
+    const response = {
+      loggedInUserId: loggedInUserId,
+      matchData: matchData
+    };
+
+    res.status(200).send(response);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
@@ -832,6 +836,7 @@ app.get('/fetchMatches', async (req, res) => {
     client.release();
   }
 });
+
 
 app.get('/matchHistory', async (req, res) => {
   //Fetches logged in users match history
@@ -891,55 +896,72 @@ app.get('/matchHistory', async (req, res) => {
 });
 
 app.post('/contestResult', async (req, res) => {
-  console.log("vi är i register result")
-  //Registers result from game
+  // Registers result from game
   const { yourScore, theirScore, matchId, opponentPlayerId } = req.body;
   const client = await pool.connect();
   const status = 'TOBECONFIRMED';
-  
+
   try {
     let winner, loser, recipientpoints, challengerpoints, updatedField;
-    
-    // Update the result based on recipient_id and match_id
-    const recipientResult = await pool.query(`
-      UPDATE results
-      SET recipientpoints = $1, challengerpoints = $2
-      WHERE recipient_id = $3 AND match_id = $4
-      RETURNING recipientpoints, challengerpoints
-    `, [theirScore, yourScore, loggedInUserId, matchId]);
-    
-    if (recipientResult.rowCount > 0) {
-      updatedField = 'recipientpoints';
-      recipientpoints = theirScore;
-      challengerpoints = yourScore;
-      winner = loggedInUserId;
-      loser = opponentPlayerId;
-    } else {
-      // Update the result based on challenger_id and match_id
-      const challengerResult = await pool.query(`
+
+    // Check if the logged-in user is the recipient
+    const recipientMatch = await pool.query(`
+      SELECT *
+      FROM results
+      WHERE recipient_id = $1 AND match_id = $2
+    `, [loggedInUserId, matchId]);
+
+    if (recipientMatch.rowCount > 0) {
+      // Update the result based on recipient_id and match_id
+      const recipientResult = await pool.query(`
         UPDATE results
-        SET recipientpoints = $1, challengerpoints = $2
-        WHERE challenger_id = $3 AND match_id = $4
-        RETURNING recipientpoints, challengerpoints
-      `, [theirScore, yourScore, loggedInUserId, matchId]);
-      
-      if (challengerResult.rowCount > 0) {
-        updatedField = 'challengerpoints';
-        recipientpoints = theirScore;
-        challengerpoints = yourScore;
-        winner = opponentPlayerId;
-        loser = loggedInUserId;
+        SET recipientpoints = $1, to_confirm = $2
+        WHERE recipient_id = $3 AND match_id = $4
+        RETURNING recipientpoints, challengerpoints, winner, loser
+      `, [yourScore, status, loggedInUserId, matchId]);
+
+      if (recipientResult.rowCount > 0) {
+        updatedField = 'recipientpoints';
+        recipientpoints = yourScore;
+        challengerpoints = recipientResult.rows[0].challengerpoints;
+        winner = recipientResult.rows[0].winner;
+        loser = recipientResult.rows[0].loser;
+      }
+    } else {
+      // Check if the logged-in user is the challenger
+      const challengerMatch = await pool.query(`
+        SELECT *
+        FROM results
+        WHERE challenger_id = $1 AND match_id = $2
+      `, [loggedInUserId, matchId]);
+
+      if (challengerMatch.rowCount > 0) {
+        // Update the result based on challenger_id and match_id
+        const challengerResult = await pool.query(`
+          UPDATE results
+          SET challengerpoints = $1, to_confirm = $2
+          WHERE challenger_id = $3 AND match_id = $4
+          RETURNING recipientpoints, challengerpoints, winner, loser
+        `, [yourScore, status, loggedInUserId, matchId]);
+
+        if (challengerResult.rowCount > 0) {
+          updatedField = 'challengerpoints';
+          recipientpoints = challengerResult.rows[0].recipientpoints;
+          challengerpoints = yourScore;
+          winner = challengerResult.rows[0].winner;
+          loser = challengerResult.rows[0].loser;
+        }
       }
     }
-    
+
     if (updatedField) {
-      // Update the winner, loser, status, and to_confirm fields in the result
+      // Update the winner, loser, status fields in the result
       await pool.query(`
         UPDATE results
-        SET winner = $1, loser = $2, status = $3, to_confirm = $4
-        WHERE match_id = $5
-      `, [winner, loser, status, opponentPlayerId, matchId]);
-      
+        SET winner = $1, loser = $2, status = $3
+        WHERE match_id = $4
+      `, [winner, loser, status, matchId]);
+
       res.status(200).send({ message: 'Successfully registered the result' });
     } else {
       res.status(404).send({ message: 'No matching record found' });
@@ -948,21 +970,24 @@ app.post('/contestResult', async (req, res) => {
     console.error(err);
     res.status(500).send({ message: 'Unable to register the result' });
   }
-  
+
   client.release();
 });
 
 
+
+
+
+
 app.post('/registerResult', async (req, res) => {
-  console.log("vi är i register result")
-  //Registers result from game
+  // Registers result from game
   const { yourScore, theirScore, matchId, opponentPlayerId } = req.body;
   const client = await pool.connect();
   const status = 'TOBECONFIRMED';
   let winner, loser, recipientpoints, challengerpoints, updatedField;
 
   try {
-    const recipientResult = await pool.query(`
+    const recipientResult = await client.query(`
       UPDATE results
       SET recipientpoints = CASE
         WHEN recipientpoints IS NULL THEN $1
@@ -975,14 +1000,13 @@ app.post('/registerResult', async (req, res) => {
       WHERE recipient_id = $3 AND match_id = $4
       RETURNING recipientpoints, challengerpoints
     `, [theirScore, yourScore, opponentPlayerId, matchId]);
-    console.log(recipientResult)
+
     if (recipientResult.rowCount > 0) {
       updatedField = 'recipientpoints';
       recipientpoints = theirScore;
       challengerpoints = yourScore;
-      
     } else {
-      const challengerResult = await pool.query(`
+      const challengerResult = await client.query(`
         UPDATE results
         SET recipientpoints = CASE
           WHEN challengerpoints IS NULL THEN $1
@@ -994,8 +1018,8 @@ app.post('/registerResult', async (req, res) => {
         END
         WHERE challenger_id = $3 AND match_id = $4
         RETURNING recipientpoints, challengerpoints
-      `, [theirScore, yourScore, opponentPlayerId, matchId]);
-      console.log(challengerResult)
+      `, [yourScore, theirScore, opponentPlayerId, matchId]);
+
       if (challengerResult.rowCount > 0) {
         updatedField = 'challengerpoints';
         recipientpoints = theirScore;
@@ -1004,14 +1028,24 @@ app.post('/registerResult', async (req, res) => {
     }
 
     if (parseInt(yourScore) > parseInt(theirScore)) {
-      winner = loggedInUserId;
-      loser = opponentPlayerId;
+      if (opponentPlayerId === loggedInUserId) {
+        winner = opponentPlayerId;
+        loser = loggedInUserId;
+      } else {
+        winner = loggedInUserId;
+        loser = opponentPlayerId;
+      }
     } else {
-      winner = opponentPlayerId;
-      loser = loggedInUserId;
+      if (opponentPlayerId === loggedInUserId) {
+        winner = loggedInUserId;
+        loser = opponentPlayerId;
+      } else {
+        winner = opponentPlayerId;
+        loser = loggedInUserId;
+      }
     }
 
-    await pool.query(`
+    await client.query(`
       UPDATE results
       SET winner = $1, loser = $2, status = $3, to_confirm = $4
       WHERE match_id = $5
@@ -1021,9 +1055,12 @@ app.post('/registerResult', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Unable to register the result' });
+  } finally {
+    client.release();
   }
-  client.release();
 });
+
+
 
 app.post('/confirmResult', async (req, res) => {
   //Confirms registered result

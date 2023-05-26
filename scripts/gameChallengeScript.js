@@ -73,7 +73,10 @@ function declineChallenge(match_id){
 function fetchMatches() {
   fetch('/fetchMatches')
     .then((response) => response.json())
-    .then((matches) => {
+    .then((data) => {
+      const loggedInUserId = data.loggedInUserId; // Get the loggedInUserId from the response
+      const matches = data.matchData; // Get the matchData from the response
+
       const matchContainer = document.getElementById('fetchedmatches');
       
       matches.forEach((match) => {
@@ -111,7 +114,7 @@ function fetchMatches() {
           const winText = document.createElement('p');
           winText.className = 'won';
 
-          if (match.playerPoints < match.opponentPoints) {
+          if (match.winner === loggedInUserId) {
             winText.textContent = 'WIN';
           } else {
             winText.textContent = 'LOST';
@@ -139,7 +142,7 @@ function fetchMatches() {
 
           statusDiv.appendChild(winText);
           statusDiv.appendChild(scoreDiv);
-        } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != match.loggedInUserId) {
+        } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != loggedInUserId) {
           const matchleaderboard = document.createElement('p');
           matchleaderboard.className = 'matchleaderboard';
           matchleaderboard.textContent = match.leaderboard_name;
@@ -147,7 +150,7 @@ function fetchMatches() {
           const winText = document.createElement('p');
           winText.className = 'won';
 
-          if (match.playerPoints < match.opponentPoints) {
+          if (match.winner === loggedInUserId) {
             winText.textContent = 'WIN';
           } else {
             winText.textContent = 'LOST';
@@ -183,8 +186,7 @@ function fetchMatches() {
 
           const winText = document.createElement('p');
           winText.className = 'won';
-
-          if (match.playerPoints < match.opponentPoints) {
+          if (match.winner === loggedInUserId) {
             winText.textContent = 'WIN';
           } else {
             winText.textContent = 'LOST';
@@ -259,7 +261,7 @@ function fetchMatches() {
           rematchButton.textContent = 'Rematch';
 
           actionsDiv.appendChild(rematchButton);
-        } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != match.loggedInUserId) {
+        } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != loggedInUserId) {
           const rematchButton = document.createElement('button');
           rematchButton.className = 'toBeConfirmed';
           rematchButton.textContent = 'Waiting for confirmation';
