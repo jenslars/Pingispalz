@@ -77,7 +77,6 @@ function fetchMatches() {
       const matchContainer = document.getElementById('fetchedmatches');
       
       matches.forEach((match) => {
-        console.log(match.leaderboard_name)
         const matchDiv = document.createElement('div');
         matchDiv.className = 'match';
 
@@ -274,6 +273,7 @@ function fetchMatches() {
           const contestButton = document.createElement('button');
           contestButton.className = 'contestresult';
           contestButton.textContent = 'Contest result';
+          contestButton.setAttribute("onclick", `contestResultPopup('${match.opponentUserId}', '${match.matchId}')`);
 
           actionsDiv.appendChild(confirmButton);
           actionsDiv.appendChild(contestButton);
@@ -292,6 +292,22 @@ function fetchMatches() {
     });
 }
 
+function contestResultPopup(OpponentPlayerId, MatchId) {
+  var contestResultPopup = document.getElementById('contestResultPopup');
+  var gridcontainerLink = document.getElementById('blur');
+  contestResultPopup.classList.add('active');
+
+  matchIdInput.value = MatchId
+  opponentPlayerIdInput.value = OpponentPlayerId
+};
+
+function exitregisterResultPopup(){
+  var contestResultPopup = document.getElementById('contestResultPopup');
+  var gridcontainerLink = document.getElementById('blur');
+  var registerResultPopupDiv = document.getElementById('registerResultPopup');
+  contestResultPopup.classList.remove('active');
+  registerResultPopupDiv.classList.remove('active');
+}
 
 function confirmResult(matchId){
     var xhr = new XMLHttpRequest();
@@ -337,9 +353,10 @@ function registerResultPopup(OpponentPlayerId, MatchId) {
     var gridcontainerLink = document.getElementById('blur');
     registerResultPopupDiv.classList.add('active');
 
-    matchIdInput.value = MatchId
-    opponentPlayerIdInput.value = OpponentPlayerId
+    matchIdInput.value = MatchId;
+    opponentPlayerIdInput.value = OpponentPlayerId;
     }
+
 document.getElementById('registerResultForm').addEventListener('submit', function(event) {
     event.preventDefault();
     
@@ -354,7 +371,6 @@ document.getElementById('registerResultForm').addEventListener('submit', functio
     xhr.onload = function() {
         if (xhr.status === 200) {
         document.getElementById('success').innerHTML = 'Successfully registered the result';
-        window.location.reload();
         } else {
         document.getElementById('fail').innerHTML = 'Unable to register the result';
         }
@@ -369,4 +385,33 @@ document.getElementById('registerResultForm').addEventListener('submit', functio
         opponentPlayerId: opponentPlayerId
     }));
     });
+
+    document.getElementById('contestResultForm').addEventListener('submit', function(event) {
+      event.preventDefault();
       
+      const yourScore = document.getElementById('contestyourScoreInput').value;
+      const theirScore = document.getElementById('contesttheirScoreInput').value;
+      const matchId = document.getElementById('matchIdInput').value;
+      const opponentPlayerId = document.getElementById('opponentPlayerIdInput').value;
+      console.log(opponentPlayerId)
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/contestResult');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+          if (xhr.status === 200) {
+          document.getElementById('success').innerHTML = 'Successfully registered the result';
+          } else {
+          document.getElementById('fail').innerHTML = 'Unable to register the result';
+          }
+      };
+      xhr.onerror = function() {
+          document.getElementById('fail').innerHTML = 'Unable to register the result';
+      };
+      xhr.send(JSON.stringify({
+          yourScore: yourScore,
+          theirScore: theirScore,
+          matchId: matchId,
+          opponentPlayerId: opponentPlayerId
+      }));
+      });
+        

@@ -125,8 +125,23 @@
                         <p id="fail"></p>
                         <p id="success"></p>
                         <button class="submitformbutton" type="submit">Submit</button>
-                        </form>
-                  </div>
+                    </form>
+                </div>
+                <div id="contestResultPopup">
+                    <button class="exitpopup" onclick="exitregisterResultPopup()"></button>
+                    <h1>Register new result</h1>
+                    <form id="contestResultForm">
+                        <p>Your score</p>
+                        <input type="text" id="contestyourScoreInput" class="registerResultInput">
+                        <p>Their score</p>
+                        <input type="text" id="contesttheirScoreInput" class="registerResultInput">
+                        <input type="hidden" id="matchIdInput">
+                        <input type="hidden" id="opponentPlayerIdInput">
+                        <p id="fail"></p>
+                        <p id="success"></p>
+                        <button class="submitformbutton" type="submit">Submit</button>
+                    </form>
+                </div>
             </main>
         </div>
         <div id="leaderboardpopup">

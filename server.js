@@ -890,7 +890,71 @@ app.get('/matchHistory', async (req, res) => {
   }
 });
 
+app.post('/contestResult', async (req, res) => {
+  console.log("vi är i register result")
+  //Registers result from game
+  const { yourScore, theirScore, matchId, opponentPlayerId } = req.body;
+  const client = await pool.connect();
+  const status = 'TOBECONFIRMED';
+  
+  try {
+    let winner, loser, recipientpoints, challengerpoints, updatedField;
+    
+    // Update the result based on recipient_id and match_id
+    const recipientResult = await pool.query(`
+      UPDATE results
+      SET recipientpoints = $1, challengerpoints = $2
+      WHERE recipient_id = $3 AND match_id = $4
+      RETURNING recipientpoints, challengerpoints
+    `, [theirScore, yourScore, loggedInUserId, matchId]);
+    
+    if (recipientResult.rowCount > 0) {
+      updatedField = 'recipientpoints';
+      recipientpoints = theirScore;
+      challengerpoints = yourScore;
+      winner = loggedInUserId;
+      loser = opponentPlayerId;
+    } else {
+      // Update the result based on challenger_id and match_id
+      const challengerResult = await pool.query(`
+        UPDATE results
+        SET recipientpoints = $1, challengerpoints = $2
+        WHERE challenger_id = $3 AND match_id = $4
+        RETURNING recipientpoints, challengerpoints
+      `, [theirScore, yourScore, loggedInUserId, matchId]);
+      
+      if (challengerResult.rowCount > 0) {
+        updatedField = 'challengerpoints';
+        recipientpoints = theirScore;
+        challengerpoints = yourScore;
+        winner = opponentPlayerId;
+        loser = loggedInUserId;
+      }
+    }
+    
+    if (updatedField) {
+      // Update the winner, loser, status, and to_confirm fields in the result
+      await pool.query(`
+        UPDATE results
+        SET winner = $1, loser = $2, status = $3, to_confirm = $4
+        WHERE match_id = $5
+      `, [winner, loser, status, opponentPlayerId, matchId]);
+      
+      res.status(200).send({ message: 'Successfully registered the result' });
+    } else {
+      res.status(404).send({ message: 'No matching record found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Unable to register the result' });
+  }
+  
+  client.release();
+});
+
+
 app.post('/registerResult', async (req, res) => {
+  console.log("vi är i register result")
   //Registers result from game
   const { yourScore, theirScore, matchId, opponentPlayerId } = req.body;
   const client = await pool.connect();
@@ -911,11 +975,12 @@ app.post('/registerResult', async (req, res) => {
       WHERE recipient_id = $3 AND match_id = $4
       RETURNING recipientpoints, challengerpoints
     `, [theirScore, yourScore, opponentPlayerId, matchId]);
-
+    console.log(recipientResult)
     if (recipientResult.rowCount > 0) {
       updatedField = 'recipientpoints';
       recipientpoints = theirScore;
       challengerpoints = yourScore;
+      
     } else {
       const challengerResult = await pool.query(`
         UPDATE results
@@ -930,7 +995,7 @@ app.post('/registerResult', async (req, res) => {
         WHERE challenger_id = $3 AND match_id = $4
         RETURNING recipientpoints, challengerpoints
       `, [theirScore, yourScore, opponentPlayerId, matchId]);
-
+      console.log(challengerResult)
       if (challengerResult.rowCount > 0) {
         updatedField = 'challengerpoints';
         recipientpoints = theirScore;
