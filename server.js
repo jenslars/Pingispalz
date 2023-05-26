@@ -24,6 +24,10 @@ http.createServer(app).listen(port, hostname, () => {
 
 //Declares logged in user
 let loggedInUserId;
+//Declares global leaderboard id
+let GlobalLeaderboardValue;
+//Declares global profile user id  
+let globalViewProfileValue;
 
 //Express routes
 app.use(express.static('images'));
@@ -182,7 +186,7 @@ app.post('/joinClub', async (req, res) => {
 });
 
 app.get('/clubLinks', async (req, res) => {
-  //Function to send users club links
+  //Function to fetch and send users club links
   const client = await pool.connect();
   try {
     const leaderboardIds = await pool.query('SELECT leaderboard_id FROM users_in_leaderboards WHERE user_id = $1', [loggedInUserId]);
@@ -215,28 +219,6 @@ app.get('/getLoggedInUserInfo', async (req, res) => {
         username: username,
         contact_info: contact_info,
         user_bio: user_bio
-      });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({ message: 'Error: Internal server error' });
-  }
-  client.release();
-});
-
-app.get('/getLoggedInUserInfoForNav', async (req, res) => {
-  //Function to send the logged in users data to navbar
-  const client = await pool.connect();
-  try {
-    const result = await pool.query(
-      'SELECT COALESCE(profile_image, \'stockuserimage.png\') as profile_image, username, status FROM users WHERE user_id = $1'
-      , [loggedInUserId]);
-      const profile_image = result.rows[0].profile_image;
-      const username = result.rows[0].username;
-      const status = result.rows[0].status;
-      res.status(200).send({ 
-        profile_image: profile_image,
-        username: username,
-        status: status,
       });
   } catch (err) {
     console.error(err);
@@ -332,6 +314,7 @@ app.post('/uploadUserDescriptionForm', async (req, res) => {
 });
 
 app.post('/findClub', async (req, res) => {
+  //Function to fetch list of existing clubs
   const client = await pool.connect();
   try {
     const results = await pool.query(`
@@ -348,22 +331,8 @@ app.post('/findClub', async (req, res) => {
   }
 })
 
-app.get('/leaderboard', (req, res) => {
-  const page = req.params.page;
-  fs.readFile('Leaderboard.html', function(error, data) {
-    if (error) {
-      res.writeHead(404);
-      res.write('Error: File Not Found');
-    }
-    else {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-    }
-     res.end();
-  });
-})
-
 app.get('/leaderboard/score', async (req, res) => {
+  //Function to fetch leaderboard data
   const client = await pool.connect();
   try {
     const fetchedLeaderboardName = await pool.query('SELECT leaderboard_name FROM leaderboards WHERE id = $1', [GlobalLeaderboardValue]);
@@ -387,7 +356,6 @@ app.get('/leaderboard/score', async (req, res) => {
       JOIN users ON player_id = user_id
       ORDER BY elo DESC
     `);
-    console.log(leaderboardData)
     const response = {
       tableName: tableName,
       pendingMatches: pendingMatches.rows,
@@ -406,7 +374,7 @@ app.get('/leaderboard/score', async (req, res) => {
 });
 
 app.get('/challenge/player', async (req, res) => {
-  //Function to fetch username for logged in user
+  //Function to fetch username for logged in user for challenge popup in leaderboard
   const client = await pool.connect();
   try {
     const userNameForLoggedInUser = await pool.query('SELECT username FROM users WHERE user_id = $1', [loggedInUserId]);
@@ -420,10 +388,8 @@ app.get('/challenge/player', async (req, res) => {
   }
 });
 
-//Declares global leaderboard id
-let GlobalLeaderboardValue;
-
 app.get('/leaderboards/:page', async (req, res) => {
+  //Dynamic link and function to save leaderboards id
   GlobalLeaderboardValue = req.params.page;
   fs.readFile('views/leaderboard.html', function(error, data) {
     if (error) {
@@ -439,11 +405,8 @@ app.get('/leaderboards/:page', async (req, res) => {
   });
 });
 
-//Declares global profile user id  
-let globalViewProfileValue;
-
 app.get('/viewProfile/:page', async (req, res) => {
-  //Dynamic link for viewProfile
+  //Dynamic link and function to save opponents id
   globalViewProfileValue = req.params.page;
   fs.readFile('views/viewProfile.html', function(error, data) {
     if (error) {
@@ -460,7 +423,7 @@ app.get('/viewProfile/:page', async (req, res) => {
 });
 
 app.get('/getViewProfile', async (req, res) => {
-  //Fetches data for a users profile
+  //Fetches data for opponents profile
   const client = await pool.connect();
   try {
     const result = await pool.query(
@@ -521,51 +484,9 @@ app.get('/cancelChallenge', async (req, res) => {
   }
   res.end();
 });
-app.get('/acceptedChallenge', async (req, res) => {
-  const matchId  = req.body.matchId;
-  console.log("wahts up dawg!");
-  const client = await pool.connect();
-  try {
-    await pool.query( 
-      `INSERT into results (challenger_id, recipient_id, server_id, match_id)
-      VALUES ($1, $2, $3, $4)`,
-      [loggedInUserId, globalViewProfileValue, GlobalLeaderboardValue, matchId ]
-    );
-    await pool.query( 
-      `DELETE from matches WHERE challenger_id = $1`,
-      [matchId]
-    );       
-    res.status(200).send('Success, challenge Accepted');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error: Internal server error');
-  } finally {
-    client.release();
-  }
-  res.end();
-});
 
 app.post('/cancelChallengeFromLeaderboard', async (req, res) => {
-  //Cancels challenge through viewProfile
-  const client = await pool.connect();
-  const { recipientId } = req.body;
-  try {
-    await pool.query( 
-      `DELETE from matches WHERE challenger_id = $1 and recipient_id = $2`,
-      [loggedInUserId, recipientId ]
-    );
-    res.status(200).send('Success, challenge cancelled');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error: Internal server error');
-  } finally {
-    client.release();
-  }
-  res.end();
-});
-
-app.post('/cancelChallengeFromLeaderboard', async (req, res) => {
-  //Cancels challenge through viewProfile
+  //Cancels challenge through leaderboard
   const client = await pool.connect();
   const { recipientId } = req.body;
   try {
@@ -602,7 +523,7 @@ app.get('/checkIfUserSentChallenge', async (req, res) => {
 });
 
 app.get('/matchHistoryViewProfile', async (req, res) => {
-  //Fetches users match history
+  //Fetches an opponents match history
   const client = await pool.connect();
   try {
     const matchesPlayed = await pool.query(
@@ -712,7 +633,6 @@ app.get('/matchFromChallenger', async (req, res) => {
     ]);
     res.status(200).send({
       matchList: matchList,
-      //status: statusing
     });
   } catch (err) {
     console.error(err);
@@ -722,7 +642,6 @@ app.get('/matchFromChallenger', async (req, res) => {
   }
   res.end();
 });
-
 
 app.post('/declineMatch', async (req, res) => {
   //Declines match invite
@@ -741,9 +660,10 @@ app.post('/declineMatch', async (req, res) => {
   }
   res.end();
 });
+
 app.post('/acceptedChallenge', async (req, res) => {
+   //Function to accept challenge in Challenges
   const matchId  = req.body.matchId;
-  console.log("Challenge Accepted!");
   const client = await pool.connect();
   try {
     await pool.query( 
@@ -769,26 +689,6 @@ app.post('/acceptedChallenge', async (req, res) => {
   res.end();
 });
 
-app.post('/logout', async (req, res) => {
-  //Logs out logged in user
-  const client = await pool.connect();
-  try {
-    await pool.query( 
-      `UPDATE users
-      SET status = 'Offline'
-      WHERE user_id = $1`, [loggedInUserId]
-    );
-    loggedInUserId = undefined
-    res.status(200).send('User logged out succesfully');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error: Internal server error');
-  } finally {
-    client.release();
-  }
-  res.end();
-});
-
 app.post('/setstatusonline', async (req, res) => {
   //Sets logged in user status online
   const client = await pool.connect();
@@ -856,63 +756,6 @@ app.post('/logout', async (req, res) => {
       WHERE user_id = $1`, [loggedInUserId]
     );
     loggedInUserId = undefined
-    res.status(200).send('User logged out succesfully');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error: Internal server error');
-  } finally {
-    client.release();
-  }
-  res.end();
-});
-
-app.post('/setstatusonline', async (req, res) => {
-  //Sets logged in user status online
-  const client = await pool.connect();
-  try {
-    await pool.query( 
-      `UPDATE users
-      SET status = 'Online'
-      WHERE user_id = $1`, [loggedInUserId]
-    );
-    res.status(200).send('User logged out succesfully');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error: Internal server error');
-  } finally {
-    client.release();
-  }
-  res.end();
-});
-
-app.post('/setstatusaway', async (req, res) => {
-  //Sets logged in user status away
-  const client = await pool.connect();
-  try {
-    await pool.query( 
-      `UPDATE users
-      SET status = 'Away'
-      WHERE user_id = $1`, [loggedInUserId]
-    );
-    res.status(200).send('User logged out succesfully');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error: Internal server error');
-  } finally {
-    client.release();
-  }
-  res.end();
-});
-
-app.post('/setstatusmatchready', async (req, res) => {
-  //Sets logged in user status match ready
-  const client = await pool.connect();
-  try {
-    await pool.query( 
-      `UPDATE users
-      SET status = 'Match ready'
-      WHERE user_id = $1`, [loggedInUserId]
-    );
     res.status(200).send('User logged out succesfully');
   } catch (err) {
     console.error(err);
@@ -1048,6 +891,7 @@ app.get('/matchHistory', async (req, res) => {
 });
 
 app.post('/registerResult', async (req, res) => {
+  //Registers result from game
   const { yourScore, theirScore, matchId, opponentPlayerId } = req.body;
   const client = await pool.connect();
   const status = 'TOBECONFIRMED';
@@ -1117,6 +961,7 @@ app.post('/registerResult', async (req, res) => {
 });
 
 app.post('/confirmResult', async (req, res) => {
+  //Confirms registered result
   const { matchId } = req.body;
   const client = await pool.connect();
   try {
@@ -1135,8 +980,6 @@ app.post('/confirmResult', async (req, res) => {
   res.end();
 });
 
-
-
 app.get('/:page', (req, res) => {
   //Function to fetch html document, always keep on bottom of server.js!
   const page = req.params.page;
@@ -1152,7 +995,3 @@ app.get('/:page', (req, res) => {
     res.end();
   });
 })
-
-
-
-
