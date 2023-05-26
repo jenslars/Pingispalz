@@ -248,8 +248,9 @@ function fetchMatches() {
           registerButton.textContent = 'Register result';
           registerButton.setAttribute("onclick", `registerResultPopup('${match.opponentUserId}', '${match.matchId}')`);
           const cancelButton = document.createElement('button');
-          cancelButton.className = 'contestresult';
-          cancelButton.textContent = 'Contest result';
+          cancelButton.className = 'cancelmatch';
+          cancelButton.textContent = 'Cancel match';
+          cancelButton.setAttribute("onclick", `cancelPendingMatch('${match.matchId}')`);
 
           actionsDiv.appendChild(registerButton);
           actionsDiv.appendChild(cancelButton);
@@ -311,6 +312,26 @@ function confirmResult(matchId){
     }));
 }
 
+function cancelPendingMatch(match_id){
+  // Cancels pending match
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST','/cancelPendingMatch');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+            window.location.reload();
+        } else {
+        }
+    } else {
+      console.log("fail")
+    }
+};
+  xhr.send(JSON.stringify({
+  matchId: match_id}))
+};
+
+
 function registerResultPopup(OpponentPlayerId, MatchId) {
     var registerResultPopupDiv = document.getElementById('registerResultPopup');
     var gridcontainerLink = document.getElementById('blur');
@@ -319,7 +340,6 @@ function registerResultPopup(OpponentPlayerId, MatchId) {
     matchIdInput.value = MatchId
     opponentPlayerIdInput.value = OpponentPlayerId
     }
-
 document.getElementById('registerResultForm').addEventListener('submit', function(event) {
     event.preventDefault();
     
