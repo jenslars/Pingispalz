@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="navigationSidebar.css" rel="stylesheet" type="text/css">
+    <link href="homeStyle.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div class="grid-container" id="blur">
@@ -68,7 +69,36 @@
             </div>
         </nav>
         <div id="content">
-            <img src="PingisPalsBackground.PNG">
+            <main>  
+                <h1 id="welcomeText">You need to login to use the website</h1>
+                <!-- <img src="PingisPalsBackground.PNG"> -->
+                <div id="matchBoxes">
+                    <section id="matches">
+                        <div id="matchesheader">
+                            <p>Matches</p>
+                        </div>
+                        <div id="matchlabels">
+                            <p id="labelloggedinuser">You</p>
+                            <p id="labelleaderboard">Status</p>
+                            <p id="labelopponent">Opponent</p>
+                            <p id="labelactions">Actions</p>
+                        </div>
+                        <div id="fetchedmatches">
+                        </div>
+                    </section>
+                    <section id="gameinvites">
+                        <div id="gameinvitesheader">
+                            <p>Invites</p>
+                        </div>
+                        <div id="listedMatches">
+                            <table>
+                                <tbody id="MatchInvites"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+                <img id="tennisGif" src="table_guys.gif" alt="Pingispals">
+            </main>
         </div>
         <div id="leaderboardpopup">
             <button id="exitpopup" onclick="exitpopup()"></button>
@@ -98,5 +128,6 @@
         </div>
     </div>
     <script src="navbarScript.js"></script>
+    <script src="homeScript.js"></script>
   </body>
 </html>
