@@ -82,7 +82,6 @@ function fetchMatches() {
       matches.forEach((match) => {
         const matchDiv = document.createElement('div');
         matchDiv.className = 'match';
-
         const playerDiv = document.createElement('div');
         playerDiv.className = 'matchloggedinuser';
 
@@ -102,7 +101,7 @@ function fetchMatches() {
         if (match.status === 'PENDING') {
           const matchleaderboard = document.createElement('p');
           matchleaderboard.className = 'matchleaderboard';
-          matchleaderboard.textContent = match.leaderboard_name;
+          matchleaderboard.textContent = match.leaderboardName;
 
           const matchcurrentstatus = document.createElement('p');
           matchcurrentstatus.className = 'matchleaderboard';
@@ -145,8 +144,8 @@ function fetchMatches() {
         } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != loggedInUserId) {
           const matchleaderboard = document.createElement('p');
           matchleaderboard.className = 'matchleaderboard';
-          matchleaderboard.textContent = match.leaderboard_name;
-
+          matchleaderboard.textContent = match.leaderboardName;
+          statusDiv.appendChild(matchleaderboard);
           const winText = document.createElement('p');
           winText.className = 'won';
 
@@ -175,15 +174,15 @@ function fetchMatches() {
           scoreDiv.appendChild(playerScore);
           scoreDiv.appendChild(divider);
           scoreDiv.appendChild(opponentScore);
-
+          
           statusDiv.appendChild(winText);
           statusDiv.appendChild(scoreDiv);
 
         } else if (match.status === 'TOBECONFIRMED') {
           const matchleaderboard = document.createElement('p');
           matchleaderboard.className = 'matchleaderboard';
-          matchleaderboard.textContent = match.leaderboard_name;
-
+          matchleaderboard.textContent = match.leaderboardName;
+          statusDiv.appendChild(matchleaderboard);
           const winText = document.createElement('p');
           winText.className = 'won';
           if (match.winner === loggedInUserId) {
@@ -256,16 +255,30 @@ function fetchMatches() {
           actionsDiv.appendChild(registerButton);
           actionsDiv.appendChild(cancelButton);
         } else if (match.status === 'FINISHED') {
-          const rematchButton = document.createElement('button');
-          rematchButton.className = 'rematch';
-          rematchButton.textContent = 'Rematch';
 
+          const hasPendingMatch = pendingMatches.some(pending =>
+            pending.recipient_id === match.opponentUserId && pending.status === "PENDING"
+          );
+
+          if (hasPendingMatch) {
+            const pendingButton = document.createElement('button');
+            pendingButton.className = 'toBeConfirmed';
+            pendingButton.textContent = 'Game invite sent';
+            actionsDiv.appendChild(rematchButton);
+          } else {
+            const rematchButton = document.createElement('button');
+            rematchButton.className = 'rematch';
+            rematchButton.textContent = 'Rematch';
+            rematchButton.setAttribute("onclick", `sendRematch('${match.opponentUserId}', '${match.serverId}')`);
+            actionsDiv.appendChild(rematchButton);
+          }
+
+          
           actionsDiv.appendChild(rematchButton);
         } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != loggedInUserId) {
           const rematchButton = document.createElement('button');
           rematchButton.className = 'toBeConfirmed';
           rematchButton.textContent = 'Waiting for confirmation';
-
           actionsDiv.appendChild(rematchButton);
           } else if (match.status === 'TOBECONFIRMED') {
           const confirmButton = document.createElement('button');
@@ -293,6 +306,27 @@ function fetchMatches() {
       console.error(error);
     });
 }
+
+function sendRematch(opponentPlayerId, serverId) {
+  // Sends rematch
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST','/sendRematch');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+            window.location.reload();
+        } else {
+        }
+    } else {
+      console.log("fail")
+    }
+};
+  xhr.send(JSON.stringify({
+    serverId: serverId,
+    opponentPlayerId: opponentPlayerId
+  }))
+};
 
 function contestResultPopup(OpponentPlayerId, MatchId) {
   var contestResultPopup = document.getElementById('contestResultPopup');

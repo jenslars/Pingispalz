@@ -781,6 +781,7 @@ app.get('/fetchMatches', async (req, res) => {
          r.recipient_id, 
          r.challenger_id,
          r.to_confirm,
+         r.server_id,
          ur.user_id AS recipient_user_id,
          ur.username AS recipient_username,
          ur.profile_image AS recipient_profile_image,
@@ -817,13 +818,26 @@ app.get('/fetchMatches', async (req, res) => {
         opponentPoints: match[opponent + 'points'],
         opponentUserId: match[opponent + '_user_id'],
         leaderboardName: match.leaderboard_name,
+        serverId: match.server_id,
         status: match.status,
         to_confirm: match.to_confirm,
-        winner: match.winner // Add the winner property
+        winner: match.winner
       };
     });
 
+    const pendingMatches = await pool.query(`
+      SELECT *
+      FROM matches
+      WHERE challenger_id = $1
+        AND status = 'PENDING'
+        AND recipient_id IN (
+          SELECT player_id
+          FROM "${tableName}"
+        )
+    `, [loggedInUserId]);
+
     const response = {
+      pendingMatches: pendingMatches,
       loggedInUserId: loggedInUserId,
       matchData: matchData
     };
@@ -836,6 +850,7 @@ app.get('/fetchMatches', async (req, res) => {
     client.release();
   }
 });
+
 
 
 app.get('/matchHistory', async (req, res) => {
@@ -924,6 +939,10 @@ app.post('/contestResult', async (req, res) => {
         winner = challengerId;
         loser = recipientId;
       }
+
+      // Update the winner and loser columns
+      const query5 = `UPDATE results SET winner = $1, loser = $2 WHERE match_id = $3`;
+      await client.query(query5, [winner, loser, matchId]);
     } else if (loggedInUserId === challengerId) {
       // Update scores and opponentPlayerId
       const query4 = `UPDATE results SET recipientpoints = $1, challengerpoints = $2, to_confirm = $3 WHERE match_id = $4`;
@@ -936,14 +955,12 @@ app.post('/contestResult', async (req, res) => {
       } else {
         winner = recipientId;
         loser = challengerId;
-        console.log(winner, loser)
       }
-    }
-    
 
-    // Update the winner and loser columns
-    const query5 = `UPDATE results SET winner = $1, loser = $2 WHERE match_id = $3`;
-    await client.query(query5, [winner, loser, matchId]);
+      // Update the winner and loser columns
+      const query5 = `UPDATE results SET winner = $1, loser = $2 WHERE match_id = $3`;
+      await client.query(query5, [winner, loser, matchId]);
+    }
 
     res.status(200).send({ message: 'Successfully registered the result' });
   } catch (err) {
@@ -953,6 +970,7 @@ app.post('/contestResult', async (req, res) => {
     client.release();
   }
 });
+
 
 
 
@@ -1135,6 +1153,26 @@ app.post('/cancelPendingMatch', async (req, res) => {
       WHERE match_id = $1`, [matchId]
     );
     res.status(200).send('Match cancelled');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Internal server error');
+  } finally {
+    client.release();
+  }
+  res.end();
+  }
+);
+
+app.post('/sendRematch', async (req, res) => {
+  const { serverId, opponentPlayerId } = req.body;
+  const client = await pool.connect();
+  const status = 'PENDING'
+  try {
+    await pool.query( 
+      `INSERT into MATCHES(challenger_id, recipient_id, server_id, status)
+      VALUES($1, $2, $3, $4)`, [loggedInUserId, opponentPlayerId, serverId, status]
+    );
+    res.status(200).send('Challenge sent');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error: Internal server error');
