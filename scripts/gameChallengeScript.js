@@ -366,7 +366,6 @@ document.getElementById('registerResultForm').addEventListener('submit', functio
     const theirScore = document.getElementById('theirScoreInput').value;
     const matchId = document.getElementById('matchIdInput').value;
     const opponentPlayerId = document.getElementById('opponentPlayerIdInput').value;
-    console.log(opponentPlayerId)
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/registerResult');
     xhr.setRequestHeader('Content-Type', 'application/json');
