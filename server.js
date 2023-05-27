@@ -974,11 +974,6 @@ app.post('/contestResult', async (req, res) => {
   client.release();
 });
 
-
-
-
-
-
 app.post('/registerResult', async (req, res) => {
   // Registers result from game
   const { yourScore, theirScore, matchId, opponentPlayerId } = req.body;
@@ -1060,10 +1055,8 @@ app.post('/registerResult', async (req, res) => {
   }
 });
 
-
-
 app.post('/confirmResult', async (req, res) => {
-  //Confirms registered result
+  //Confirms registered result and calculates elo
   const { matchId } = req.body;
   const client = await pool.connect();
   try {
@@ -1072,7 +1065,75 @@ app.post('/confirmResult', async (req, res) => {
       SET status = 'FINISHED'
       WHERE match_id = $1`, [matchId]
     );
+        const query = `
+      SELECT r.winner, r.loser, r.server_id, l.leaderboard_name
+      FROM results AS r
+      JOIN leaderboards AS l ON r.server_id = l.id
+      WHERE r.match_id = $1
+    `;
+
+  const result = await pool.query(query, [matchId]);
+  if (result.rows.length > 0) {
+    const { winner, loser, server_id, leaderboard_name } = result.rows[0];
+    const TableName = `${leaderboard_name}#${server_id}`;
+  
+    const query2 = `
+    SELECT
+      (SELECT elo FROM "${TableName}" WHERE player_id = $1) AS winnerelo,
+      (SELECT elo FROM "${TableName}" WHERE player_id = $2) AS loserelo
+  `;
+
+    const result2 = await pool.query(query2, [winner, loser]);
+    var winnerElo = result2.rows[0].winnerelo;
+    var loserElo = result2.rows[0].loserelo;
+    
+    var highest = Math.max(winnerElo, loserElo);
+    var lowest = Math.min(winnerElo, loserElo);
+    
+    if (highest == lowest){
+        var calculate = 10
+    } else if (winnerElo == highest){
+        var calculate = (highest - lowest)
+        if (calculate >= 100){
+            calculate = 2
+        } else if(calculate <= 10){
+            calculate = 8
+        } else {
+            calculate /= 10
+        }
+    } else if (winnerElo == lowest) {
+        var calculate = (highest - lowest) 
+        if (calculate >= 100){
+            calculate /= 8
+        } else if(calculate <= 10){
+            calculate = 10
+        } else {
+            calculate /= 5
+        }
+    } 
+    winnerElo += calculate
+    loserElo -= calculate
+
+    await pool.query(
+      `UPDATE "${TableName}"
+      SET
+        elo = CASE
+          WHEN player_id = $1 THEN $2::integer
+          WHEN player_id = $3 THEN $4::integer
+        END,
+        wins = CASE
+          WHEN player_id = $1 THEN wins + 1
+          ELSE wins
+        END,
+        losses = CASE
+          WHEN player_id = $3 THEN losses + 1
+          ELSE losses
+        END
+      WHERE player_id IN ($1, $3)`,
+      [winner, parseInt(winnerElo), loser, parseInt(loserElo)]
+    );
     res.status(200).send('Result confirmed');
+  }
   } catch (err) {
     console.error(err);
     res.status(500).send('Error: Internal server error');
