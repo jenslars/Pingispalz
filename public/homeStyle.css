@@ -1,5 +1,5 @@
 main {
-    background: linear-gradient(180deg, rgba(102, 204, 204, 0.63) 0%, rgba(102, 204, 204, 0.0) 40%);
+    background: linear-gradient(180deg, rgba(102, 204, 204, 0.63) 0%, rgba(102, 204, 204, 0.0) 100%);
     width: 100%;
     height: 100%;
     display: flex;
@@ -92,6 +92,12 @@ main {
     transform: translateY(1px);
 }
 
+#opponentImage {
+    width: 45px;
+    border-radius: 10px;
+    box-shadow: 10 10px #666;
+}
+
 /*Matches div*/
 #matches{
     background-color: #fff;
@@ -148,6 +154,9 @@ main {
 }
 
 #tennisGif {
-    width: 30%;
+    width: 40%;
     margin: auto;
+    -webkit-filter: drop-shadow(5px 5px 5px #222);
+    filter: drop-shadow(5px 5px 5px #222);
 }
+
