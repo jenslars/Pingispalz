@@ -239,7 +239,7 @@
 }
 
 .confirmresult{
-    background-color: #31d82c;
+    background-color: #66cccc;
     font-family: 'Lexend';
     font-weight: 600;
     font-size: 10px;
@@ -366,6 +366,20 @@
     font-family: 'Lexend';
     font-weight: 600;
     font-size: 10px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px; 
+}
+
+.finished{
+    background-color: #bebebe;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 14px;
     border: none;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 7px;

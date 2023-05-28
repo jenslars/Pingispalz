@@ -767,7 +767,8 @@ app.post('/logout', async (req, res) => {
 });
 
 app.get('/fetchMatches', async (req, res) => {
-  // Fetches the latest 5 matches for the logged-in user
+  const { opponentUserId } = req.query; // Extract opponentUserId from query parameters
+
   const client = await pool.connect();
   try {
     const matchesFetched = await pool.query(
@@ -825,21 +826,10 @@ app.get('/fetchMatches', async (req, res) => {
       };
     });
 
-    const pendingMatches = await pool.query(`
-      SELECT *
-      FROM matches
-      WHERE challenger_id = $1
-        AND status = 'PENDING'
-        AND recipient_id IN (
-          SELECT player_id
-          FROM "${tableName}"
-        )
-    `, [loggedInUserId]);
-
     const response = {
-      pendingMatches: pendingMatches,
       loggedInUserId: loggedInUserId,
-      matchData: matchData
+      matchData: matchData,
+      opponentUserId: opponentUserId // Include opponentUserId in the response
     };
 
     res.status(200).send(response);
@@ -850,8 +840,6 @@ app.get('/fetchMatches', async (req, res) => {
     client.release();
   }
 });
-
-
 
 app.get('/matchHistory', async (req, res) => {
   //Fetches logged in users match history
@@ -911,68 +899,57 @@ app.get('/matchHistory', async (req, res) => {
 });
 
 app.post('/contestResult', async (req, res) => {
+  const { yourScore, theirScore, matchId, opponentPlayerId } = req.body;
+  console.log("Vi är i contestresult");
   const client = await pool.connect();
   try {
-    const { yourScore, theirScore, matchId, opponentPlayerId } = req.body;
+    const matchQuery = await client.query(
+      `SELECT recipient_id, challenger_id
+       FROM results
+       WHERE match_id = $1`,
+      [matchId]
+    );
 
-    // Get recipient_id and challenger_id based on the matchId
-    const query1 = `SELECT recipient_id, challenger_id FROM results WHERE match_id = $1`;
-    const { rows } = await client.query(query1, [matchId]);
-    const { recipient_id: recipientId, challenger_id: challengerId } = rows[0];
-
-    // Get recipientpoints and challengerpoints based on the matchId
-    const query2 = `SELECT recipientpoints, challengerpoints FROM results WHERE match_id = $1`;
-    const result2 = await client.query(query2, [matchId]);
-    const { recipientpoints: recipientPoints, challengerpoints: challengerPoints } = result2.rows[0];
-
-    let winner, loser;
-    if (loggedInUserId === recipientId) {
-      // Update scores and opponentPlayerId
-      const query3 = `UPDATE results SET recipientpoints = $1, challengerpoints = $2, to_confirm = $3 WHERE match_id = $4`;
-      await client.query(query3, [yourScore, theirScore, opponentPlayerId, matchId]);
-
-      // Determine the winner and loser based on points
-      if (yourScore > theirScore) {
-        winner = recipientId;
-        loser = challengerId;
-      } else {
-        winner = challengerId;
-        loser = recipientId;
-      }
-
-      // Update the winner and loser columns
-      const query5 = `UPDATE results SET winner = $1, loser = $2 WHERE match_id = $3`;
-      await client.query(query5, [winner, loser, matchId]);
-    } else if (loggedInUserId === challengerId) {
-      // Update scores and opponentPlayerId
-      const query4 = `UPDATE results SET recipientpoints = $1, challengerpoints = $2, to_confirm = $3 WHERE match_id = $4`;
-      await client.query(query4, [theirScore, yourScore, opponentPlayerId, matchId]);
-
-      // Determine the winner and loser based on points
-      if (yourScore > theirScore) {
-        winner = challengerId;
-        loser = recipientId;
-      } else {
-        winner = recipientId;
-        loser = challengerId;
-      }
-
-      // Update the winner and loser columns
-      const query5 = `UPDATE results SET winner = $1, loser = $2 WHERE match_id = $3`;
-      await client.query(query5, [winner, loser, matchId]);
+    const matchData = matchQuery.rows[0];
+    if (!matchData) {
+      console.log("Match not found");
+      return res.status(404).json({ error: 'Match not found' });
     }
 
-    res.status(200).send({ message: 'Successfully registered the result' });
+    const parsedOpponentPlayerId = parseInt(opponentPlayerId, 10);
+    const parsedRecipientId = parseInt(matchData.recipient_id, 10);
+    const parsedChallengerId = parseInt(matchData.challenger_id, 10);
+
+    let isOpponentRecipient;
+    if (parsedOpponentPlayerId === parsedRecipientId) {
+      isOpponentRecipient = true;
+    } else if (parsedOpponentPlayerId === parsedChallengerId) {
+      isOpponentRecipient = false;
+    } else {
+      console.log("Invalid opponent player ID");
+      return res.status(400).json({ error: 'Invalid opponent player ID' });
+    }
+
+    if (isOpponentRecipient) {
+      await client.query(
+        `UPDATE results SET recipientpoints = $1, challengerpoints = $2, to_confirm = $3 WHERE match_id = $4`,
+        [theirScore, yourScore, opponentPlayerId, matchId]
+      );
+    } else {
+      await client.query(
+        `UPDATE results SET recipientpoints = $1, challengerpoints = $2, to_confirm = $3 WHERE match_id = $4`,
+        [yourScore, theirScore, opponentPlayerId, matchId]
+      );
+    }
+   
+    res.sendStatus(200);
   } catch (err) {
     console.error(err);
-    res.status(500).send({ message: 'Unable to register the result' });
+    res.sendStatus(500);
   } finally {
     client.release();
   }
 });
-
-
-
 
 
 app.post('/registerResult', async (req, res) => {

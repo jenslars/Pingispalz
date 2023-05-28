@@ -255,26 +255,10 @@ function fetchMatches() {
           actionsDiv.appendChild(registerButton);
           actionsDiv.appendChild(cancelButton);
         } else if (match.status === 'FINISHED') {
-
-          const hasPendingMatch = pendingMatches.some(pending =>
-            pending.recipient_id === match.opponentUserId && pending.status === "PENDING"
-          );
-
-          if (hasPendingMatch) {
-            const pendingButton = document.createElement('button');
-            pendingButton.className = 'toBeConfirmed';
-            pendingButton.textContent = 'Game invite sent';
-            actionsDiv.appendChild(rematchButton);
-          } else {
-            const rematchButton = document.createElement('button');
-            rematchButton.className = 'rematch';
-            rematchButton.textContent = 'Rematch';
-            rematchButton.setAttribute("onclick", `sendRematch('${match.opponentUserId}', '${match.serverId}')`);
-            actionsDiv.appendChild(rematchButton);
-          }
-
-          
-          actionsDiv.appendChild(rematchButton);
+          const finishedButton = document.createElement('button');
+          finishedButton.className = 'finished';
+          finishedButton.textContent = 'Finished';
+          actionsDiv.appendChild(finishedButton);
         } else if (match.status === 'TOBECONFIRMED' && match.to_confirm != loggedInUserId) {
           const rematchButton = document.createElement('button');
           rematchButton.className = 'toBeConfirmed';
