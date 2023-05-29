@@ -68,6 +68,15 @@ table td button:hover {
     cursor: pointer;
 }
 
+#leaveClubBtn,
+#joinClubBtn {
+    display: inline-block;
+}
+
+#leaveClubBtn button {
+    background-color: #FF3366;
+}
+
 header {
     grid-column: 1/5;
     grid-row: 1/ 3;
@@ -82,6 +91,39 @@ section {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+}
+
+
+#blur.active > *:not(#leaveClubPopup) {
+    filter: blur(2px);
+    transition: 1s;
+}
+
+
+#leaveClubPopup{
+    visibility: hidden;
+    position: absolute;
+    background-color: #fff;
+    top: -20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
+    border-radius: 10px;
+}
+
+#leaveClubPopup.active{
+    z-index: 1;
+    visibility: visible;
+    position: absolute;
+    background-color: #fff;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
 }
 
 @media screen and (max-width: 780px) {

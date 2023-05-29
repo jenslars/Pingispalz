@@ -28,9 +28,11 @@ function printClubs() {
   })
   .then(response => response.json())
   .then(data => {
-    // console.log(data);
-    let clubData = data;
-    console.log(clubData);
+    console.log(data);
+    let clubData = data.leaderboards;
+    console.log("här är clubData",clubData);
+    let userData = data.users_in_leaderboards;
+    console.log("här är userData",userData);
     const ladder = document.getElementById('clubs');
     ladder.innerHTML = '';
     
@@ -42,9 +44,31 @@ function printClubs() {
         <td>${club.leaderboard_name}</td>
         <td>${club.username}</td>
         <td>${club.leaderboard_description}</td>
-        <td><button onclick="joinClub('${newTableName}')">Join</button></td>
+        <td id="joinClubBtn"><button onclick="joinClub('${newTableName}')">Join</button></td>
+        <td id="leaveClubBtn"><button onclick="leaveClubPopup('${newTableName}')">Leave</button></td>
       `;
+      const isUserInLeaderboard = userData.some(item => item.leaderboard_id === club.id);
+      if (isUserInLeaderboard) {
+        row.querySelector("#joinClubBtn").style.display = "none"; // Hide "Join" button
+      } else {
+        row.querySelector("#leaveClubBtn").style.display = "none"; // Hide "Leave" button
+      }
+
       ladder.appendChild(row);
     });
   });
+}
+
+function leaveClubPopup() {
+  var leaveClubPopupDiv = document.getElementById('leaveClubPopup');
+  var gridcontainerLink = document.getElementById('blur');
+  leaveClubPopupDiv.classList.add('active');
+  gridcontainerLink.classList.add('active');
+}
+
+function exitPopup() { //fixa denna 
+  var leaveClubPopupDiv = document.getElementById('leaveClubPopup');
+  var gridcontainerLink = document.getElementById('blur');
+  leaveClubPopupDiv.classList.remove('active');
+  gridcontainerLink.classList.remove('active');   
 }
