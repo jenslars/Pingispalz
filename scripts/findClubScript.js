@@ -2,6 +2,22 @@ document.addEventListener('DOMContentLoaded', function() {
     printClubs()
 });
 
+let clubToLeave
+
+function leaveClubPopup(club) {
+  var leaveClubPopupDiv = document.getElementById('leaveClubPopup');
+  var gridcontainerLink = document.getElementById('blur');
+  clubToLeave = club
+  leaveClubPopupDiv.classList.add('active');
+  gridcontainerLink.classList.add('active');
+}
+
+function exitPopup() { //fixa denna 
+  var leaveClubPopupDiv = document.getElementById('leaveClubPopup');
+  var gridcontainerLink = document.getElementById('blur');
+  leaveClubPopupDiv.classList.remove('active');
+  gridcontainerLink.classList.remove('active');   
+}
 
 function joinClub(club){
   const xhr = new XMLHttpRequest();
@@ -21,6 +37,23 @@ function joinClub(club){
   xhr.send(JSON.stringify({ club }));
 }
 
+function leaveClub(){
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/leaveClub');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function() {
+      if (xhr.status === 200) {
+          document.getElementById('join-club-success').innerHTML = 'Successfully left the club';
+          window.location.reload();
+      } else {
+          document.getElementById('join-club-error').innerHTML = 'Unable to leave the club';
+      }
+  };
+  xhr.onerror = function() {
+      document.getElementById('join-club-error').innerHTML = 'Unable to leave the club';
+  };
+  xhr.send(JSON.stringify({ clubToLeave }));
+}
 
 function printClubs() {
   fetch('/findClub', {
@@ -28,11 +61,8 @@ function printClubs() {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     let clubData = data.leaderboards;
-    console.log("här är clubData",clubData);
     let userData = data.users_in_leaderboards;
-    console.log("här är userData",userData);
     const ladder = document.getElementById('clubs');
     ladder.innerHTML = '';
     
@@ -57,18 +87,4 @@ function printClubs() {
       ladder.appendChild(row);
     });
   });
-}
-
-function leaveClubPopup() {
-  var leaveClubPopupDiv = document.getElementById('leaveClubPopup');
-  var gridcontainerLink = document.getElementById('blur');
-  leaveClubPopupDiv.classList.add('active');
-  gridcontainerLink.classList.add('active');
-}
-
-function exitPopup() { //fixa denna 
-  var leaveClubPopupDiv = document.getElementById('leaveClubPopup');
-  var gridcontainerLink = document.getElementById('blur');
-  leaveClubPopupDiv.classList.remove('active');
-  gridcontainerLink.classList.remove('active');   
 }

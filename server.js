@@ -184,6 +184,26 @@ app.post('/joinClub', async (req, res) => {
   client.release();
 });
 
+app.post('/leaveClub', async (req, res) => {
+  //Deletes user from leaderboard in database
+  const { clubToLeave } = req.body;
+  const client = await pool.connect();
+  
+  try {
+    const leaderboardId = await pool.query(`SELECT server_id FROM "${clubToLeave}" ORDER BY server_id ASC LIMIT 1 OFFSET 0`);
+    const selectedLeadboardId = leaderboardId.rows[0].server_id;
+    
+    await pool.query(`DELETE FROM "${clubToLeave}" WHERE player_id = $1`, [loggedInUserId]);
+    await pool.query(`DELETE FROM users_in_leaderboards WHERE leaderboard_id = $1 AND user_id = $2`, [selectedLeadboardId, loggedInUserId]);
+
+    res.status(200).send({ message: 'Successfully left the club' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Unable to leave the club' });
+  }
+  client.release();
+})
+
 app.get('/clubLinks', async (req, res) => {
   //Function to fetch and send users club links
   const client = await pool.connect();
