@@ -160,7 +160,6 @@ app.post('/createOrg', async (req, res) => {
   }
 });
 
-
 app.post('/joinClub', async (req, res) => {
   //Function to join club
   const { club } = req.body;
@@ -184,6 +183,26 @@ app.post('/joinClub', async (req, res) => {
   }
   client.release();
 });
+
+app.post('/leaveClub', async (req, res) => {
+  //Deletes user from leaderboard in database
+  const { clubToLeave } = req.body;
+  const client = await pool.connect();
+  
+  try {
+    const leaderboardId = await pool.query(`SELECT server_id FROM "${clubToLeave}" ORDER BY server_id ASC LIMIT 1 OFFSET 0`);
+    const selectedLeadboardId = leaderboardId.rows[0].server_id;
+    
+    await pool.query(`DELETE FROM "${clubToLeave}" WHERE player_id = $1`, [loggedInUserId]);
+    await pool.query(`DELETE FROM users_in_leaderboards WHERE leaderboard_id = $1 AND user_id = $2`, [selectedLeadboardId, loggedInUserId]);
+
+    res.status(200).send({ message: 'Successfully left the club' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Unable to leave the club' });
+  }
+  client.release();
+})
 
 app.get('/clubLinks', async (req, res) => {
   //Function to fetch and send users club links
@@ -317,12 +336,22 @@ app.post('/findClub', async (req, res) => {
   //Function to fetch list of existing clubs
   const client = await pool.connect();
   try {
-    const results = await pool.query(`
-    SELECT *, username
-    FROM leaderboards
-    JOIN users ON owner = user_id
-  `)
-    res.status(200).send(results.rows)
+    const leaderboards = await pool.query(`
+      SELECT *, username
+      FROM leaderboards
+      JOIN users ON owner = user_id;
+    `);
+    const users_in_leaderboards = await pool.query (`
+      SELECT * FROM users_in_leaderboards
+      WHERE user_id = $1;
+    `, [loggedInUserId]
+    );
+    const response = {
+      leaderboards: leaderboards.rows,
+      users_in_leaderboards: users_in_leaderboards.rows
+    };
+      
+    res.status(200).send(response)
   } catch (err) {
     console.error(err);
     res.status(500).send('Error: Internal server error');

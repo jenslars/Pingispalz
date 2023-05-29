@@ -12,6 +12,14 @@
     <title>Find club</title>
 </head>
 <body>
+    <div id="leaveClubPopup">
+        <h1>Are you sure you want to leave?</h1>
+        <p>All of your elo and wins will be lost from this club</p>
+        <form>
+            <button class="leaveBtns" type="button" onclick="leaveClub()">Yes, leave club</button>
+            <button class="leaveBtns" type="button" onclick="exitPopup()">Cancel</button>
+        </form>
+    </div>
     <div class="grid-container" id="blur">
         <nav class="sidenav">
             <div id="logo">
