@@ -183,6 +183,7 @@
     flex-direction: column;
 }
 
+
 #about h3{
     margin-left: 20px;
 }
@@ -237,7 +238,7 @@
 }
 
 #userDescription p{
-    margin-left: 0px;
+    margin-left: 7px;
     margin-top: 0px;
 }
 
