@@ -222,6 +222,13 @@
     width: 100px;
     margin-bottom: 5px;
     font-size: 12px;
+    cursor: pointer;
+}
+
+.registerresult:hover{
+    background-color: #58b1b1;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
 }
 
 .cancelmatch{
@@ -236,7 +243,15 @@
     transition: 0.3s;
     color: #fff;
     width: 100px;
+    cursor: pointer;
 }
+
+.cancelmatch:hover{
+    background-color: #e42d5b;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
+}
+
 
 .confirmresult{
     background-color: #66cccc;
@@ -251,6 +266,13 @@
     color: #fff;
     width: 100px;
     margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.confirmresult:hover{
+    background-color: #5bb6b6;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
 }
 
 .contestresult{
@@ -265,7 +287,15 @@
     transition: 0.3s;
     color: #fff;
     width: 100px;
+    cursor: pointer;
 }
+
+.contestresult:hover{
+    background-color: #e42d5b;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
+}
+
 
 .rematch{
     background-color: #66cccc;
@@ -298,6 +328,7 @@
     transition: 1s;
     border-radius: 10px;
     display: none;
+    width: 400px;
 }
 
 #registerResultPopup.active{
@@ -317,6 +348,10 @@
     font-size: 15px;
 }
 
+#registerResultForm{
+    margin-left: 50px;
+}
+
 #registerResultForm input:focus{
     outline: none; 
 }
@@ -332,10 +367,32 @@
     transition: 1s;
     border-radius: 10px;
     display: none;
+    width: 400px;
+}
+
+#contestResultPopup h1{
+    text-align: center;
 }
 
 #contestResultPopup.active{
     display: unset;
+}
+
+#contestResultForm input{
+    border: none; 
+    background-color: #dbdbdb;
+    font-family: 'Lexend';
+    padding: 10px 20% 10px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+#contestResultForm{
+    margin-left: 50px;
+}
+
+#registerResultForm input:focus{
+    outline: none; 
 }
 
 .exitpopup {
