@@ -20,7 +20,7 @@ fetch('/matchFromChallenger')
                     let matchList = data.matchList;
                     let tableHtml = '<table>';
                     if (matchList.length === 0) {
-                        tableHtml = '<h3 id="noInvites"> ...No invites yet </h3>'
+                        tableHtml = '<h3 id="noInvites"> No invites yet... </h3>'
                     } else {
                     
                     // Create table headers
@@ -60,7 +60,7 @@ function acceptedChallenge(match_id){
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
     matchId: match_id}))
-    fetchMatchesInvites()
+    window.location.reload();
 };
 
 function declineChallenge(match_id){
@@ -70,7 +70,7 @@ function declineChallenge(match_id){
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
     matchId: match_id}))
-    fetchMatchesInvites()
+    window.location.reload();
 };
 
 function fetchMatches() {
@@ -79,10 +79,44 @@ function fetchMatches() {
     .then((data) => {
       const loggedInUserId = data.loggedInUserId; // Get the loggedInUserId from the response
       const matches = data.matchData; // Get the matchData from the response
-
-      const matchContainer = document.getElementById('fetchedmatches');
       
-      matches.forEach((match) => {
+      if (matches.length === 0) {
+        const matchContainer = document.getElementById('fetchedmatches');
+        const noMatches = document.createElement('h3');
+        noMatches.id = 'noMatches';
+        noMatches.textContent = 'No matches played..';
+
+        matchContainer.append(noMatches);  
+
+      }
+      else {
+        const matchLabels = document.createElement('div');
+        matchLabels.id = 'matchlabels';
+        const matchesSection = document.getElementById('matches');
+        matchesSection.insertBefore(matchLabels, matchesSection.children[1]);
+        
+        const loggedInPlayerLabel = document.createElement('p');
+        loggedInPlayerLabel.id = 'labelloggedinuser';
+        loggedInPlayerLabel.textContent = 'You'
+        matchLabels.appendChild(loggedInPlayerLabel);
+        
+        const statusOfMatchLabel = document.createElement('p');
+        statusOfMatchLabel.id = 'labelleaderboard';
+        statusOfMatchLabel.textContent = 'Status'
+        matchLabels.appendChild(statusOfMatchLabel);
+        
+        const opponentLabel = document.createElement('p');
+        opponentLabel.id = 'labelopponent';
+        opponentLabel.textContent = 'Opponent'
+        matchLabels.appendChild(opponentLabel);
+        
+        const actionsLabel = document.createElement('p');
+        actionsLabel.id = 'labelactions';
+        actionsLabel.textContent = 'Actions'
+        matchLabels.appendChild(actionsLabel);
+        const matchContainer = document.getElementById('fetchedmatches');
+
+        matches.forEach((match) => {
         const matchDiv = document.createElement('div');
         matchDiv.className = 'match';
         const playerDiv = document.createElement('div');
@@ -288,7 +322,7 @@ function fetchMatches() {
 
         matchContainer.appendChild(matchDiv);
       });
-    })
+    }})
     .catch((error) => {
       console.error(error);
     });

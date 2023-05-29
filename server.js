@@ -768,7 +768,6 @@ app.post('/logout', async (req, res) => {
 
 app.get('/fetchMatches', async (req, res) => {
   const { opponentUserId } = req.query; // Extract opponentUserId from query parameters
-
   const client = await pool.connect();
   try {
     const matchesFetched = await pool.query(

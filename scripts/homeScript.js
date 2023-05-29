@@ -77,9 +77,12 @@ function fetchMatches() {
     .then((data) => {
     const loggedInUserId = data.loggedInUserId; // Get the loggedInUserId from the response
     const matches = data.matchData; // Get the matchData from the response
-
+        console.log("Lucas")
     const matchContainer = document.getElementById('fetchedmatches');
-    
+    if (matches.length === 0) {
+        matchContainer.textContent("<p> No matches yet </p>");  
+    }
+    else {
     matches.forEach((match) => {
         const matchDiv = document.createElement('div');
         matchDiv.className = 'match';
@@ -288,8 +291,9 @@ function fetchMatches() {
         matchDiv.appendChild(actionsDiv);
 
         matchContainer.appendChild(matchDiv);
+        
     });
-    })
+    }})
     .catch((error) => {
     console.error(error);
     });

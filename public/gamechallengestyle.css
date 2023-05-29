@@ -103,6 +103,10 @@
     font-size: 14px;
     margin-bottom: 5px;
 }
+#noMatches {
+    text-align: center;
+    color: #666;
+}
 
 
 
