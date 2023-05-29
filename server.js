@@ -941,6 +941,36 @@ app.post('/contestResult', async (req, res) => {
         [yourScore, theirScore, opponentPlayerId, matchId]
       );
     }
+
+    const matchQuery2 = await client.query(
+      `SELECT recipientpoints, challengerpoints, recipient_id, challenger_id
+       FROM results
+       WHERE match_id = $1`,
+      [matchId]
+    );
+    
+    const matchData2 = matchQuery2.rows[0];
+    if (!matchData2) {
+      console.log("Match not found");
+      return res.status(404).json({ error: 'Match not found' });
+    }
+
+    let winner, loser;
+    
+    if (matchData2.recipientpoints < matchData2.challengerpoints) {
+      winner = matchData2.recipient_id;
+      loser = matchData2.challenger_id;
+    } else  {
+      winner = matchData2.challenger_id;
+      loser = matchData2.recipient_id;
+    }
+    
+    await client.query(
+      `UPDATE results
+       SET winner = $1, loser = $2
+       WHERE match_id = $3`,
+      [winner, loser, matchId]
+    );
    
     res.sendStatus(200);
   } catch (err) {
@@ -950,7 +980,6 @@ app.post('/contestResult', async (req, res) => {
     client.release();
   }
 });
-
 
 app.post('/registerResult', async (req, res) => {
   // Registers result from game

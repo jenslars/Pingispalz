@@ -257,10 +257,6 @@ tr:nth-child(even) {
 
 }
 
-#top1, #top2, #top3 > p {
-    text-shadow: 0 0 0.5em currentColor;
-}
-
 #top2 {
     height: 70%;
     padding-top: 53px;
