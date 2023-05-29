@@ -30,7 +30,7 @@ table {
 }
 
 tr:nth-child(odd){
-    background-color: #f2f2f2
+    background-color: #c8c8c8
 }
 
 th {
@@ -47,6 +47,25 @@ table, th, td {
 table td {
     height: 80px;
     min-width: 150px;
+}
+
+.leaveBtns  {
+    padding: 15px;
+    margin: 15px;
+    background-color: #66CCCC;
+    color: #FFF;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Lexend', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.leaveBtns:hover {
+    background-color: #54a8a8;
+    border-radius: 5px;
+    font-family: 'Lexend', sans-serif;
+    cursor: pointer;
 }
 
 table td button {
@@ -77,6 +96,10 @@ table td button:hover {
     background-color: #FF3366;
 }
 
+#leaveClubBtn button:hover {
+    background-color: #cc263c;
+}
+
 header {
     grid-column: 1/5;
     grid-row: 1/ 3;
@@ -93,14 +116,12 @@ section {
     margin-right: auto;
 }
 
-
-#blur.active > *:not(#leaveClubPopup) {
+#blur.active > *:not(#leaveClubPopup, #leaderboardpopup, #addProfilePicturePopup) {
     filter: blur(2px);
     transition: 1s;
 }
 
-
-#leaveClubPopup{
+#leaveClubPopup {
     visibility: hidden;
     position: absolute;
     background-color: #fff;
@@ -111,9 +132,17 @@ section {
     padding: 30px 25px 50px 25px;
     transition: 1s;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
-#leaveClubPopup.active{
+#leaveClubPopup form {
+    display:flex;
+    justify-content:center;
+}
+
+#leaveClubPopup.active {
     z-index: 1;
     visibility: visible;
     position: absolute;
