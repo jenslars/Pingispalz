@@ -35,7 +35,10 @@ fetch('/matchFromChallenger')
                     // Iterate over matchList and create table rows
                     matchList.forEach(match => {
                         tableHtml += '<tr>';
-                        tableHtml += '<td><img src="'+ match[4] +'" id="opponentImage"> </td>';
+                        if (match[4] == null) {
+                        tableHtml += '<td><img src="stockuserimage.png" id="opponentImage"> </td>';
+                        }
+                        else { tableHtml += '<td><img src="'  + match[4] + '" id="opponentImage"></td>'; };
                         tableHtml += '<td>' + match[0] + '</td>';
                         tableHtml += '<td>' + match[2] + '</td>';
                         tableHtml += '<td><button id="acceptButton" onclick="acceptedChallenge(' + match[3] + ')"> ACCEPT </button></td>';
