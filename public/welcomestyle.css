@@ -125,7 +125,7 @@ img.pingponggif{
 }
 
 /* Mobile css */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
 * {
   box-sizing: border-box;
 }
