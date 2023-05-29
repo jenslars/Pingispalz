@@ -21,10 +21,9 @@ main {
 
 #gameinvites{
     background-color: #fff;
-    width: 35%;
+    width: 40em;
     height: 400px;
-    /* margin: 10px auto 10px auto ; */
-    margin: 50px;
+    margin: 50px 0px 50px 10px;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -43,7 +42,7 @@ main {
 }
 
 #listedMatches {
-    font-size: 15px;
+    font-size: 18px;
     display: flex;
     gap: 10px;
     padding: 20px;
@@ -101,9 +100,9 @@ main {
 /*Matches div*/
 #matches{
     background-color: #fff;
-    width: 45%;
+    width: 40em;
     height: 400px;
-    margin: 50px 50px 30px 50px;
+    margin: 50px 0px 50px 10px;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
@@ -129,7 +128,7 @@ main {
     flex-direction: row;
     width: 95%;
     margin: 0px auto;
-    width: 95%;
+    font-size: 10px;
 }
 
 #labelloggedinuser{
@@ -149,7 +148,7 @@ main {
 }
 
 #matchlabels p{
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 5px;
 }
 
