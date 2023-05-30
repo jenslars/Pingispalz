@@ -17,7 +17,7 @@ fetch('/matchFromChallenger')
 .then(response => response.json())
 .then(data => {
     let matchList = data.matchList;
-    let tableHtml = '<table>';
+    let tableHtml = '<table id="invitesTable">';
     if (matchList.length === 0) {
         tableHtml = '<h3 id="noInvites"> ...No invites yet </h3>'
     } else {
@@ -34,13 +34,16 @@ fetch('/matchFromChallenger')
         // Iterate over matchList and create table rows
         matchList.forEach(match => {
             tableHtml += '<tr>';
-            tableHtml += '<td><img src="'+ match[4] +'" id="opponentImage"> </td>';
+            if (match[4] == null) {
+            tableHtml += '<td><img src="stockuserimage.png" id="opponentImage"> </td>';
+            }
+            else { tableHtml += '<td><img src="'  + match[4] + '" id="opponentImage"></td>'; };
             tableHtml += '<td>' + match[0] + '</td>';
             tableHtml += '<td>' + match[2] + '</td>';
             tableHtml += '<td><button id="acceptButton" onclick="acceptedChallenge(' + match[3] + ')"> ACCEPT </button></td>';
             tableHtml += '<td><button id="declineButton" onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
             tableHtml += '</tr>';
-        });
+            });
 
         tableHtml += '</table>'; 
     }
@@ -74,9 +77,12 @@ function fetchMatches() {
     .then((data) => {
     const loggedInUserId = data.loggedInUserId; // Get the loggedInUserId from the response
     const matches = data.matchData; // Get the matchData from the response
-
+        console.log("Lucas")
     const matchContainer = document.getElementById('fetchedmatches');
-    
+    if (matches.length === 0) {
+        matchContainer.textContent("<p> No matches yet </p>");  
+    }
+    else {
     matches.forEach((match) => {
         const matchDiv = document.createElement('div');
         matchDiv.className = 'match';
@@ -285,8 +291,9 @@ function fetchMatches() {
         matchDiv.appendChild(actionsDiv);
 
         matchContainer.appendChild(matchDiv);
+        
     });
-    })
+    }})
     .catch((error) => {
     console.error(error);
     });

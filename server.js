@@ -389,9 +389,9 @@ app.get('/leaderboard/score', async (req, res) => {
       tableName: tableName,
       pendingMatches: pendingMatches.rows,
       leaderboardData: leaderboardData.rows,
-      loggedInUserId: loggedInUserId
-
-    };
+      loggedInUserId: loggedInUserId,
+      GlobalLeaderboardValue : GlobalLeaderboardValue
+      };
 
     res.status(200).send(response);
   } catch (err) {
@@ -797,7 +797,6 @@ app.post('/logout', async (req, res) => {
 
 app.get('/fetchMatches', async (req, res) => {
   const { opponentUserId } = req.query; // Extract opponentUserId from query parameters
-
   const client = await pool.connect();
   try {
     const matchesFetched = await pool.query(

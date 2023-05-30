@@ -10,6 +10,7 @@ function testLoadLeaderboard() {
   fetch('/leaderboard/score')
   .then(response => response.json())
   .then(data => {
+    const leaderboard_id = data.GlobalLeaderboardValue;
     LoggedInUser = data.loggedInUserId;
     const tableName = data.tableName;
     document.getElementById('leaderboardName').innerHTML = tableName;
@@ -48,16 +49,15 @@ function testLoadLeaderboard() {
       
       // Check if the player has a pending match
       const hasPendingMatch = pendingMatches.some(match =>
-        match.recipient_id === player.user_id && match.status === "PENDING"
-      );
-
-      if (hasPendingMatch) {
+        match.recipient_id === player.user_id && match.status === "PENDING" && match.server_id == leaderboard_id
+    );
+    if (hasPendingMatch) {
         row.children[7].children[0].classList.add("active");
         row.children[6].children[0].classList.remove("active");
-      } else {
+    } else {
         row.children[7].children[0].classList.remove("active");
         row.children[6].children[0].classList.add("active");
-      }
+    }
 
         if (LoggedInUser === player.user_id){
         row.children[8].children[0].classList.add("theUser");
@@ -229,7 +229,6 @@ function openPopup(player, playerId){
     .catch(error => console.error(error));
 
   challengePopup.classList.add("show-challengePopup");
-  challengedPlayer = player;
   challengedPlayerId = playerId;
   document.getElementById("playerName2").innerHTML = player;
 }
