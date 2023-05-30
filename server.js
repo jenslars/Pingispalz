@@ -360,9 +360,9 @@ app.get('/leaderboard/score', async (req, res) => {
       tableName: tableName,
       pendingMatches: pendingMatches.rows,
       leaderboardData: leaderboardData.rows,
-      loggedInUserId: loggedInUserId
-
-    };
+      loggedInUserId: loggedInUserId,
+      GlobalLeaderboardValue : GlobalLeaderboardValue
+      };
 
     res.status(200).send(response);
   } catch (err) {
