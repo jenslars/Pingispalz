@@ -426,7 +426,7 @@ document.getElementById('registerResultForm').addEventListener('submit', functio
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status === 200) {
-        document.getElementById('success').innerHTML = 'Successfully registered the result';
+        window.location.reload();
         } else {
         document.getElementById('fail').innerHTML = 'Unable to register the result';
         }
@@ -455,7 +455,7 @@ document.getElementById('registerResultForm').addEventListener('submit', functio
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onload = function() {
           if (xhr.status === 200) {
-          document.getElementById('success').innerHTML = 'Successfully registered the result';
+          window.location.reload();
           } else {
           document.getElementById('fail').innerHTML = 'Unable to register the result';
           }
