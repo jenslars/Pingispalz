@@ -1,3 +1,8 @@
+document.addEventListener('DOMContentLoaded', function() {
+    fetchMatches()
+    fetchMatchesInvites()
+    });
+
 fetch('/getLoggedInUserInfo')
 .then(response => response.json())
 .then(data => {
@@ -13,43 +18,45 @@ fetch('/getLoggedInUserInfo')
     }
 });
 
-fetch('/matchFromChallenger')
-.then(response => response.json())
-.then(data => {
-    let matchList = data.matchList;
-    let tableHtml = '<table id="invitesTable">';
-    if (matchList.length === 0) {
-        tableHtml = '<h3 id="noInvites"> ...No invites yet </h3>'
-    } else {
-    
-        // Create table headers
-        tableHtml += '<tr>';
-        tableHtml += '<th></th>';
-        tableHtml += '<th>Opponent</th>';
-        tableHtml += '<th>Leaderboard</th>';
-        tableHtml += '<th></th>';
-        tableHtml += '<th></th>';
-        tableHtml += '</tr>';
-
-        // Iterate over matchList and create table rows
-        matchList.forEach(match => {
+function fetchMatchesInvites(){
+    fetch('/matchFromChallenger')
+    .then(response => response.json())
+    .then(data => {
+        let matchList = data.matchList;
+        let tableHtml = '<table id="invitesTable">';
+        if (matchList.length === 0) {
+            tableHtml = '<h3 id="noInvites"> ...No invites yet </h3>'
+        } else {
+        
+            // Create table headers
             tableHtml += '<tr>';
-            if (match[4] == null) {
-            tableHtml += '<td><img src="stockuserimage.png" id="opponentImage"> </td>';
-            }
-            else { tableHtml += '<td><img src="'  + match[4] + '" id="opponentImage"></td>'; };
-            tableHtml += '<td>' + match[0] + '</td>';
-            tableHtml += '<td>' + match[2] + '</td>';
-            tableHtml += '<td><button id="acceptButton" onclick="acceptedChallenge(' + match[3] + ')"> ACCEPT </button></td>';
-            tableHtml += '<td><button id="declineButton" onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
+            tableHtml += '<th></th>';
+            tableHtml += '<th>Opponent</th>';
+            tableHtml += '<th>Leaderboard</th>';
+            tableHtml += '<th></th>';
+            tableHtml += '<th></th>';
             tableHtml += '</tr>';
-            });
 
-        tableHtml += '</table>'; 
-    }
-    document.getElementById('MatchInvites').innerHTML = tableHtml; 
-})
-.catch(error => console.error(error));
+            // Iterate over matchList and create table rows
+            matchList.forEach(match => {
+                tableHtml += '<tr>';
+                if (match[4] == null) {
+                tableHtml += '<td><img src="stockuserimage.png" id="opponentImage"> </td>';
+                }
+                else { tableHtml += '<td><img src="'  + match[4] + '" id="opponentImage"></td>'; };
+                tableHtml += '<td>' + match[0] + '</td>';
+                tableHtml += '<td>' + match[2] + '</td>';
+                tableHtml += '<td><button id="acceptButton" onclick="acceptedChallenge(' + match[3] + ')"> ACCEPT </button></td>';
+                tableHtml += '<td><button id="declineButton" onclick="declineChallenge(' + match[3] + ')"> CANCEL </button></td>';
+                tableHtml += '</tr>';
+                });
+
+            tableHtml += '</table>'; 
+        }
+        document.getElementById('MatchInvites').innerHTML = tableHtml; 
+    })
+    .catch(error => console.error(error));
+}
 
 function acceptedChallenge(match_id){
     // This sends data to the server that the users wants to accept the match
@@ -298,3 +305,148 @@ function fetchMatches() {
     console.error(error);
     });
 }
+
+
+function sendRematch(opponentPlayerId, serverId) {
+    // Sends rematch
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST','/sendRematch');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                window.location.reload();
+          } else {
+          }
+        } else {
+            console.log("fail")
+        }
+    };
+    xhr.send(JSON.stringify({
+      serverId: serverId,
+      opponentPlayerId: opponentPlayerId
+    }))
+};
+  
+function contestResultPopup(OpponentPlayerId, MatchId) {
+    var contestResultPopup = document.getElementById('contestResultPopup');
+    var gridcontainerLink = document.getElementById('blur');
+    contestResultPopup.classList.add('active');
+
+    matchIdInput.value = MatchId
+    opponentPlayerIdInput.value = OpponentPlayerId
+};
+  
+function exitregisterResultPopup(){
+    var contestResultPopup = document.getElementById('contestResultPopup');
+    var gridcontainerLink = document.getElementById('blur');
+    var registerResultPopupDiv = document.getElementById('registerResultPopup');
+    contestResultPopup.classList.remove('active');
+    registerResultPopupDiv.classList.remove('active');
+}
+  
+function confirmResult(matchId){
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/confirmResult", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                window.location.reload();
+            } else {
+            }
+        } else {
+            // document.getElementById("error-message").innerHTML = "Something went wrong";
+        }
+    };
+    xhr.send(JSON.stringify({
+        matchId : matchId
+    }));
+}
+  
+function cancelPendingMatch(match_id){
+    // Cancels pending match
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST','/cancelPendingMatch');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                window.location.reload();
+            } else {
+            }
+        } else {
+        console.log("fail")
+        }
+    };
+    xhr.send(JSON.stringify({
+    matchId: match_id}))
+};
+  
+  
+function registerResultPopup(OpponentPlayerId, MatchId) {
+    var registerResultPopupDiv = document.getElementById('registerResultPopup');
+    var gridcontainerLink = document.getElementById('blur');
+    registerResultPopupDiv.classList.add('active');
+
+    matchIdInput.value = MatchId;
+    opponentPlayerIdInput.value = OpponentPlayerId;
+}
+  
+document.getElementById('registerResultForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const yourScore = document.getElementById('yourScoreInput').value;
+    const theirScore = document.getElementById('theirScoreInput').value;
+    const matchId = document.getElementById('matchIdInput').value;
+    const opponentPlayerId = document.getElementById('opponentPlayerIdInput').value;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/registerResult');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+        document.getElementById('success').innerHTML = 'Successfully registered the result';
+        } else {
+        document.getElementById('fail').innerHTML = 'Unable to register the result';
+        }
+    };
+    xhr.onerror = function() {
+        document.getElementById('fail').innerHTML = 'Unable to register the result';
+    };
+    xhr.send(JSON.stringify({
+        yourScore: yourScore,
+        theirScore: theirScore,
+        matchId: matchId,
+        opponentPlayerId: opponentPlayerId
+    }));
+});
+  
+document.getElementById('contestResultForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const yourScore = document.getElementById('contestyourScoreInput').value;
+    const theirScore = document.getElementById('contesttheirScoreInput').value;
+    const matchId = document.getElementById('matchIdInput').value;
+    const opponentPlayerId = document.getElementById('opponentPlayerIdInput').value;
+    console.log(opponentPlayerId)
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/contestResult');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+        document.getElementById('success').innerHTML = 'Successfully registered the result';
+        } else {
+        document.getElementById('fail').innerHTML = 'Unable to register the result';
+        }
+    };
+    xhr.onerror = function() {
+        document.getElementById('fail').innerHTML = 'Unable to register the result';
+    };
+    xhr.send(JSON.stringify({
+        yourScore: yourScore,
+        theirScore: theirScore,
+        matchId: matchId,
+        opponentPlayerId: opponentPlayerId
+    }));
+});
+          

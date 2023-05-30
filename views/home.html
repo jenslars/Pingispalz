@@ -97,6 +97,36 @@
                         </div>
                     </section>
                 </div>
+                <div id="registerResultPopup">
+                    <button class="exitpopup" onclick="exitregisterResultPopup()"></button>
+                    <h1>Register result</h1>
+                    <form id="registerResultForm">
+                        <p>Your score</p>
+                        <input type="text" id="yourScoreInput" class="registerResultInput">
+                        <p>Their score</p>
+                        <input type="text" id="theirScoreInput" class="registerResultInput">
+                        <input type="hidden" id="matchIdInput">
+                        <input type="hidden" id="opponentPlayerIdInput">
+                        <p id="fail"></p>
+                        <p id="success"></p>
+                        <button class="submitformbutton" type="submit">Submit</button>
+                    </form>
+                </div>
+                <div id="contestResultPopup">
+                    <button class="exitpopup" onclick="exitregisterResultPopup()"></button>
+                    <h1>Contest result</h1>
+                    <form id="contestResultForm">
+                        <p>Your score</p>
+                        <input type="text" id="contestyourScoreInput" class="registerResultInput">
+                        <p>Their score</p>
+                        <input type="text" id="contesttheirScoreInput" class="registerResultInput">
+                        <input type="hidden" id="matchIdInput">
+                        <input type="hidden" id="opponentPlayerIdInput">
+                        <p id="fail"></p>
+                        <p id="success"></p>
+                        <button class="submitformbutton" type="submit">Submit</button>
+                    </form>
+                </div>
             </main>
         </div>
         <div id="leaderboardpopup">

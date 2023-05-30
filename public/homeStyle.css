@@ -159,6 +159,461 @@ main {
     -webkit-filter: drop-shadow(5px 5px 5px #222);
     filter: drop-shadow(5px 5px 5px #222);
 }
+
 #invitesTable {
     width: 100%;
+}
+
+
+.match{
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid #93b8b8;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 95%;
+    margin: 10px auto 0px auto;
+    padding-top: 10px;
+}
+
+.matchloggedinuser{
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / span 1;
+    margin: auto;
+}
+
+.matchloggedinuserimg{
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.matchloggedinusername{
+    font-size: 13px;
+    margin: 5px auto auto auto;
+    font-weight: 500;
+}
+
+
+.matchstatus{
+    grid-column: 2 / span 1;
+    margin: auto;
+}
+
+.matchresults{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin-top: -30px;
+}
+
+.matchstatus p{
+    text-align: center;
+}
+
+.matchopponent{
+    display: flex;
+    flex-direction: column;
+    grid-column: 3 / span 1;
+    margin: auto;
+}
+
+.matchopponentimg{
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin: auto;
+}
+
+.matchopponentname{
+    font-size: 13px;
+    margin: 5px auto auto auto;
+    font-weight: 500;
+}
+
+.opponentuserlink{
+    text-decoration: none;
+    color: #5a5a5a;
+}
+
+.opponentuserlink:hover p{
+    color: #272727;
+    transition: 0.5s;
+}
+
+.matchactions{
+    display: flex;
+    flex-direction: column;
+    grid-column: 4 / span 1;
+    margin: auto;
+}
+
+.matchleaderboard{
+    font-size: 12px;
+    margin-top: -5px;
+}
+
+.divider{
+    margin-left: 17px;
+}
+
+.won{
+    margin-top: -10px;
+}
+
+.opponentresult{
+    margin-left: 17px;
+}
+
+
+.registerresult{
+    background-color: #66cccc;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 10px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.registerresult:hover{
+    background-color: #58b1b1;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
+}
+
+.cancelmatch{
+    background-color: #FF3366;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 10px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px;
+    cursor: pointer;
+}
+
+.cancelmatch:hover{
+    background-color: #e42d5b;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
+}
+
+
+.confirmresult{
+    background-color: #66cccc;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 10px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.confirmresult:hover{
+    background-color: #5bb6b6;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
+}
+
+.contestresult{
+    background-color: #FF3366;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 10px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px;
+    cursor: pointer;
+}
+
+.contestresult:hover{
+    background-color: #e42d5b;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
+}
+
+
+.rematch{
+    background-color: #66cccc;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px; 
+}
+
+
+/*Register result popup*/
+#blur.active2 > *:not(#registerResultPopup) {
+    filter: blur(2px);
+    transition: 1s;
+    }
+
+#registerResultPopup{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
+    border-radius: 10px;
+    display: none;
+    width: 400px;
+}
+
+#registerResultPopup.active{
+    display: unset;
+}
+
+#registerResultPopup h1{
+    text-align: center;
+}
+
+#registerResultForm input{
+    border: none; 
+    background-color: #dbdbdb;
+    font-family: 'Lexend';
+    padding: 10px 20% 10px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+#registerResultForm{
+    margin-left: 50px;
+}
+
+#registerResultForm input:focus{
+    outline: none; 
+}
+
+#contestResultPopup{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.30);
+    padding: 30px 25px 50px 25px;
+    transition: 1s;
+    border-radius: 10px;
+    display: none;
+    width: 400px;
+}
+
+#contestResultPopup h1{
+    text-align: center;
+}
+
+#contestResultPopup.active{
+    display: unset;
+}
+
+#contestResultForm input{
+    border: none; 
+    background-color: #dbdbdb;
+    font-family: 'Lexend';
+    padding: 10px 20% 10px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+#contestResultForm{
+    margin-left: 50px;
+}
+
+#registerResultForm input:focus{
+    outline: none; 
+}
+
+.exitpopup {
+    background-image: url(returnarrowblack.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.submitformbutton{
+    background-color: #66cccc;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px; 
+}
+
+.toBeConfirmed{
+    background-color: #bebebe;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 10px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px; 
+}
+
+.finished{
+    background-color: #bebebe;
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 10px 0px 10px 0px;
+    transition: 0.3s;
+    color: #fff;
+    width: 100px; 
+}
+
+#matchIdInput{
+    display: none;
+}
+
+#opponentPlayerIdInput{
+    display: none;
+}
+
+.submitformbutton:hover{
+    background-color: #54a8a8;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
+}
+
+#contentright{
+    display: flex;
+    flex-direction: column;
+    right: 50px;
+    position: absolute;
+    margin-top: -50px;
+}
+
+#alreadyplayed{
+    background-color: #fff;
+    width: 300px;
+    height: 150px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+#alreadyplayed > p {
+    padding: 0 20px;
+    font-weight: 600;
+}
+
+#listedChallenges {
+    display: flex;
+    flex-direction: row;
+    margin: 50px;
+}
+#listedChallenges p{
+    padding: 3px;
+    font-size: 10px;
+    margin: 0;
+    text-align: center;
+}
+
+#listedMatches {
+    font-size: 15px;
+    display: flex;
+    gap: 10px;
+}
+#acceptButton{
+    display: inline-block;
+    padding: 10px 10px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 2px #999;
+}
+#declineButton {
+    display: inline-block;
+    padding: 10px 10px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #f52b2b;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 2px #999;
+}
+#acceptButton:hover {background-color: #3e8e41}
+#declineButton:hover {background-color: #c00202}
+
+#acceptButton:active {
+    background-color: #3e8e41;
+    box-shadow: 0 0px #666;
+    transform: translateY(1px);
+}
+#declineButton:active {
+    background-color: #9b0303;
+    box-shadow: 0 0px #666;
+    transform: translateY(1px);
+}
+td {
+    text-align: center;
+}
+#opponentImage {
+    width: 45px;
+    border-radius: 10px;
+    box-shadow: 10 10px #666;
+}
+table{
+    width: 100%;
+}
+#noInvites{
+    text-align: center;
+    color: rgb(121, 121, 121);
 }
