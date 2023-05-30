@@ -161,10 +161,20 @@ app.post('/createOrg', async (req, res) => {
 });
 
 app.post('/joinClub', async (req, res) => {
-  //Function to join club
+  // Function to join club
   const { club } = req.body;
   const client = await pool.connect();
   try {
+    // Check if the user is already a member of the club
+    const isAlreadyMember = await pool.query(`
+      SELECT * FROM "${club}" WHERE player_id = $1
+    `, [loggedInUserId]);
+    
+    if (isAlreadyMember.rows.length > 0) {
+      res.status(400).send({ message: 'You are already a member of this club' });
+      return;
+    }
+
     const leaderboardId = await pool.query(`SELECT server_id FROM "${club}" ORDER BY server_id ASC LIMIT 1 OFFSET 0`);
     const selectedLeadboardId = leaderboardId.rows[0].server_id;
     await pool.query(`
