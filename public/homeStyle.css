@@ -617,3 +617,9 @@ table{
     text-align: center;
     color: rgb(121, 121, 121);
 }
+
+#noMatches {
+    text-align: center;
+    color:#666;
+    margin-top: 50px;
+}
