@@ -6,11 +6,11 @@ const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const { Pool } = require('pg');
 const pool = new Pool({
-    user: 'an7066',
-    host: 'pgserver.mau.se',
-    database: 'pingispals',
-    password: 'csodbjar',
-    port: "5432",
+  user: 'am6096',
+  host: 'pgserver.mau.se',
+  database: 'pingispals',
+  password: 'ny8v4sb8',
+  port: "5432",
 });
 
 app.use(fileUpload());
