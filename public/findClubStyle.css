@@ -28,12 +28,8 @@ tr:nth-child(odd){
     background-color: #c8c8c8
 }
 
-.userInClub {
-    background-color: #a6ce93!important;
-}
-
 .userInClub:hover {
-    background-color: #7e9e6f!important;
+    background-color: #a3a3a3!important;
     cursor: pointer;
     color: white;
     transition: all ease-in-out .2s;
