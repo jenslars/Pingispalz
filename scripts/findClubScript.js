@@ -12,7 +12,7 @@ function leaveClubPopup(club) {
   gridcontainerLink.classList.add('active');
 }
 
-function exitPopup() { //fixa denna 
+function exitPopup() {
   var leaveClubPopupDiv = document.getElementById('leaveClubPopup');
   var gridcontainerLink = document.getElementById('blur');
   leaveClubPopupDiv.classList.remove('active');
@@ -79,10 +79,18 @@ function printClubs() {
       `;
       const isUserInLeaderboard = userData.some(item => item.leaderboard_id === club.id);
       if (isUserInLeaderboard) {
-        row.querySelector("#joinClubBtn").style.display = "none"; // Hide "Join" button
+        row.classList.add("userInClub");
+        row.querySelector("#joinClubBtn").style.display = "none";
+        const tds = row.querySelectorAll('td:not(:last-child):not(:nth-last-child(2))');
+        tds.forEach(td => {
+          td.addEventListener('click', () => {
+            window.location.href = `/leaderboards/${club.id}`;
+        });
+      });
       } else {
-        row.querySelector("#leaveClubBtn").style.display = "none"; // Hide "Leave" button
+        row.querySelector("#leaveClubBtn").style.display = "none";
       }
+      
 
       ladder.appendChild(row);
     });
