@@ -1,0 +1,27 @@
+Project Pingispals
+
+To run the program, you need to have Node.js installed on your machine. If you don't have Node.js installed, you can download it from the official website: https://nodejs.org/en.
+
+Once you have installed Node.js, follow these steps to install the required packages:
+
+    Open a terminal or command prompt.
+    Navigate to the project directory.
+    Type the following command to install the necessary packages:
+
+    npm install express path http fs express-fileupload pg
+
+Launching the Server
+
+To start the server and run the application, follow these steps:
+
+    Open a terminal or command prompt.
+    Navigate to the project directory.
+    Type the following command to launch the server:
+
+    node server.js
+
+    After starting the server, you can visit the website by opening a web browser and entering the address: http://127.0.0.1:3000/
+
+Browser Compatibility
+
+For optimal performance, it is recommended to use the Firefox web browser. While the application may work in other browsers, we have observed some functionality issues and bugs outside of Firefox.
