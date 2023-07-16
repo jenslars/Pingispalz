@@ -1227,6 +1227,21 @@ app.post('/sendRematch', async (req, res) => {
   }
 );
 
+app.get('/quickMatch', (req, res) => {
+  //Funtion to let the admin of a server to add a quick match result 
+  const match = req.params.page;
+  const filePath = path.join(__dirname, 'views', `${page}.html`);
+  fs.readFile(filePath, function(error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write('Error: File Not Found');
+    } else {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
+    }
+    res.end();
+  });
+})
 app.get('/:page', (req, res) => {
   //Function to fetch html document, always keep on bottom of server.js!
   const page = req.params.page;
